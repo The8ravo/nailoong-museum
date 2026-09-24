@@ -1,0 +1,14 @@
+{
+  "name": "nailoong-museum",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "奶龙美术馆 · 奶龙进入艺术史 / Nailoong, Reframed",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
+    "preview": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
