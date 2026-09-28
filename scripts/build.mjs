@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir, rm, cp, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { validateCatalog, publishedArtworks, artworkImages, safeUrl } from '../public/catalog.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -33,6 +34,14 @@ if (path.dirname(out) !== root || path.basename(out) !== 'dist') throw new Error
 await rm(out, {recursive:true, force:true});
 await mkdir(out, {recursive:true});
 for (const file of ['styles.css', 'app.mjs', 'catalog.mjs', 'favicon.svg']) await cp(path.join(root, 'public', file), path.join(out, file));
+const versionedAssets = {};
+for (const file of ['styles.css', 'app.mjs']) {
+  const contents = await readFile(path.join(root, 'public', file));
+  const version = createHash('sha256').update(contents).digest('hex').slice(0, 12);
+  const extension = path.extname(file);
+  versionedAssets[file] = `${path.basename(file, extension)}.${version}${extension}`;
+  await writeFile(path.join(out, versionedAssets[file]), contents);
+}
 const assets = new Set(works.flatMap(a => artworkImages(a).flatMap(image => ['thumb','display','full'].map(k => image[k]))));
 for (const file of assets) {
   await access(path.join(root, 'public', file));
@@ -83,7 +92,7 @@ function metadata(a) {
 const imageViewer = `<dialog id="artwork-viewer" class="artwork-viewer" aria-labelledby="viewer-title"><header class="viewer-toolbar"><p id="viewer-title" data-viewer-title>图像细节</p><div class="viewer-actions"><button type="button" data-viewer-zoom aria-pressed="false">原尺寸</button><button type="button" data-viewer-close autofocus>返回作品</button></div></header><div class="viewer-stage" data-viewer-stage><p class="viewer-status" data-viewer-status role="status" hidden></p><img class="viewer-image" data-viewer-image alt="" hidden></div></dialog>`;
 function shell(route, title, content, {description:summary = '奶·龙 — NAILOONG, REFRAMED. 奶龙即不同。', image, noindex = false, gallery = false} = {}) {
   const ogImage = canonical(image || works[0].image.display);
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f4ef"><meta name="color-scheme" content="light"><title>${E(title)} · 奶龙美术馆</title><meta name="description" content="${E(summary)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)} · 奶龙美术馆"><meta property="og:description" content="${E(summary)}"><meta property="og:image" content="${E(ogImage)}"><meta property="og:url" content="${E(canonical(route))}"><meta name="twitter:card" content="summary_large_image">${noindex ? '<meta name="robots" content="noindex,nofollow">' : ''}<link rel="canonical" href="${E(canonical(route))}"><link rel="icon" href="${href('favicon.svg')}" type="image/svg+xml"><link rel="stylesheet" href="${href('styles.css')}"><script type="module" src="${href('app.mjs')}"></script></head><body class="${gallery ? 'gallery-body' : 'exhibition-body'}"${gallery ? ' data-gallery' : ''}><a class="skip-link" href="#main">跳到主要内容</a><header class="site-header shell"><a class="brand" href="${href('')}" aria-label="奶龙美术馆首页">奶龙美术馆<span>NAILOONG MUSEUM OF ART</span></a><nav aria-label="主导航">${link('', '首页')}${link('works/', '作品说明')}${link('about/', '关于展览')}</nav></header><main id="main">${content}</main>${gallery ? imageViewer : ''}</body></html>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f4ef"><meta name="color-scheme" content="light"><title>${E(title)} · 奶龙美术馆</title><meta name="description" content="${E(summary)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)} · 奶龙美术馆"><meta property="og:description" content="${E(summary)}"><meta property="og:image" content="${E(ogImage)}"><meta property="og:url" content="${E(canonical(route))}"><meta name="twitter:card" content="summary_large_image">${noindex ? '<meta name="robots" content="noindex,nofollow">' : ''}<link rel="canonical" href="${E(canonical(route))}"><link rel="icon" href="${href('favicon.svg')}" type="image/svg+xml"><link rel="stylesheet" href="${href(versionedAssets['styles.css'])}"><script type="module" src="${href(versionedAssets['app.mjs'])}"></script></head><body class="${gallery ? 'gallery-body' : 'exhibition-body'}"${gallery ? ' data-gallery' : ''}><a class="skip-link" href="#main">跳到主要内容</a><header class="site-header shell"><a class="brand" href="${href('')}" aria-label="奶龙美术馆首页">奶龙美术馆<span>NAILOONG MUSEUM OF ART</span></a><nav aria-label="主导航">${link('', '首页')}${link('works/', '作品说明')}${link('about/', '关于展览')}</nav></header><main id="main">${content}</main>${gallery ? imageViewer : ''}</body></html>`;
 }
 async function emit(route, title, content, options = {}) {
   const file = route === '404.html' ? path.join(out, route) : path.join(out, route, 'index.html');
