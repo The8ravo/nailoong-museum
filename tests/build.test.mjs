@@ -22,9 +22,11 @@ function assertDescriptions(html, artworks, label) {
 function assertEditorial(html, editorial, label) {
   assert.ok(html.includes(escapeHtml(editorial.title)), `${label}: Chinese title missing`);
   assert.ok(html.includes(escapeHtml(editorial.titleEn)), `${label}: English title missing`);
+  const blocks = [...html.matchAll(/<div class="bilingual-paragraph">([\s\S]*?)<\/div>/g)].map(match => match[1]);
+  assert.equal(blocks.length, editorial.paragraphs.length, `${label}: editorial paragraphs are missing or duplicated`);
   for (const [key, lang] of [['zh', 'zh-CN'], ['en', 'en']]) {
-    const paragraphs = [...html.matchAll(new RegExp(`<p\\b[^>]*\\blang="${lang}"[^>]*>([\\s\\S]*?)<\\/p>`, 'g'))].map(match => match[1]);
-    for (const paragraph of editorial.paragraphs) assert.ok(paragraphs.includes(escapeHtml(paragraph[key])), `${label}: ${lang} paragraph missing or unescaped`);
+    const paragraphs = blocks.flatMap(block => [...block.matchAll(new RegExp(`<p\\b[^>]*\\blang="${lang}"[^>]*>([\\s\\S]*?)<\\/p>`, 'g'))].map(match => match[1]));
+    assert.deepEqual(paragraphs, editorial.paragraphs.map(paragraph => escapeHtml(paragraph[key])), `${label}: ${lang} paragraphs differ, repeat, or are unescaped`);
   }
 }
 
@@ -37,6 +39,8 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     const data = JSON.parse(await readFile(contentPath));
     const settingsPath = path.join(temporary, 'content/settings.json');
     const settings = JSON.parse(await readFile(settingsPath));
+    assert.equal(settings.opening.paragraphs.length, 1, 'opening should contain one bilingual paragraph');
+    assert.equal(settings.closing.paragraphs.length, 1, 'closing should contain one bilingual paragraph');
     settings.opening.paragraphs[0].zh += ' <script>opening editor text</script>';
     settings.closing.paragraphs[0].en += ' <script>closing editor text</script> & return.';
     await writeFile(settingsPath, JSON.stringify(settings));
@@ -60,7 +64,8 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     const escaped = [...expectedPublic].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id))[0];
     escaped.title = '<script>untrusted title</script>';
     escaped.creation.tool = '<img src=x onerror=alert(1)>';
-    original.panels[1].title = '<b>untrusted panel</b>';
+    const injectedPanelTitle = '<b>untrusted "panel"</b>';
+    original.panels[1].title = injectedPanelTitle;
     const ordinary = expectedPublic.filter(art => art.descriptionFormat !== 'matrix' && art.description.trim());
     ordinary[0].descriptionEn = 'A <script>alert("translation")</script> & an image.';
     delete ordinary[1].descriptionEn;
@@ -95,11 +100,30 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(detail.includes('&lt;script&gt;untrusted title&lt;/script&gt;'));
     assert.ok(detail.includes('&lt;img src=x onerror=alert(1)&gt;'));
     assert.ok(!detail.includes('<script>untrusted title'));
+    let zoomImageCount = 0;
     for (const [index, art] of api.artworks.entries()) {
       const artDetail = await html(`works/${art.slug}`);
       const room = await html(`gallery/${art.slug}`);
       assertDescriptions(artDetail, [art], `detail ${art.slug}`);
       assertDescriptions(room, [art], `gallery ${art.slug}`);
+      const pictures = art.panels || [art];
+      const zoomLinks = room.match(/<a\b(?=[^>]*\bdata-image-zoom\b)[^>]*>[\s\S]*?<\/a>/g) || [];
+      assert.equal(zoomLinks.length, pictures.length, `${art.slug}: each image needs its own viewer link`);
+      for (const [pictureIndex, picture] of pictures.entries()) {
+        const zoomLink = zoomLinks[pictureIndex];
+        assert.ok(zoomLink.includes(`href="/nailoong-museum/${picture.image.full}"`), `${art.slug}: image viewer fallback does not open the full image`);
+        assert.ok(zoomLink.includes(`data-title="${escapeHtml(picture.title)}"`), `${art.slug}: viewer title is missing or unescaped`);
+        assert.ok(zoomLink.includes(`alt="${escapeHtml(picture.alt)}"`), `${art.slug}: viewer link omits the image's descriptive alternative text`);
+        assert.match(zoomLink, /<img\b/, `${art.slug}: viewer link does not wrap an image`);
+      }
+      zoomImageCount += zoomLinks.length;
+      const viewers = room.match(/<dialog\b(?=[^>]*\bid="artwork-viewer")[^>]*>[\s\S]*?<\/dialog>/g) || [];
+      assert.equal(viewers.length, 1, `${art.slug}: artwork viewer dialog missing or duplicated`);
+      assert.match(viewers[0], /<img\b[^>]*\bdata-viewer-image\b/, `${art.slug}: viewer image missing`);
+      for (const control of ['close', 'zoom']) assert.match(viewers[0], new RegExp(`<button\\b[^>]*\\bdata-viewer-${control}\\b`), `${art.slug}: viewer ${control} button missing`);
+      for (const element of ['title', 'stage', 'status']) assert.ok(viewers[0].includes(`data-viewer-${element}`), `${art.slug}: viewer ${element} missing`);
+      assert.ok(!artDetail.includes('data-image-zoom'), `${art.slug}: detail images should enter the gallery, not open a nested viewer link`);
+      assert.match(artDetail, new RegExp(`<a\\b[^>]*class="detail-image"[^>]*href="/nailoong-museum/gallery/${art.slug}/"`), `${art.slug}: detail image no longer enters its gallery`);
       const previous = api.artworks[index - 1];
       const next = api.artworks[index + 1];
       const previousLinks = room.match(/<a\b[^>]*\bdata-prev\b[^>]*>/g) || [];
@@ -138,6 +162,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
         assert.ok(!room.includes('class="work-description"'), `${art.slug}: removed description still has a paragraph`);
       }
     }
+    assert.equal(zoomImageCount, expectedImageCount, 'not all exhibition images can open in the viewer');
     const galleryEntry = await html('gallery');
     assertEditorial(galleryEntry, settings.opening, 'opening');
     assertDescriptions(galleryEntry, [], 'opening');
@@ -156,18 +181,31 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     const groupGallery = await html('gallery/series');
     const workIndex = await html('works');
     assertDescriptions(workIndex, api.artworks, 'artwork information index');
-    assert.ok(workIndex.includes('&lt;b&gt;untrusted panel&lt;/b&gt;'));
+    assert.ok(workIndex.includes(escapeHtml(injectedPanelTitle)));
+    assert.ok(!workIndex.includes('data-image-zoom'), 'artwork information images should enter the gallery');
     assert.ok(!groupGallery.includes('<figcaption'), 'group gallery restores individual image labels');
     assert.ok(!groupDetail.includes('<figcaption'), 'group detail restores individual image labels');
     for (const panel of original.panels) {
       assert.ok(groupDetail.includes(panel.image.display), `detail omits ${panel.title}`);
       assert.ok(groupGallery.includes(panel.image.display), `gallery omits ${panel.title}`);
     }
-    assert.ok(groupDetail.includes('Gemini'));
-    assert.ok(groupDetail.includes('Simon'));
-    assert.ok(groupGallery.includes('Gemini'));
-    assert.ok(groupGallery.includes('Simon'));
-    assert.ok(workIndex.includes('Simon'));
+    const groupIndex = workIndex.match(/<article class="credit-row" id="series">[\s\S]*?<\/article>/)?.[0] || '';
+    const generatedPanels = original.panels.filter(panel => panel.creation?.tool);
+    const referencedPanels = original.panels.filter(panel => !panel.creation?.tool);
+    for (const [label, content] of [['detail', groupDetail], ['gallery', groupGallery], ['artwork information', groupIndex]]) {
+      const tools = content.match(/<dt>生成工具<\/dt><dd>([\s\S]*?)<\/dd>/)?.[1];
+      const authors = content.match(/<dt>引用作者<\/dt><dd>([\s\S]*?)<\/dd>/)?.[1];
+      assert.ok(tools, `${label}: group generation tools have no separate label`);
+      assert.ok(authors, `${label}: group cited authors have no separate label`);
+      assert.ok(tools.includes(`Gemini（${generatedPanels.length} 幅）`), `${label}: generated panel count is incorrect`);
+      assert.ok(!tools.includes('Simon'), `${label}: referenced author is shown as a generation tool`);
+      assert.ok(authors.includes('Simon') && authors.includes(`（${referencedPanels.length} 幅）`), `${label}: referenced panel count is incorrect`);
+      assert.ok(!authors.includes('Gemini'), `${label}: generation tool is shown as a referenced author`);
+      assert.ok(authors.includes(`href="${escapeHtml(referencedPanels[0].source.url)}"`), `${label}: referenced author has no source link`);
+    }
+    const panelCredits = groupIndex.match(/<ol class="panel-credits">([\s\S]*?)<\/ol>/)?.[1] || '';
+    assert.equal((panelCredits.match(/生成工具：/g) || []).length, generatedPanels.length, 'panel sources do not identify generation tools');
+    assert.equal((panelCredits.match(/作者：/g) || []).length, referencedPanels.length, 'panel sources do not identify cited authors');
     for (const art of api.artworks) {
       assert.ok(workIndex.includes(`/works/${art.slug}/`), `artwork information omits ${art.slug}`);
       if (art.reference.url) assert.ok(workIndex.includes(escapeHtml(art.reference.url)), `artwork information omits ${art.slug} source`);
@@ -213,7 +251,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       const content = await readFile(path.join(dist, file), 'utf8');
       assert.ok(!content.includes('PRIVATE_DRAFT_MARKER'), `${file}: draft leaked`);
       assert.ok(!content.includes('<script>untrusted title'), `${file}: unescaped title`);
-      assert.ok(!content.includes('<b>untrusted panel</b>'), `${file}: unescaped panel`);
+      assert.ok(!content.includes(injectedPanelTitle), `${file}: unescaped panel`);
       assert.ok(!content.includes('<img src=x onerror=alert(1)>'), `${file}: unescaped tool`);
       assert.ok(!content.includes('<script>alert("translation")</script>'), `${file}: unescaped English description`);
       assert.ok(!content.includes('<script>opening editor text</script>'), `${file}: unescaped opening text`);

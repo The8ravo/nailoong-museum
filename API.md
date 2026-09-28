@@ -16,14 +16,22 @@
 - `/works/`：作品说明，整合全部作品、制作信息与参考来源。
 - `/works/:slug/`：单件作品详情。
 - `/gallery/`：独立双语开幕页，选择“开始观看”后进入首件作品。
-- `/gallery/:slug/`：完整展示指定作品，同时呈现所属章节、作品说明与制作信息；组图各幅在同页呈现。
+- `/gallery/:slug/`：完整展示指定作品，同时呈现所属章节、作品说明与制作信息；点击图片可打开大图，组图各幅在同页呈现且可独立打开。
 - `/closing/`：双语闭幕词，可返回首页或重新观看，不计作展品。
 - `/about/`：关于展览。
 - `/credits/`：旧地址，重定向到 `/works/`。
 
 GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 
-所有页面保留公共页眉中的“作品说明”和“关于展览”导航，不设页脚。开幕页和画廊以带 `data-prev`、`data-next` 的链接前后切换，也支持键盘左右键；不设置 Esc 返回动作。开幕页带 `.opening-page` 和 `data-gallery`，前一项回到首页，后一项“开始观看”进入首件作品的 `/gallery/:slug/`。首件作品的前一项“开幕词”回到 `/gallery/`，末件《救世主》的 `data-next` 指向 `/closing/`。闭幕页不设置 `data-gallery`，不启用画廊键盘导航；“重新观看”回到开幕页 `/gallery/`，不自动循环。
+所有页面保留公共页眉中的“作品说明”和“关于展览”导航，不设页脚。开幕页和画廊以带 `data-prev`、`data-next` 的链接前后切换，也支持键盘左右键；不设置 Esc 返回上一页动作。开幕页带 `.opening-page` 和 `data-gallery`，前一项回到首页，后一项“开始观看”进入首件作品的 `/gallery/:slug/`。首件作品的前一项“开幕词”回到 `/gallery/`，末件《救世主》的 `data-next` 指向 `/closing/`。闭幕页不设置 `data-gallery`，不启用画廊键盘导航；“重新观看”回到开幕页 `/gallery/`，不自动循环。
+
+## 画廊大图查看
+
+大图查看仅用于 `/gallery/:slug/`。每幅图片放在 `a.image-zoom[data-image-zoom][data-title]` 中，`href` 指向该幅的 `image.full`；组图的每幅分别生成链接。JavaScript 可用且浏览器支持模态对话框时打开 `dialog#artwork-viewer`；否则链接仍可直接打开高清图片。`/works/` 与 `/works/:slug/` 的图片继续链接对应画廊页面。
+
+查看器包含 `[data-viewer-image]`、`[data-viewer-title]`、`[data-viewer-stage]`、`[data-viewer-status]`，以及 `button[data-viewer-close]` 与 `button[data-viewer-zoom]`。这些标记供 `public/app.mjs` 绑定图片、标题、查看状态和关闭、缩放控件；图片及标题仍来自现有作品或分图数据，无须增加内容字段。
+
+点击“返回作品”或按 Esc 关闭大图，回到当前作品的原有位置，不跳转页面。查看大图期间暂停画廊的左右键切换；关闭后恢复，并将键盘焦点交还给打开大图的链接。
 
 ## 开闭幕词与章节配置
 
@@ -49,7 +57,7 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 }
 ```
 
-开闭幕词的 `paragraphs` 按数组顺序显示，每段先中文 `zh`、后英文 `en`，并对文本进行 HTML 转义。开幕词显示在进入画廊后的 `/gallery/`，闭幕词显示在 `/closing/`。它们不进入展品 JSON，也不影响 `artworkCount` 或 `imageCount`；两个页面都会进入站点地图。
+开闭幕词的 `paragraphs` 按数组顺序显示，每段先中文 `zh`、后英文 `en`，并对文本进行 HTML 转义。当前开幕词和闭幕词各保留一对中英段落，数组结构允许日后增加段落。开幕词显示在进入画廊后的 `/gallery/`，闭幕词显示在 `/closing/`。它们不进入展品 JSON，也不影响 `artworkCount` 或 `imageCount`；两个页面都会进入站点地图。
 
 章节按 `chapters` 数组顺序定义。`id` 应唯一且稳定；`startSlug` 必须对应已展出的作品，章首应按展览顺序递增，第一章从首件作品开始。每件作品归属它之前最近开始的章节，直到下一章开始。新增或调整作品时，维护 `order` 并复核这些起点；不要将章首作品设为草稿而保留悬空的 `startSlug`。
 
@@ -142,7 +150,9 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 
 顶层 `image` 的路径和宽高必须与第一幅的 `image` 完全一致，作为作品封面。`panels` 的数组顺序即显示顺序。每一幅均保留各自的制作信息和来源；引用的图像不填写推测的生成工具。现有《组图》含六幅，其中《构成主义奶龙》的 `creation.tool` 为 `null`，署名 Simon，来源指向其小红书主页；顶层作品来源与灵感链接使用同一主页地址。
 
-组图的图片下不显示各幅小标题。`panels[].title` 仍用于“作品说明”中的来源记录；`alt` 保持准确的图像内容描述。
+作品说明页、详情页和画廊的组图制作信息均由 `panels` 动态汇总：`creation.tool` 非空的分图按工具统计，显示在“生成工具”项；没有工具的引用分图按 `source.credit` 统计，显示在“引用作者”项，并使用 `source.url` 链接作者来源。当前分别为 Gemini（5 幅）与 Simon（1 幅）。各幅来源列表使用“生成工具：”或“作者：”前缀，避免将引用作者写成生成工具。
+
+现有六幅组图保持三列两行，图片下不显示各幅小标题。`panels[].title` 仍用于“作品说明”中的来源记录和画廊大图查看器的标题；`alt` 保持准确的图像内容描述。新增分图后，每幅均沿用自己的 `image.full` 打开大图。
 
 ## 方阵说明
 
