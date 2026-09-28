@@ -3,25 +3,39 @@
 ## 现有只读接口
 
 - `GET /nailoong-museum/api/artworks.json`：`{ schemaVersion: 1, artworks: [...] }`，只返回已展出作品。
-- `GET /nailoong-museum/api/site.json`：展览标题、展品数量和展区。
-- `public/catalog.mjs` 导出 `loadCatalog(base)`、`validateCatalog(data)`、`publishedArtworks(data)`。
+- `GET /nailoong-museum/api/site.json`：展览标题、作品数量 `artworkCount` 和图像数量 `imageCount`。
+- `public/catalog.mjs` 导出 `loadCatalog(base)`、`validateCatalog(data)`、`publishedArtworks(data)`、`artworkImages(art)`。
 
-没有伪装成后台的 POST 接口：GitHub Pages 只能托管静态文件。维护页将图片转换、草稿保存、更新包导出都放在当前浏览器完成。正式更新由仓库提交触发。
+当前网站为静态展览。没有公开维护页面和写入接口；编辑仓库中的内容与图片后，通过提交触发发布。
+
+`artworkImages(art)` 对单幅作品返回 `[art.image]`，对组图返回按顺序排列的 `panels[].image`。构建器只复制已展出作品实际引用的图片，草稿组图的各幅图片也遵循这一规则。
+
+## 页面地址
+
+- `/`：展览首页，含画廊入口和逐件作品说明。
+- `/works/`：作品索引。
+- `/works/:slug/`：单件作品详情。
+- `/gallery/`：从第一件作品开始观看。
+- `/gallery/:slug/`：观看指定作品；组图各幅在同页呈现。
+- `/about/`：关于展览。
+- `/credits/`：来源与说明。
+
+GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 
 ## 单件展品结构
 
 ```json
 {
-  "id": "NL-017",
+  "id": "NL-021",
   "slug": "a-new-artwork",
   "title": "一件新的展品",
   "titleEn": "A NEW ARTWORK",
-  "section": "lab",
+  "section": "exhibition",
   "order": 100,
-  "tag": "色彩实验",
-  "description": "画面中可见的细节与观看提示。",
+  "tag": "绘画",
+  "description": "作品说明。",
   "alt": "准确的图片描述。",
-  "notes": "展开后阅读的创作解说。",
+  "notes": "补充说明，也可留空。",
   "medium": "AI 辅助创作的数字图像",
   "image": {
     "width": 1200,
@@ -33,7 +47,10 @@
   "reference": {
     "title": "灵感作品或视觉语汇",
     "url": null,
-    "relationship": "风格实验",
+    "artist": null,
+    "year": null,
+    "institution": null,
+    "relationship": "图像改写",
     "note": "如实记录参考关系。"
   },
   "creation": {
@@ -45,26 +62,59 @@
   },
   "source": {
     "filename": "原文件名.png",
-    "origin": "维护者提供",
-    "rightsStatus": "如实填写素材来源及使用说明"
+    "origin": "展览发起人提供",
+    "credit": "展览发起人",
+    "url": null,
+    "rightsStatus": ""
   },
   "publish": true
 }
 ```
 
-`section` 支持 `exhibition`、`lab`、`poster`。`id` 和 `slug` 唯一，现有作品网址不可在编辑器中随意变更以避免分享链接失效。图片路径限定在 `assets/artworks/` 或 `assets/uploads/`，不接受外部脚本协议或目录穿越。所有用户文本输出到 HTML 时转义。
+新作品的 `section` 使用 `exhibition` 或 `series`；读取旧数据时仍兼容 `lab`、`poster`，这些旧分类不再生成导航栏。`id` 和 `slug` 唯一。保留现有作品的 `slug` 可以维持分享链接。
+
+图片路径限定在 `assets/artworks/` 或 `assets/uploads/`，文件类型为 WebP、PNG 或 JPEG。图片宽高为 1–20000 的整数。参考和来源链接只接受 HTTPS 或空值，不接受脚本协议、带账号密码的链接或目录穿越。所有文本在写入 HTML 时转义。
+
+`creation` 中的未知值使用 `null`。已知日期使用有效的 `YYYY-MM-DD` 格式；`tool`、`modelVersion`、`prompt`、`humanEdits` 为文本。原作作者和年代保存在 `reference`，与生成图像的制作工具及来源分开。
+
+## 组图
+
+组图仍是一条作品记录，设置 `section: "series"`，增加 2–50 个 `panels`。每个分图结构如下：
+
+```json
+{
+  "title": "第一幅",
+  "alt": "这幅图像的内容描述。",
+  "image": {
+    "width": 1200,
+    "height": 1600,
+    "thumb": "assets/artworks/series-01-thumb.webp",
+    "display": "assets/artworks/series-01-display.webp",
+    "full": "assets/artworks/series-01-full.webp"
+  },
+  "creation": { "date": null, "tool": "Gemini" },
+  "source": {
+    "filename": "第一幅.png",
+    "origin": "展览发起人提供",
+    "credit": "展览发起人",
+    "url": null
+  }
+}
+```
+
+顶层 `image` 的路径和宽高必须与第一幅的 `image` 完全一致，作为作品封面。`panels` 的数组顺序即显示顺序。每一幅均保留各自的制作信息和来源；引用的图像不填写推测的生成工具。现有《组图》含六幅，其中《构成主义奶龙》的 `creation.tool` 为 `null`，来源指向原作者。
+
+## 方阵说明
+
+普通作品无需设置 `descriptionFormat`。设置 `descriptionFormat: "matrix"` 后，`description` 按原换行展示为方阵。内容仅使用“奶”“龙”，每行字符数须等于行数，最多 100 行。JSON 中的 `\n` 表示换行；不要写成字面量的 `\\n`。现有《家用厨房粉碎机》为 15 × 15。
 
 ## 以后接入真实后台
 
-可将 `loadCatalog(base)` 换成 API 客户端，并为维护页增加登录和保存动作。建议后端提供：
+可让另行建立的管理后台维护相同的数据结构。公开展览继续通过 `loadCatalog(base)` 获取内容，也可改为请求后台的只读接口。可采用以下写入接口：
 
 - `POST /api/uploads`：鉴权后上传图片，校验真实 MIME、尺寸、大小，返回三档图片地址。
 - `POST /api/artworks`：使用同一数据校验创建记录，默认草稿。
 - `PATCH /api/artworks/:id`：更新记录并检查版本，防止多人覆盖。
 - `POST /api/publish`：鉴权后触发静态构建或更新公开数据。
 
-这是未来接口约定，**这些写接口目前没有部署**。不应在公共前端存放 GitHub 管理令牌。接入后台时再实现登录、权限、CSRF 防护、上传校验和审计记录。
-
-## 更新包
-
-ZIP 包包含完整 `content/artworks.json` 及当前浏览器中新增/替换过的图片。未修改的已上线图片不重复打包。保存使用 IndexedDB 事务，失败时显示错误；导出前也会再次校验资料。
+这些写入接口尚未部署。后台完成登录、权限与图片校验后调用；访问令牌放在服务端，公开网页只读取展出内容。

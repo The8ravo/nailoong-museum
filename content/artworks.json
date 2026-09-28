@@ -2,133 +2,69 @@
   "schemaVersion": 1,
   "artworks": [
     {
-      "id": "NL-001",
-      "slug": "chat-noir",
-      "title": "海报里的不速之客",
-      "titleEn": "LE CHAT, REFRAMED",
-      "section": "poster",
-      "order": 90,
-      "tag": "海报实验",
-      "description": "酒红、金黄和密集的边框把一只奶龙包裹成了老派海报的主角。它抬起手，神情一本正经，而周围繁复的字样仍在争夺视线。画中的文字也成为图案：先看轮廓，再看它怎样被装饰围住。",
-      "alt": "酒红和金色的复古海报中，黄色奶龙抬手站立，周围有花纹、边框与法文字样。",
-      "notes": "海报把形象放入一个已经充满声音的空间：标题、边框和装饰都在替主角说话。这里的观看重点是信息的密度，以及黄色身体怎样从深色底纹中出现。图中文字保留了来稿状态，不能据此判断准确作者、原作或生成工具。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 768,
-        "height": 1024,
-        "thumb": "assets/artworks/chat-noir-thumb.webp",
-        "display": "assets/artworks/chat-noir-display.webp",
-        "full": "assets/artworks/chat-noir-full.webp"
-      },
+      "id": "NL-014",
+      "slug": "american-gothic",
+      "title": "美国哥特式",
+      "titleEn": "American Gothic",
+      "tag": "肖像",
+      "description": "两个人物并立于木屋前。草叉、衣褶与尖拱窗形成连续的垂直线，正面的站姿将画面收束为稳定的结构。奶龙的形象进入其中，改变了面孔的比例，却保留了人物、建筑与土地之间的关系。",
+      "alt": "两位奶龙形象站在尖顶木屋前，右侧戴圆框眼镜并握着草叉，左侧穿棕色连衣裙，头部均保留人物发型。",
+      "notes": "草叉与窗框的重复线条贯穿前后景，服饰的细部与正面的目光共同构成肖像的秩序。",
       "reference": {
-        "title": "复古海报语汇",
-        "url": null,
         "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
+        "note": "图像取材自格兰特·伍德《美国哥特式》。",
+        "title": "《美国哥特式》 / American Gothic",
+        "url": "https://www.artic.edu/artworks/6565/american-gothic",
+        "artist": "格兰特·伍德 / Grant Wood",
+        "year": "1930",
+        "institution": "芝加哥艺术博物馆 / Art Institute of Chicago"
       },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "勒夏奶龙.png",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-002",
-      "slug": "light-and-shadow",
-      "title": "明暗之间",
-      "titleEn": "IN LIGHT & SHADOW",
-      "section": "lab",
-      "order": 10,
-      "tag": "明暗法",
-      "description": "一道光照亮圆圆的眼睛、肩膀和停在嘴边的手。身后的深色空间退了下去，红色球体与斜线留在画面边缘。熟悉的黄色不再轻快，而是有了重量：同一只奶龙，也可以看起来若有所思。",
-      "alt": "深色背景中，侧光照亮黄色奶龙的脸和肩膀，黑色手套靠近嘴边，下方有红色球体。",
-      "notes": "这组实验反复使用抬手的姿态，但让光、材质与几何关系发生变化。在这一张里，观看先从脸部开始，再沿手臂走向红球和斜线。我们将它作为明暗语汇的实验，不把文件名中的艺术家当作这张新作的作者，也不指定一幅并未确认的原作。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 768,
-        "height": 1024,
-        "thumb": "assets/artworks/light-and-shadow-thumb.webp",
-        "display": "assets/artworks/light-and-shadow-display.webp",
-        "full": "assets/artworks/light-and-shadow-full.webp"
-      },
-      "reference": {
-        "title": "明暗对照",
-        "url": null,
-        "relationship": "风格实验",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "卡拉瓦乔奶龙.png",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-003",
-      "slug": "the-fifer",
-      "title": "吹笛的奶龙",
-      "titleEn": "THE LITTLE FIFER",
       "section": "exhibition",
-      "order": 30,
-      "tag": "肖像重演",
-      "description": "黑色上衣、红色长裤与几乎空白的背景，给这个小小的演奏者留出了舞台。笛子横在脸前，目光却落向画外。衣装仍然郑重，身体却变得圆润；我们似乎能听见音乐，也忍不住等待它吹错一个音。",
-      "alt": "奶龙穿黑色制服、红色长裤和帽子，站在灰色背景前，双手将笛子举在嘴边。",
-      "notes": "先看衣服的大块颜色，再看脸部替换后改变的比例。背景没有给出明确故事，观看因而集中在站姿、手与乐器的接触处。参考作品的馆藏记录将标题记为 Le Fifre；这里的展名采用“吹笛”，来稿文件名保留在来源记录中。",
+      "order": 10,
       "medium": "AI 辅助创作的数字图像",
       "image": {
-        "width": 1024,
-        "height": 1536,
-        "thumb": "assets/artworks/the-fifer-thumb.webp",
-        "display": "assets/artworks/the-fifer-display.webp",
-        "full": "assets/artworks/the-fifer-full.webp"
-      },
-      "reference": {
-        "title": "《吹笛少年》 / Le Fifre",
-        "url": "https://www.musee-orsay.fr/fr/oeuvres/le-fifre-709",
-        "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
+        "width": 1145,
+        "height": 1374,
+        "thumb": "assets/artworks/american-gothic-thumb.webp",
+        "display": "assets/artworks/american-gothic-display.webp",
+        "full": "assets/artworks/american-gothic-full.webp"
       },
       "creation": {
         "date": null,
-        "tool": null,
+        "tool": "ChatGPT",
         "modelVersion": null,
         "prompt": null,
         "humanEdits": null
       },
       "source": {
-        "filename": "吹长笛的少年.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
+        "filename": "美国哥特式.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
       },
       "publish": true
     },
     {
       "id": "NL-004",
       "slug": "the-kiss",
-      "title": "奶龙之吻",
-      "titleEn": "A GOLDEN EMBRACE",
+      "title": "吻",
+      "titleEn": "The Kiss",
+      "tag": "装饰与身体",
+      "description": "金色底面将身体与背景连接成连续的装饰空间。方形、圆形和花卉纹样分别覆盖相拥的人物，面孔与双手从纹样中显现。形象的替换改变了身体的边界，拥抱的方向与画面的重心仍然留在原处。",
+      "alt": "金色方形画面中，两只奶龙相拥，衣袍布满方形与圆形纹样，下方铺展着彩色花卉。",
+      "notes": "方形画幅使人物集中于中央，衣袍与花地之间的边缘交织着身体、图案和空间。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自古斯塔夫·克里姆特《吻》。",
+        "title": "《吻》 / The Kiss (Lovers)",
+        "url": "https://sammlung.belvedere.at/objects/6678/der-kuss-liebespaar",
+        "artist": "古斯塔夫·克里姆特 / Gustav Klimt",
+        "year": "约 1907–1909",
+        "institution": "美景宫 / Belvedere"
+      },
       "section": "exhibition",
       "order": 20,
-      "tag": "金色拥抱",
-      "description": "金色几乎铺满了画面，方块、圆点与花朵把两只奶龙裹在一起。脸庞从层层纹样中探出来，让一个熟悉的拥抱多了几分笨拙和温柔。先别急着辨认角色，试着沿着花地与衣袍的边缘，找一找身体在哪里相遇。",
-      "alt": "金色方形画面中，两只奶龙依偎在一起，衣袍布满几何花纹，下方是一片彩色花地。",
-      "notes": "这张作品的完整方形画幅是观看的一部分。金底让人物与背景之间的边界变软，而两套不同的纹样仍提示着身体的区分。角色被替换之后，装饰的密度与拥抱的方向继续维持画面。细看脸部与大面积金色之间的比例，可以感受它怎样在庄重与亲昵之间摇摆。",
       "medium": "AI 辅助创作的数字图像",
       "image": {
         "width": 2048,
@@ -137,76 +73,86 @@
         "display": "assets/artworks/the-kiss-display.webp",
         "full": "assets/artworks/the-kiss-full.webp"
       },
-      "reference": {
-        "title": "《吻》 / The Kiss",
-        "url": null,
-        "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
       "creation": {
         "date": null,
-        "tool": null,
+        "tool": "ChatGPT",
         "modelVersion": null,
         "prompt": null,
         "humanEdits": null
       },
       "source": {
         "filename": "吻.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
       },
       "publish": true
     },
     {
-      "id": "NL-005",
-      "slug": "a-sunday-afternoon",
-      "title": "大碗岛的奶龙们",
-      "titleEn": "A VERY YELLOW SUNDAY",
+      "id": "NL-003",
+      "slug": "the-fifer",
+      "title": "吹笛少年",
+      "titleEn": "The Fifer",
+      "tag": "姿态",
+      "description": "黑色制服、红色长裤与灰色背景建立起清晰的色面关系。人物的站姿几乎没有纵深，手与笛子的接触成为动作的中心。奶龙的面孔置于这套简洁结构之中，使观看重新回到轮廓、比例与姿态。",
+      "alt": "奶龙穿黑色制服、红色长裤和帽子，站在灰色背景前，双手将笛子举在嘴边。",
+      "notes": "背景的留白弱化了场景，服装的轮廓和乐器的横线承担了主要的视觉关系。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自爱德华·马奈《吹笛少年》。",
+        "title": "《吹笛少年》 / Le Fifre",
+        "url": "https://www.musee-orsay.fr/en/artworks/le-fifre-709",
+        "artist": "爱德华·马奈 / Édouard Manet",
+        "year": "1866",
+        "institution": "奥赛博物馆 / Musée d’Orsay"
+      },
       "section": "exhibition",
-      "order": 40,
-      "tag": "点彩午后",
-      "description": "河岸、树荫、阳伞和散步的人群都还在，只是黄色的小脑袋悄悄占领了这个下午。远看，画面依然安静；靠近，角色之间的距离又像一场默契的集体表演。请慢慢寻找：哪一只奶龙最先让你注意到？",
-      "alt": "点彩风格的河边草地上，许多奶龙穿着不同服装站立或休息，右侧前景有撑伞的角色。",
-      "notes": "这是一张适合把观看速度放慢的横幅。人物散布在前景、树下和河边，大小差异建立出空间。黄色作为重复出现的色块，把这些位置连在一起。可以先看最近的一组，再沿着草地向后寻找；无需把它当成答题游戏，遗漏的细节也为下一次观看留下余地。",
+      "order": 30,
       "medium": "AI 辅助创作的数字图像",
       "image": {
-        "width": 2528,
-        "height": 1682,
-        "thumb": "assets/artworks/a-sunday-afternoon-thumb.webp",
-        "display": "assets/artworks/a-sunday-afternoon-display.webp",
-        "full": "assets/artworks/a-sunday-afternoon-full.webp"
-      },
-      "reference": {
-        "title": "《大碗岛的星期天下午》",
-        "url": "https://www.artic.edu/artworks/27992/a-sunday-on-la-grande-jatte-1884",
-        "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
+        "width": 1024,
+        "height": 1536,
+        "thumb": "assets/artworks/the-fifer-thumb.webp",
+        "display": "assets/artworks/the-fifer-display.webp",
+        "full": "assets/artworks/the-fifer-full.webp"
       },
       "creation": {
         "date": null,
-        "tool": null,
+        "tool": "ChatGPT",
         "modelVersion": null,
         "prompt": null,
         "humanEdits": null
       },
       "source": {
-        "filename": "大碗岛的星期天下午.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
+        "filename": "吹长笛的少年.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
       },
       "publish": true
     },
     {
       "id": "NL-006",
       "slug": "olympia",
-      "title": "奥林匹亚：奶龙版本",
-      "titleEn": "A FAMILIAR GAZE",
-      "section": "exhibition",
-      "order": 50,
-      "tag": "目光的方向",
-      "description": "白色床单在暗色背景前展开，躺卧的奶龙望向画外，另一位角色在旁边捧着花。构图仍保留着前后两层人物和鲜明的明暗关系，身体的变化却改变了观看的气氛。那道直视观众的目光，还和你记忆中一样吗？",
+      "title": "奥林匹亚",
+      "titleEn": "Olympia",
+      "tag": "凝视",
+      "description": "白色床单横贯画面，与身后的暗部形成鲜明分界。躺卧者的目光朝向画外，花束与站立者构成另一层观看关系。角色发生变化，身体的横向展开、人物之间的距离以及直视观众的姿态仍被保留。",
       "alt": "奶龙斜躺在白色床铺上望向前方，右侧另一位角色捧着花束，背后是深绿色与棕色的暗部。",
-      "notes": "床单的亮部首先把视线引向躺卧的角色，随后花束与站立者引出第二层关系。这里的替换没有消除原有的观看结构，而是让角色表情改变了距离感。我们关注的是图像里可以看见的安排；实际生成时使用的参考图片、工具和修改步骤尚未提供。",
+      "notes": "床铺的亮部连接画面前景，花束和站立人物将空间引向后方。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自爱德华·马奈《奥林匹亚》。",
+        "title": "《奥林匹亚》 / Olympia",
+        "url": "https://www.musee-orsay.fr/en/artworks/olympia-712",
+        "artist": "爱德华·马奈 / Édouard Manet",
+        "year": "1863",
+        "institution": "奥赛博物馆 / Musée d’Orsay"
+      },
+      "section": "exhibition",
+      "order": 40,
       "medium": "AI 辅助创作的数字图像",
       "image": {
         "width": 2528,
@@ -215,349 +161,86 @@
         "display": "assets/artworks/olympia-display.webp",
         "full": "assets/artworks/olympia-full.webp"
       },
-      "reference": {
-        "title": "《奥林匹亚》 / Olympia",
-        "url": null,
-        "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
       "creation": {
         "date": null,
-        "tool": null,
+        "tool": "Gemini",
         "modelVersion": null,
         "prompt": null,
         "humanEdits": null
       },
       "source": {
         "filename": "奥林匹亚.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
       },
       "publish": true
     },
     {
-      "id": "NL-007",
-      "slug": "circles-and-lines",
-      "title": "圆、线与奶龙",
-      "titleEn": "CIRCLES, LINES, NAILOONG",
-      "section": "lab",
-      "order": 20,
-      "tag": "几何节奏",
-      "description": "圆形像眼睛，也像独立的音符；线条穿过身体，又从轮廓边缘伸出去。奶龙不再只是几何图案前的角色，它本身也被拆成了图案。白色背景留出许多空隙，让红、黄、蓝和黑色之间的节奏更清楚。",
-      "alt": "白色背景上，奶龙由彩色圆环、曲线和几何形状构成，四周散布黑色线条及红蓝色块。",
-      "notes": "试着暂时忽略“奶龙”这个名称，只看圆、直线和弧线怎样聚集。再把目光移回眼睛，角色似乎又被重新拼起来。这个往返过程是本件的观看重点。作品借助抽象几何的语汇展开实验，没有一幅已经确认的一对一参考原作。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 768,
-        "height": 1024,
-        "thumb": "assets/artworks/circles-and-lines-thumb.webp",
-        "display": "assets/artworks/circles-and-lines-display.webp",
-        "full": "assets/artworks/circles-and-lines-full.webp"
-      },
+      "id": "NL-005",
+      "slug": "a-sunday-afternoon",
+      "title": "大碗岛的星期天下午",
+      "titleEn": "A Sunday on La Grande Jatte",
+      "tag": "群像",
+      "description": "河岸上的人物分布于阳光、树荫与草地之间。点状色彩将相互独立的形象组织为一个整体，远近关系由尺度与间距逐层展开。重复出现的黄色面孔进入这片静止的公共空间，成为贯穿画面的另一种秩序。",
+      "alt": "点彩风格的河岸草地上，奶龙形象穿着不同服装站立或休息，右侧前景有撑伞的人物。",
+      "notes": "横向画幅容纳了分散的人群，前景与远景之间的空隙使每一个人物同时属于局部和整体。",
       "reference": {
-        "title": "抽象几何语汇",
-        "url": null,
-        "relationship": "风格实验",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "康定斯基奶龙.png",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-008",
-      "slug": "almost-disappearing",
-      "title": "奶龙即将消失",
-      "titleEn": "ALMOST DISAPPEARING",
-      "section": "lab",
-      "order": 60,
-      "tag": "轮廓解构",
-      "description": "大眼睛仍然醒目，身体却几乎被涂抹和缠绕的线条冲散。黄色、黑色与红色挤在一起，留下急促而不稳定的边缘。当熟悉的轮廓不再可靠，我们究竟靠哪几个细节，认出眼前的还是奶龙？",
-      "alt": "浅色背景上，黄色形体被黑红笔触和细线分解，数只夸张的大眼睛突出在杂乱的色块之间。",
-      "notes": "作为实验室的尾声，这件作品把“还能认出多少”变成了问题。眼睛承担了大部分辨识任务，身体的连续性则被反复打断。来稿以抽象表现主义命名；展览使用更具体的“轮廓解构”描述可见处理，不据此建立严谨的流派归属或艺术家谱系。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 1792,
-        "height": 2386,
-        "thumb": "assets/artworks/almost-disappearing-thumb.webp",
-        "display": "assets/artworks/almost-disappearing-display.webp",
-        "full": "assets/artworks/almost-disappearing-full.webp"
-      },
-      "reference": {
-        "title": "自由笔触与形体解构",
-        "url": null,
-        "relationship": "风格实验",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "抽象表现主义奶龙.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-009",
-      "slug": "salvator",
-      "title": "救世主：奶龙版本",
-      "titleEn": "THE QUIET ORB",
-      "section": "exhibition",
-      "order": 60,
-      "tag": "手势与凝视",
-      "description": "长发垂在蓝色衣袍两侧，一只手举起，另一只手托着透明球体。奶龙的圆脸进入了正面的肖像结构，神情却异常安静。物件和手势保留了庄严的秩序，小小的嘴与眼睛则让这份庄严有了一点迟疑。",
-      "alt": "长发奶龙身着蓝色衣袍，正面面向观众，一手举起手指，另一手托着透明球体。",
-      "notes": "竖幅、正面目光和对称的头部共同维持稳定感；左右两只手又分别承担不同动作。透明球体提供了一个与柔软身体相对的表面。来稿名称提示与 Salvator Mundi 的关系，但具体参考版本及作者归属未核实，因此这里不填写原作作者或年代。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 1024,
-        "height": 1536,
-        "thumb": "assets/artworks/salvator-thumb.webp",
-        "display": "assets/artworks/salvator-display.webp",
-        "full": "assets/artworks/salvator-full.webp"
-      },
-      "reference": {
-        "title": "Salvator Mundi（具体版本待核）",
-        "url": null,
         "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
+        "note": "图像取材自乔治·修拉《大碗岛的星期天下午》。",
+        "title": "《大碗岛的星期天下午》 / A Sunday on La Grande Jatte — 1884",
+        "url": "https://www.artic.edu/artworks/27992/a-sunday-on-la-grande-jatte-1884",
+        "artist": "乔治·修拉 / Georges Seurat",
+        "year": "1884–1886",
+        "institution": "芝加哥艺术博物馆 / Art Institute of Chicago"
       },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "救世主.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-011",
-      "slug": "constructed",
-      "title": "构成中的奶龙",
-      "titleEn": "CONSTRUCTED IN YELLOW",
-      "section": "lab",
-      "order": 30,
-      "tag": "色块构成",
-      "description": "红、黑与米白色块斜向穿过画面，奶龙的黄色身体像从中切出来的一片纸。圆眼睛和抬起的黑色手掌让角色仍然可辨，身体的体积却交给了平面。看起来熟悉的姿态，突然有了海报般的力量。",
-      "alt": "红黑米白几何色块之间，扁平黄色奶龙抬着黑色手掌，下方有红色圆形，斜线贯穿背景。",
-      "notes": "与“明暗之间”并置时，两张图里的抬手动作提供了比较的起点。一张依赖光线，一张依赖色块边缘；空间在前者中向后延伸，在后者中被压成平面。相似姿态来自现有素材的视觉关系，不代表我们掌握了真实的共同母版或生成历史。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 1080,
-        "height": 1440,
-        "thumb": "assets/artworks/constructed-thumb.webp",
-        "display": "assets/artworks/constructed-display.webp",
-        "full": "assets/artworks/constructed-full.webp"
-      },
-      "reference": {
-        "title": "构成主义语汇",
-        "url": null,
-        "relationship": "风格实验",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "构成主义奶龙.png",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-012",
-      "slug": "on-paper",
-      "title": "纸上的奶龙",
-      "titleEn": "A FIGURE ON PAPER",
-      "section": "lab",
-      "order": 40,
-      "tag": "纸本语汇",
-      "description": "山、水、飞鸟与扇面围绕着黄色轮廓展开。奶龙举着一支细长的物件，身体与背景都带着纸张般的色泽。熟悉的圆眼睛留在画面中，远近空间却被线条和纹样重新安排，像一张缓慢展开的纸。",
-      "alt": "赭黄色纸面上，奶龙侧身抬手，背景包含山水、飞鸟、扇形和版画式的细密线条。",
-      "notes": "与几何构成版本相比，这张图更依赖轮廓线与细碎的风景纹样。纸色贯穿角色与环境，降低了两者之间的分离感。这里用“纸本语汇”说明视觉效果；作品实际仍是数字图像，具体引用到的版画元素及其来源尚未形成完整记录。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 768,
-        "height": 1024,
-        "thumb": "assets/artworks/on-paper-thumb.webp",
-        "display": "assets/artworks/on-paper-display.webp",
-        "full": "assets/artworks/on-paper-full.webp"
-      },
-      "reference": {
-        "title": "浮世绘与版画语汇",
-        "url": null,
-        "relationship": "风格实验",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "浮世绘奶龙.png",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-013",
-      "slug": "minimal-form",
-      "title": "奶龙的最小构成",
-      "titleEn": "THE MINIMUM NAILOONG",
-      "section": "lab",
+      "section": "exhibition",
       "order": 50,
-      "tag": "减法实验",
-      "description": "一块黄色、两只圆眼睛、几条斜线，已经足够让奶龙出现。身体边缘浮起轻微的渐变，其他细节则被尽量拿走。与复杂的构成版本放在一起看：少掉的纹样没有让角色消失，反而让它更像一个清楚的符号。",
-      "alt": "米白背景中，黄色奶龙由简化的圆弧和几何形组成，黑白斜线从身旁穿过，边缘带有彩色渐变。",
-      "notes": "这件是同姿态实验中的减法版本。把它与“构成中的奶龙”并置，先数一数哪些形状不见了，再留意哪些辨识特征被保留下来。眼睛、手的位置与总体外轮廓仍然起作用。它的意义来自对照关系，不必把每一种变化都包装成完全独立的新风格。",
       "medium": "AI 辅助创作的数字图像",
       "image": {
-        "width": 768,
-        "height": 1024,
-        "thumb": "assets/artworks/minimal-form-thumb.webp",
-        "display": "assets/artworks/minimal-form-display.webp",
-        "full": "assets/artworks/minimal-form-full.webp"
+        "width": 2528,
+        "height": 1682,
+        "thumb": "assets/artworks/a-sunday-afternoon-thumb.webp",
+        "display": "assets/artworks/a-sunday-afternoon-display.webp",
+        "full": "assets/artworks/a-sunday-afternoon-full.webp"
       },
-      "reference": {
-        "title": "简化的几何构成",
+      "creation": {
+        "date": null,
+        "tool": "Gemini",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "大碗岛的星期天下午.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
         "url": null,
-        "relationship": "风格实验",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "简约构成主义奶龙.png",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-014",
-      "slug": "american-gothic",
-      "title": "美国奶龙式",
-      "titleEn": "AMERICAN NAILOONG",
-      "section": "exhibition",
-      "order": 10,
-      "tag": "一本正经",
-      "description": "草叉、眼镜与尖顶屋仍在，严肃的站姿也没有改变。替换的是画中人物，两张圆脸却让这份严肃开始显得可疑。房屋的尖角与垂直的草叉维持着稳定感，奶龙则把这种稳定变得亲近了一点。",
-      "alt": "两只奶龙穿着朴素衣服站在尖顶房屋前，右侧角色戴眼镜并握着草叉，表情严肃。",
-      "notes": "可以先遮住脸，只看草叉、衣服与房屋。画面原有的垂直关系仍然清楚；再看回两张脸，观看的语气已经改变。这种变化不一定依赖夸张的动作，它来自角色与我们已有记忆之间的落差。我们仍认得构图，却不再以完全相同的方式面对它。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 1024,
-        "height": 1536,
-        "thumb": "assets/artworks/american-gothic-thumb.webp",
-        "display": "assets/artworks/american-gothic-display.webp",
-        "full": "assets/artworks/american-gothic-full.webp"
-      },
-      "reference": {
-        "title": "《美国哥特式》 / American Gothic",
-        "url": "https://www.artic.edu/artworks/6565/american-gothic",
-        "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "美国哥特式.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-015",
-      "slug": "after-victory",
-      "title": "胜利之后",
-      "titleEn": "AFTER VICTORY",
-      "section": "exhibition",
-      "order": 70,
-      "tag": "雕塑的语境",
-      "description": "一只浅色奶龙站在高高的石质台座上，背后是安静的展厅。翅膀和飞扬的衣褶没有出现，留下的是小小的身体与庞大基座的反差。它像一位意外登台的参观者，也让我们重新注意到：展陈位置怎样改变一件东西。",
-      "alt": "浅色石雕质感的奶龙立于高大的灰色台座上，身后是米黄色石墙和展厅空间。",
-      "notes": "来稿标题指向胜利女神像，但这张数字图像保留得更明显的是台座与展厅语境，而非原作的翅膀和衣褶。我们将这种缺席作为观看的起点，不把它当作真实馆内陈列的记录。角色因被抬高而显得庄重，体量差异又让庄重之中出现一丝局促。",
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 1792,
-        "height": 2380,
-        "thumb": "assets/artworks/after-victory-thumb.webp",
-        "display": "assets/artworks/after-victory-display.webp",
-        "full": "assets/artworks/after-victory-full.webp"
-      },
-      "reference": {
-        "title": "《萨莫色雷斯的胜利女神》",
-        "url": "https://www.louvre.fr/en/explore/the-palace/a-stairway-to-victory",
-        "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
-      "creation": {
-        "date": null,
-        "tool": null,
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "胜利女神像.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
+        "rightsStatus": ""
       },
       "publish": true
     },
     {
       "id": "NL-016",
       "slug": "the-dance",
-      "title": "奶龙之舞",
-      "titleEn": "A CIRCLE OF JOY",
-      "section": "exhibition",
-      "order": 80,
-      "tag": "连接的身体",
-      "description": "蓝天、绿地与黄色身体把画面压缩成三种鲜明的力量。奶龙们牵起手，围成一个并不规整的圆；身体被拉长，动作比表情更响亮。目光跟着手臂走一圈，再回到起点，舞蹈仿佛刚刚开始。",
+      "title": "舞蹈",
+      "titleEn": "Dance",
+      "tag": "身体与节奏",
+      "description": "五个身体以手臂相连，在蓝色与绿色的色面之间形成环形。身体的倾斜、伸展与间隔构成节奏，连续的轮廓使视线沿着画面运动。黄色形象替换了原有的人物，舞蹈依然由身体之间的联系成立。",
       "alt": "蓝色背景与绿色地面上，五只黄色奶龙手拉手围成圆圈，身体随着舞蹈弯曲伸展。",
-      "notes": "横幅让手臂之间的连接变成一条连续的观看路线。这里无需用写实比例检查每一个身体，重点是动作能否在角色之间传递。黄色与蓝绿底色拉开距离，帮助我们直接读到轮廓。来稿与《舞蹈》的关系明确，采用的具体版本仍留待补充。",
+      "notes": "轮廓的连续与局部的间断共同构成圆环，动作在人物之间传递。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自亨利·马蒂斯《舞蹈》；链接为艾尔米塔什博物馆馆藏记录。",
+        "title": "《舞蹈》 / Dance",
+        "url": "https://www.hermitagemuseum.org/digital-collection/28411/",
+        "artist": "亨利·马蒂斯 / Henri Matisse",
+        "year": "1909–1910",
+        "institution": "艾尔米塔什博物馆 / The State Hermitage Museum"
+      },
+      "section": "exhibition",
+      "order": 60,
       "medium": "AI 辅助创作的数字图像",
       "image": {
         "width": 2506,
@@ -566,23 +249,471 @@
         "display": "assets/artworks/the-dance-display.webp",
         "full": "assets/artworks/the-dance-full.webp"
       },
-      "reference": {
-        "title": "《舞蹈》 / Dance（版本待核）",
-        "url": null,
-        "relationship": "图像改写",
-        "note": "参考关系依据来稿与画面识别；实际生成输入图像未提供。"
-      },
       "creation": {
         "date": null,
-        "tool": null,
+        "tool": "Gemini",
         "modelVersion": null,
         "prompt": null,
         "humanEdits": null
       },
       "source": {
-        "filename": "跳舞.jpg",
-        "origin": "展览发起人提供的图片素材",
-        "rightsStatus": "未提供完整授权记录"
+        "filename": "舞蹈.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-009",
+      "slug": "salvator",
+      "title": "救世主",
+      "titleEn": "Salvator Mundi",
+      "tag": "手势",
+      "description": "正面的目光、垂落的长发与深蓝色衣袍构成稳定的中心。举起的右手与托住透明球体的左手形成两种不同的动作，光线停留在脸部、指尖与球体表面。奶龙的面孔进入这一肖像结构，延续了手势与凝视的关系。",
+      "alt": "长发奶龙身着蓝色衣袍，正面面向观众，一手举起手指，另一手托着透明球体。",
+      "notes": "透明球体与衣袍褶皱呈现不同的表面，正面构图将二者纳入同一视觉中心。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自《救世主》的正面肖像、祝福手势与透明球体构图。",
+        "title": "《救世主》 / Salvator Mundi",
+        "url": "https://www.christies.com/lot/lot-6110563",
+        "artist": "归于列奥纳多·达·芬奇 / attributed to Leonardo da Vinci",
+        "year": "约 1500",
+        "institution": "佳士得拍卖记录 / Christie’s"
+      },
+      "section": "exhibition",
+      "order": 70,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "thumb": "assets/artworks/salvator-thumb.webp",
+        "display": "assets/artworks/salvator-display.webp",
+        "full": "assets/artworks/salvator-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "救世主.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-017",
+      "slug": "son-of-man",
+      "title": "人子",
+      "titleEn": "The Son of Man",
+      "tag": "遮蔽",
+      "description": "身着大衣的人物站在海面与石墙之前，圆顶礼帽下的面孔被一枚苹果遮住。奶龙的眼睛与嘴出现在苹果表面，使遮蔽物获得了另一张面孔。可见与不可见之间的关系在这一替换中重新展开。",
+      "alt": "戴圆顶礼帽、穿深色大衣和红领带的人物立于海边石墙前，一枚带奶龙面孔的绿色苹果遮住脸部。",
+      "notes": "人物的正面站姿保持不变，识别的中心从被遮住的面孔移向苹果表面。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自勒内·马格利特《人子》。",
+        "title": "《人子》 / Le Fils de l’homme",
+        "url": "https://www.christies.com/en/lot/lot-1404203",
+        "artist": "勒内·马格利特 / René Magritte",
+        "year": "1964",
+        "institution": "佳士得拍卖记录 / Christie’s"
+      },
+      "section": "exhibition",
+      "order": 80,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 1122,
+        "height": 1402,
+        "thumb": "assets/artworks/son-of-man-thumb.webp",
+        "display": "assets/artworks/son-of-man-display.webp",
+        "full": "assets/artworks/son-of-man-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "玛格丽特奶龙.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-018",
+      "slug": "this-is-not-nailoong",
+      "title": "这不是奶龙",
+      "titleEn": "This Is Not Nailoong",
+      "tag": "图像与文字",
+      "description": "一只横卧的奶龙占据浅色画面的中央，下方的文字写着“这不是奶龙”。图像提供了可辨认的形象，文字却撤回了命名。两者并置，使形象、名称与其所指之间的距离显现出来。",
+      "alt": "浅黄色画面中央是一只侧卧的奶龙，下方写有“这不是奶龙”。",
+      "notes": "作品借用图像与否定句并置的结构，将观看与命名之间的关系置于同一画面。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自勒内·马格利特《图像的背叛》中图像与否定句并置的结构。",
+        "title": "《图像的背叛》 / The Treachery of Images",
+        "url": "https://www.lacma.org/guides/modernod/13",
+        "artist": "勒内·马格利特 / René Magritte",
+        "year": "1929",
+        "institution": "洛杉矶郡艺术博物馆 / LACMA"
+      },
+      "section": "exhibition",
+      "order": 90,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 1448,
+        "height": 1086,
+        "thumb": "assets/artworks/this-is-not-nailoong-thumb.webp",
+        "display": "assets/artworks/this-is-not-nailoong-display.webp",
+        "full": "assets/artworks/this-is-not-nailoong-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "这不是奶龙.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-019",
+      "slug": "paint-pot-angel",
+      "title": "油漆桶天使",
+      "titleEn": "Paint-Pot Angel",
+      "tag": "物体与空间",
+      "description": "石质奶龙立于展厅的台座上，倒扣的油漆桶遮住头部。粉色颜料沿身体、台座与边缘向下流动，将一个连续的痕迹留在静止的表面。雕塑、日常物件与建筑空间在画面中相互叠置。",
+      "alt": "石质奶龙雕像站在展厅台座上，头顶倒扣着油漆桶，粉色颜料从桶沿流过身体与台座，后方可见石柱和悬挂的龙形雕塑。",
+      "notes": "油漆的垂直痕迹穿过身体与台座的分界，使陈列结构也成为画面的一部分。",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自班克斯《油漆桶天使》，将雕塑形象替换为奶龙。",
+        "title": "《油漆桶天使》 / Paint-Pot Angel",
+        "url": "https://www.bristolmuseums.org.uk/bristol-museum-and-art-gallery/whats-at/ground-floor/",
+        "artist": "班克斯 / Banksy",
+        "year": "2009",
+        "institution": "布里斯托博物馆与美术馆 / Bristol Museum & Art Gallery"
+      },
+      "section": "exhibition",
+      "order": 100,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 1086,
+        "height": 1448,
+        "thumb": "assets/artworks/paint-pot-angel-thumb.webp",
+        "display": "assets/artworks/paint-pot-angel-display.webp",
+        "full": "assets/artworks/paint-pot-angel-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "油漆桶奶龙.png",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-020",
+      "slug": "series",
+      "title": "组图",
+      "titleEn": "Series",
+      "section": "series",
+      "tag": "六联作",
+      "description": "这个世界太尖锐了 不允许奶龙哭 却赋予了奶龙很多痛苦 怎么痛也痛不完 奶龙痛恨这一切 后来才明白什么都可以是假的 只有痛苦是真的",
+      "alt": "六幅奶龙图像依次采用花卉纹样、浮世绘、构成主义、简约构成主义、复古海报和抽象几何的视觉形式。",
+      "notes": "同一姿态贯穿六幅图像，线条、色面、纹样与空间的变化构成连续的观看关系。",
+      "reference": {
+        "relationship": "灵感来源",
+        "note": "《构成主义奶龙》引自原作者，其余五幅由展览发起人使用 Gemini 生成。",
+        "title": "《组图》灵感来源",
+        "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d"
+      },
+      "order": 110,
+      "medium": "数字图像，六联作",
+      "image": {
+        "width": 768,
+        "height": 1024,
+        "thumb": "assets/artworks/series-murakami-thumb.webp",
+        "display": "assets/artworks/series-murakami-display.webp",
+        "full": "assets/artworks/series-murakami-full.webp"
+      },
+      "panels": [
+        {
+          "title": "村上隆奶龙",
+          "alt": "奶龙的身体与周围空间被彩色笑脸花卉、祥云及黑红几何色块覆盖，轮廓以黑线勾勒。",
+          "image": {
+            "width": 768,
+            "height": 1024,
+            "thumb": "assets/artworks/series-murakami-thumb.webp",
+            "display": "assets/artworks/series-murakami-display.webp",
+            "full": "assets/artworks/series-murakami-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": "Gemini",
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "村上隆奶龙.png",
+            "origin": "展览发起人提供的 AI 生成图像",
+            "credit": "展览发起人",
+            "url": null,
+            "rightsStatus": ""
+          }
+        },
+        {
+          "title": "浮世绘奶龙",
+          "alt": "赭黄色纸面上，奶龙侧身抬手，背景包含山水、飞鸟、扇形和版画式的细密线条。",
+          "image": {
+            "width": 768,
+            "height": 1024,
+            "thumb": "assets/artworks/on-paper-thumb.webp",
+            "display": "assets/artworks/on-paper-display.webp",
+            "full": "assets/artworks/on-paper-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": "Gemini",
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "浮世绘奶龙.png",
+            "origin": "展览发起人提供的 AI 生成图像",
+            "credit": "展览发起人",
+            "url": null,
+            "rightsStatus": ""
+          }
+        },
+        {
+          "title": "构成主义奶龙",
+          "alt": "红黑米白几何色块之间，扁平黄色奶龙抬着黑色手掌，下方有红色圆形，斜线贯穿背景。",
+          "image": {
+            "width": 1080,
+            "height": 1440,
+            "thumb": "assets/artworks/constructed-thumb.webp",
+            "display": "assets/artworks/constructed-display.webp",
+            "full": "assets/artworks/constructed-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": null,
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "构成主义奶龙.png",
+            "origin": "引自原作者",
+            "credit": "原作者",
+            "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d",
+            "rightsStatus": ""
+          }
+        },
+        {
+          "title": "简约构成主义奶龙",
+          "alt": "米白背景中，黄色奶龙由简化的圆弧和几何形组成，黑白斜线从身旁穿过，边缘带有彩色渐变。",
+          "image": {
+            "width": 768,
+            "height": 1024,
+            "thumb": "assets/artworks/minimal-form-thumb.webp",
+            "display": "assets/artworks/minimal-form-display.webp",
+            "full": "assets/artworks/minimal-form-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": "Gemini",
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "简约构成主义奶龙.png",
+            "origin": "展览发起人提供的 AI 生成图像",
+            "credit": "展览发起人",
+            "url": null,
+            "rightsStatus": ""
+          }
+        },
+        {
+          "title": "勒夏奶龙",
+          "alt": "酒红和金色的复古海报中，黄色奶龙抬手站立，周围有花纹、边框与法文字样。",
+          "image": {
+            "width": 768,
+            "height": 1024,
+            "thumb": "assets/artworks/chat-noir-thumb.webp",
+            "display": "assets/artworks/chat-noir-display.webp",
+            "full": "assets/artworks/chat-noir-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": "Gemini",
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "勒夏奶龙.png",
+            "origin": "展览发起人提供的 AI 生成图像",
+            "credit": "展览发起人",
+            "url": null,
+            "rightsStatus": ""
+          }
+        },
+        {
+          "title": "康定斯基奶龙",
+          "alt": "白色背景上，奶龙由彩色圆环、曲线和几何形状构成，四周散布黑色线条及红蓝色块。",
+          "image": {
+            "width": 768,
+            "height": 1024,
+            "thumb": "assets/artworks/circles-and-lines-thumb.webp",
+            "display": "assets/artworks/circles-and-lines-display.webp",
+            "full": "assets/artworks/circles-and-lines-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": "Gemini",
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "康定斯基奶龙.png",
+            "origin": "展览发起人提供的 AI 生成图像",
+            "credit": "展览发起人",
+            "url": null,
+            "rightsStatus": ""
+          }
+        }
+      ],
+      "creation": {
+        "date": null,
+        "tool": "Gemini",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "村上隆奶龙.png；浮世绘奶龙.png；构成主义奶龙.png；简约构成主义奶龙.png；勒夏奶龙.png；康定斯基奶龙.png",
+        "origin": "《构成主义奶龙》引自原作者，其余五幅由展览发起人使用 Gemini 生成。",
+        "credit": "《构成主义奶龙》：原作者；其余五幅：展览发起人",
+        "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d",
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-002",
+      "slug": "light-and-shadow",
+      "title": "卡拉瓦乔奶龙",
+      "titleEn": "Nailoong after Caravaggio",
+      "tag": "明暗",
+      "description": "侧面的光线落在脸部、肩膀与抬起的手上，身体从深色背景中显现。红色球体与斜向线条分布于画面边缘，局部的亮度将视线集中于人物。明暗的分界赋予形象以体积，也界定了它与周围空间的距离。",
+      "alt": "深色背景中，侧光照亮黄色奶龙的脸和肩膀，黑色手套靠近嘴边，下方有红色球体。",
+      "notes": "光线在局部表面停留，大面积暗部将人物从背景中分离。",
+      "reference": {
+        "relationship": "绘画语言参照",
+        "note": "以明暗对照为视觉参照，未指定对应的单幅原作。",
+        "title": "卡拉瓦乔的绘画语言（具体原作未指定）",
+        "url": null
+      },
+      "section": "exhibition",
+      "order": 120,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 768,
+        "height": 1024,
+        "thumb": "assets/artworks/light-and-shadow-thumb.webp",
+        "display": "assets/artworks/light-and-shadow-display.webp",
+        "full": "assets/artworks/light-and-shadow-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "卡拉瓦乔奶龙.png",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-008",
+      "slug": "almost-disappearing",
+      "title": "家用厨房粉碎机",
+      "titleEn": "Domestic Kitchen Grinder",
+      "tag": "形体",
+      "descriptionFormat": "matrix",
+      "alt": "浅色背景上，黄色形体被黑红笔触和细线分解，数只夸张的大眼睛突出在密集的色块之间。",
+      "notes": "",
+      "reference": {
+        "relationship": "独立作品",
+        "note": "",
+        "title": "",
+        "url": null
+      },
+      "section": "exhibition",
+      "order": 130,
+      "description": "龙龙龙奶奶奶奶龙龙龙奶龙龙龙奶\n龙龙龙龙龙奶奶奶龙奶奶奶奶龙奶\n奶龙龙龙奶奶龙奶奶龙龙奶龙奶奶\n龙奶龙龙奶奶龙龙龙龙龙龙奶龙龙\n奶龙龙龙奶奶奶奶龙龙奶龙龙奶龙\n奶龙龙龙龙龙奶奶奶龙奶奶龙龙奶\n龙龙龙奶奶奶奶奶龙龙奶龙奶奶龙\n龙奶奶奶龙龙龙龙奶龙龙奶龙龙龙\n奶龙奶龙奶奶奶奶龙龙奶龙奶龙奶\n龙龙奶龙龙奶龙奶奶龙龙奶龙龙龙\n龙龙奶龙奶奶龙龙奶奶奶龙奶龙奶\n奶龙奶奶奶龙龙奶奶龙龙奶龙奶奶\n龙龙龙奶龙龙龙龙龙奶龙奶龙龙奶\n龙奶奶龙奶奶龙龙龙龙龙龙奶奶奶\n龙龙奶奶奶龙奶龙龙奶奶龙奶龙龙",
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 1792,
+        "height": 2386,
+        "thumb": "assets/artworks/almost-disappearing-thumb.webp",
+        "display": "assets/artworks/almost-disappearing-display.webp",
+        "full": "assets/artworks/almost-disappearing-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "Gemini",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "抽象表现主义奶龙.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
       },
       "publish": true
     }

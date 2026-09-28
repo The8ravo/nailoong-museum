@@ -1,94 +1,123 @@
-import { readFile, writeFile, mkdir, rm, cp, access, readdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rm, cp, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateCatalog, publishedArtworks, SECTIONS, safeUrl } from '../public/catalog.mjs';
+import { validateCatalog, publishedArtworks, artworkImages, safeUrl } from '../public/catalog.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const out = path.join(root, 'dist');
-const base = '/' + (process.env.BASE_PATH || '').replace(/^\/+|\/+$/g, '') + '/';
-const prefix = base === '//' ? '/' : base;
+const base = (process.env.BASE_PATH || '').replace(/^\/+|\/+$/g, '');
+const prefix = base ? `/${base}/` : '/';
 const href = route => prefix + route.replace(/^\//, '');
-const data = validateCatalog(JSON.parse(await readFile(path.join(root,'content/artworks.json'),'utf8')));
-const settings = JSON.parse(await readFile(path.join(root,'content/settings.json'),'utf8'));
-for (const key of ['siteUrl','repository','contactUrl']) if (!safeUrl(settings[key]) || !settings[key]) throw new Error(`Invalid ${key}`);
+const data = validateCatalog(JSON.parse(await readFile(path.join(root, 'content/artworks.json'), 'utf8')));
+const settings = JSON.parse(await readFile(path.join(root, 'content/settings.json'), 'utf8'));
+if (!settings.siteUrl || !safeUrl(settings.siteUrl)) throw new Error('Invalid site URL');
 const works = publishedArtworks(data);
 if (!works.length) throw new Error('至少需要一件已发布展品。');
-const exhibition = works.filter(a => a.section === 'exhibition');
-const lab = works.filter(a => a.section === 'lab');
 const art = slug => works.find(a => a.slug === slug);
-const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const E = escape;
-const link = (route,label,cls='') => `<a href="${href(route)}"${cls ? ` class="${cls}"` : ''}>${label}</a>`;
-const canonical = route => settings.siteUrl.replace(/\/$/,'') + '/' + route;
+const E = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const link = (route, label, cls = '') => `<a href="${E(href(route))}"${cls ? ` class="${cls}"` : ''}>${label}</a>`;
+const external = (url, label) => `<a href="${E(url)}" target="_blank" rel="noopener noreferrer">${E(label)} ↗</a>`;
+const canonical = route => settings.siteUrl.replace(/\/$/, '') + '/' + route;
 const pages = [];
+let pageCount = 0;
+const count = n => String(n).padStart(2, '0');
+const galleryRoute = a => `gallery/${a.slug}/`;
+const workRoute = a => `works/${a.slug}/`;
+const toolLabel = a => a.panels ? [...new Set(a.panels.map(p => p.creation?.tool || p.source.origin || '未记录'))].join('；') : (a.creation?.tool || '未记录');
 
-// Copy only published image assets. Draft records and unused uploads never reach dist.
-if (out !== path.join(root,'dist') || !out.startsWith(root + path.sep)) throw new Error('Invalid output directory');
-await rm(out,{recursive:true,force:true});
-await mkdir(out,{recursive:true});
-for (const entry of await readdir(path.join(root,'public'),{withFileTypes:true})) {
-  if (entry.name !== 'assets') await cp(path.join(root,'public',entry.name),path.join(out,entry.name),{recursive:true});
-}
-for (const a of works) for (const key of ['thumb','display','full']) {
-  const file = a.image[key];
-  await access(path.join(root,'public',file));
-  await mkdir(path.dirname(path.join(out,file)),{recursive:true});
-  await cp(path.join(root,'public',file),path.join(out,file));
+// Only referenced, published images are copied, including every panel of a series.
+if (path.dirname(out) !== root || path.basename(out) !== 'dist') throw new Error('Invalid output directory');
+await rm(out, {recursive:true, force:true});
+await mkdir(out, {recursive:true});
+for (const file of ['styles.css', 'app.mjs', 'catalog.mjs', 'favicon.svg']) await cp(path.join(root, 'public', file), path.join(out, file));
+const assets = new Set(works.flatMap(a => artworkImages(a).flatMap(image => ['thumb','display','full'].map(k => image[k]))));
+for (const file of assets) {
+  await access(path.join(root, 'public', file));
+  await mkdir(path.dirname(path.join(out, file)), {recursive:true});
+  await cp(path.join(root, 'public', file), path.join(out, file));
 }
 
-function picture(a, {hero=false, detail=false}={}) {
- const thumbWidth = Math.round(a.image.width * Math.min(1,640/Math.max(a.image.width,a.image.height)));
- const displayWidth = Math.round(a.image.width * Math.min(1,1600/Math.max(a.image.width,a.image.height)));
- return `<img src="${href(a.image[detail||hero?'display':'thumb'])}" srcset="${href(a.image.thumb)} ${thumbWidth}w, ${href(a.image.display)} ${displayWidth}w" sizes="${hero?'(max-width: 760px) 90vw, 46vw':detail?'(max-width: 760px) 90vw, 55vw':'(max-width: 760px) 44vw, 30vw'}" width="${a.image.width}" height="${a.image.height}" alt="${E(a.alt)}" ${hero||detail?'fetchpriority="high"':'loading="lazy"'} decoding="async">`;
+function picture(a, {eager = false, gallery = false, sizes = '(max-width: 760px) 88vw, 50vw'} = {}) {
+  const im = a.image;
+  const width = max => Math.round(im.width * Math.min(1, max / Math.max(im.width, im.height)));
+  const candidates = new Map([[width(640), im.thumb], [width(1600), im.display]]);
+  if (gallery) candidates.set(im.width, im.full);
+  return `<img src="${E(href(im.display))}" srcset="${[...candidates].map(([w, file]) => `${E(href(file))} ${w}w`).join(', ')}" sizes="${sizes}" width="${im.width}" height="${im.height}" alt="${E(a.alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
 }
-function card(a) { return `<a class="art-card" href="${href(`works/${a.slug}/`)}" data-section="${E(a.section)}"><div class="art-image-wrap"><span class="card-no">${E(a.id)}</span>${picture(a)}</div><div class="card-footer"><div><h3>${E(a.title)}</h3><p>${E(a.tag)} &nbsp; / &nbsp; ${E(SECTIONS[a.section])}</p></div><span class="card-arrow" aria-hidden="true">↗</span></div></a>`; }
-function grid(items, cls='') { return `<div class="art-grid ${cls}">${items.map(card).join('')}</div>`; }
-const navItems = [['exhibition/','名画重演'],['lab/','风格实验室'],['works/','全部作品'],['about/','关于展览']];
-function shell(route,title,content,{description='同一个奶龙，不同的艺术语言。一场关于熟悉、陌生与重新观看的非官方 AI 二次创作展。', image=null, noindex=false}={}) {
- const ogImage = image ? href(image) : href((art('the-kiss')||works[0]).image.display);
- const origin = new URL(settings.siteUrl).origin;
- return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f6f0"><meta name="color-scheme" content="light"><title>${E(title)} · 奶龙美术馆</title><meta name="description" content="${E(description)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)} · 奶龙美术馆"><meta property="og:description" content="${E(description)}"><meta property="og:image" content="${E(origin+ogImage)}"><meta property="og:url" content="${E(canonical(route))}"><meta name="twitter:card" content="summary_large_image">${noindex?'<meta name="robots" content="noindex,nofollow">':''}<link rel="canonical" href="${E(canonical(route))}"><link rel="icon" href="${href('favicon.svg')}" type="image/svg+xml"><link rel="stylesheet" href="${href('styles.css')}"><script type="module" src="${href('app.mjs')}"></script></head><body data-base="${prefix}"><a class="skip-link" href="#main">跳到主要内容</a><header class="site-header"><div class="shell header-inner"><a class="brand" href="${href('')}" aria-label="奶龙美术馆首页"><span class="brand-mark" aria-hidden="true">n.</span><span class="brand-name">奶龙美术馆<span class="brand-sub">NAILOONG MUSEUM OF ART</span></span></a><button class="menu-toggle" aria-expanded="false" aria-controls="main-nav">菜单 <span aria-hidden="true">☰</span></button><nav class="nav" id="main-nav" aria-label="主导航">${navItems.map(([r,t])=>`<a href="${href(r)}"${route===r?' aria-current="page"':''}>${t}</a>`).join('')}</nav><span class="visit-status"><span class="status-dot"></span>线上开放 · 自由参观</span></div></header><main id="main">${content}</main><footer class="site-footer"><div class="shell"><div class="footer-main"><a class="brand" href="${href('')}"><span class="brand-mark" aria-hidden="true">n.</span><span class="brand-name">认真看，慢慢笑。<span class="brand-sub">A LITTLE YELLOW. A DIFFERENT PERSPECTIVE.</span></span></a><div class="footer-links">${link('works/','所有作品')}${link('credits/','来源与说明')}${link('studio/','展品维护')}<a href="${E(settings.repository)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></div><div class="footer-small"><span>非官方 AI 二次创作展 · 与奶龙权利方及相关艺术机构无隶属或背书关系</span><span>NAILOONG, REFRAMED. &nbsp; VOL. 001</span></div></div></footer><div class="toast" role="status" aria-live="polite" hidden></div><dialog class="share-fallback" aria-labelledby="share-title"><h2 id="share-title">分享这件作品</h2><p class="muted">复制下方链接，邀请朋友一起来看。</p><input aria-label="分享链接" readonly><button class="button" data-close-share>完成</button></dialog></body></html>`;
+function artworkVisual(a, options = {}) {
+  if (!a.panels) return `<div class="single-image">${picture(a, options)}</div>`;
+  return `<div class="panel-grid" role="group" aria-label="${E(a.title)}，${a.panels.length} 幅图像">${a.panels.map((p,i) => `<figure>${picture(p, {...options, sizes:options.gallery ? '(max-width: 760px) 42vw, 28vw' : '(max-width: 760px) 40vw, 18vw'})}<figcaption><span>${count(i + 1)}</span> ${E(p.title)}</figcaption></figure>`).join('')}</div>`;
 }
-async function emit(route,title,content,options={}) {
- const file = route==='404.html'?path.join(out,route):path.join(out,route,'index.html');
- await mkdir(path.dirname(file),{recursive:true});
- await writeFile(file,shell(route,title,content,options));
- if (!options.noindex) pages.push(canonical(route));
+function description(a) {
+  return a.descriptionFormat === 'matrix'
+    ? `<pre class="text-matrix" style="--matrix-size:${a.description.split('\n').length}" aria-label="由奶与龙两个字构成的方阵">${E(a.description)}</pre>`
+    : `<p class="work-description">${E(a.description)}</p>`;
 }
+function reference(a) {
+  if (!a.reference.title) return '';
+  return `<div><dt>${E(a.reference.relationship || '参考作品')}</dt><dd>${E(a.reference.title)}${a.reference.artist ? `<span>${E(a.reference.artist)} · ${E(a.reference.year)}</span>` : ''}${a.reference.url ? `<span>${external(a.reference.url, a.reference.institution || '查看来源')}</span>` : ''}</dd></div>`;
+}
+function metadata(a) {
+  return `<dl class="work-data"><div><dt>媒介</dt><dd>${E(a.medium)}</dd></div><div><dt>制作</dt><dd>${E(toolLabel(a))}</dd></div>${reference(a)}</dl>`;
+}
+function workRow(a, i) {
+  return `<article class="work-row${a.panels ? ' work-row-series' : ''}" id="work-${a.slug}"><a class="work-image" href="${href(galleryRoute(a))}" aria-label="进入画廊，观看${E(a.title)}">${artworkVisual(a)}</a><div class="work-info"><p class="eyebrow">${count(i + 1)} / ${count(works.length)}</p><h3>${link(workRoute(a), E(a.title))}</h3><p class="work-english">${E(a.titleEn)}</p>${description(a)}${metadata(a)}${link(galleryRoute(a), '在画廊中观看 <span aria-hidden="true">→</span>', 'text-link')}</div></article>`;
+}
+function card(a, i) {
+  return `<a class="index-card" href="${href(workRoute(a))}"><div class="index-image">${artworkVisual(a)}</div><div class="index-caption"><span>${count(i + 1)}</span><div><h2>${E(a.title)}</h2><p>${E(a.titleEn)}</p></div><span aria-hidden="true">↗</span></div></a>`;
+}
+function shell(route, title, content, {description:summary = '形象、再现与图像的秩序。奶龙进入艺术史。', image, noindex = false, gallery = false, returnRoute = ''} = {}) {
+  const ogImage = canonical(image || (art('the-kiss') || works[0]).image.display);
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f4ef"><meta name="color-scheme" content="light"><title>${E(title)} · 奶龙美术馆</title><meta name="description" content="${E(summary)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)} · 奶龙美术馆"><meta property="og:description" content="${E(summary)}"><meta property="og:image" content="${E(ogImage)}"><meta property="og:url" content="${E(canonical(route))}"><meta name="twitter:card" content="summary_large_image">${noindex ? '<meta name="robots" content="noindex,nofollow">' : ''}<link rel="canonical" href="${E(canonical(route))}"><link rel="icon" href="${href('favicon.svg')}" type="image/svg+xml"><link rel="stylesheet" href="${href('styles.css')}"><script type="module" src="${href('app.mjs')}"></script></head><body class="${gallery ? 'gallery-body' : 'exhibition-body'}"${gallery ? ` data-gallery data-return="${E(href(returnRoute))}"` : ''}>${gallery ? '' : `<a class="skip-link" href="#main">跳到主要内容</a><header class="site-header shell"><a class="brand" href="${href('')}" aria-label="奶龙美术馆首页">奶龙美术馆<span>NAILOONG MUSEUM OF ART</span></a><nav aria-label="主导航">${link('about/', '关于展览')}</nav></header>`}<main id="main">${content}</main>${gallery ? '' : `<footer class="site-footer shell"><p class="footer-statement">Nailoong is different</p><nav aria-label="页脚导航">${link('works/', '所有作品')}${link('credits/', '来源与说明')}</nav></footer>`}</body></html>`;
+}
+async function emit(route, title, content, options = {}) {
+  const file = route === '404.html' ? path.join(out, route) : path.join(out, route, 'index.html');
+  await mkdir(path.dirname(file), {recursive:true});
+  await writeFile(file, shell(route, title, content, options));
+  if (!options.noindex) pages.push(canonical(route));
+  pageCount++;
+}
+
 const hero = art('the-kiss') || works[0];
-const selected = ['american-gothic','a-sunday-afternoon','the-fifer'].map(art).filter(Boolean);
-const pair = ['light-and-shadow','constructed'].map(art).filter(Boolean);
-await emit('','奶龙进入艺术史',`<div class="shell"><section class="hero"><div class="hero-copy"><p class="eyebrow">特展 001 &nbsp; / &nbsp; INAUGURAL EXHIBITION</p><h1><span class="title-line">奶龙，</span><span class="title-line">闯进<em>艺术史。</em></span></h1><p class="hero-english">Nailoong, Reframed.</p><p class="hero-description">如果熟悉的名画里，主角都变成了奶龙。<br>我们还会看见什么？<br>一场关于形象、风格与重新观看的小小实验。</p><div class="button-row">${link(exhibition.length?`works/${exhibition[0].slug}/`:'works/','开始观展 <span aria-hidden="true">↗</span>','button')}${link('works/','浏览全部作品 <span class="arrow" aria-hidden="true">→</span>','text-link')}</div><div class="hero-meta"><span>${String(works.length).padStart(2,'0')} 件作品</span><span>02 条观看路线</span><span>非官方 AI 二次创作展</span></div></div><figure class="hero-visual"><a class="hero-frame" href="${href(`works/${hero.slug}/`)}" aria-label="欣赏${E(hero.title)}">${picture(hero,{hero:true})}</a><span class="hero-stamp" aria-hidden="true">换一个主角<strong>再看一次</strong></span><figcaption class="hero-caption"><span>${E(hero.id)} &nbsp; ${E(hero.title)}</span><span>AI 辅助数字创作 &nbsp; ↗</span></figcaption></figure></section><div class="exhibition-band"><b>一个角色。许多种艺术语言。</b><span>名画重演 &nbsp; / &nbsp; 风格实验 &nbsp; / &nbsp; 自由观看</span><span>SCROLL TO EXPLORE ↓</span></div><section class="intro-section"><div><p class="eyebrow">CURATORIAL NOTE / 策展手记</p><h2>有点熟悉，<br>又有点不对劲。</h2></div><div><p>一张名画的身份，究竟来自人物、构图、笔触，还是我们观看它的方式？这一次，我们让同一个圆滚滚的黄色身影走进不同画面：站在尖顶屋前，藏进金色的拥抱，或变成圆、线与色块。</p><p>熟悉的结构仍在，观看的语气却悄悄改变。你不必先知道作品的名字，可以从一个眼神、一只手或一片颜色开始。</p>${link('about/','读策展前言 ↗','text-link')}</div></section><div class="room-links"><a class="room-link" href="${href('exhibition/')}"><div><p class="eyebrow">GALLERY 01 / ${exhibition.length} WORKS</p><h3>名画重演 <span class="arrow">↗</span></h3><p>构图还在，主角换了。</p></div><span class="room-number">01</span></a><a class="room-link" href="${href('lab/')}"><div><p class="eyebrow">GALLERY 02 / ${lab.length} WORKS</p><h3>风格实验室 <span class="arrow">↗</span></h3><p>同一姿态，不同艺术语言。</p></div><span class="room-number">02</span></a></div><section class="section"><div class="section-heading"><div><p class="eyebrow">A FEW FAMILIAR STRANGERS</p><h2>从一张熟悉的画开始</h2></div>${link('exhibition/','进入第一展厅 ↗','text-link')}</div>${grid(selected,'selected-grid')}</section><section class="yellow-note"><h2>当主角变成奶龙，<br>名画还是那张名画吗？</h2><div><p>别急着回答。先看一眼构图，再看一眼表情。<br>这场展览邀请你把“我认识它”，<br>变成“我想再看一会儿”。</p>${link('works/','带着这个问题，继续看 →','text-link')}</div></section><section class="section home-lab"><div><p class="eyebrow">THE STYLE LAB</p><h2>姿态没变。<br>一切又都变了。</h2><p>从明暗之间的体积，到几何色块构成的平面。把两个版本放在一起，看看哪些特征留下了，哪些发生了变化。</p>${link('lab/','打开风格实验室 ↗','button secondary')}</div><div class="lab-pair">${pair.map(a=>`<figure>${picture(a)}<figcaption>${E(a.title)}</figcaption></figure>`).join('')}</div></section></div>`);
+await emit('', '奶龙进入艺术史', `<div class="shell"><section class="hero"><div class="hero-copy"><p class="eyebrow">NAILOONG, REFRAMED</p><h1>奶龙<br>进入艺术史</h1><p class="hero-subtitle">形象、再现与图像的秩序</p>${link('gallery/', '进入画廊 <span aria-hidden="true">→</span>', 'enter-gallery')}<p class="hero-count">${count(works.length)} 件作品 / ${count(works.reduce((n,a) => n + artworkImages(a).length, 0))} 幅图像</p></div><figure class="hero-visual"><a href="${href(galleryRoute(hero))}" aria-label="进入画廊，观看${E(hero.title)}">${picture(hero, {eager:true, sizes:'(max-width: 760px) 88vw, 48vw'})}</a><figcaption><span>${E(hero.title)} · ${E(hero.titleEn)}</span><span>${E(hero.creation?.tool)}</span></figcaption></figure></section><section class="curatorial-intro"><p class="eyebrow">THE EXHIBITION</p><p>同一形象进入不同的图像秩序。<br>在保留与置换之间，重新观看我们所熟悉的艺术。</p></section><section class="works-section" aria-labelledby="works-title"><header class="section-heading"><h2 id="works-title">展出作品</h2><span>WORKS IN THE EXHIBITION</span></header>${works.map(workRow).join('')}</section></div>`);
 
-await emit('exhibition/','名画重演',`<div class="shell"><header class="page-head"><p class="eyebrow">GALLERY 01 / THE CLASSICS, RECAST</p><h1>名画重演</h1><p class="lead">画面的秩序依然熟悉，主角却换了一副模样。沿着肖像、拥抱、群像与雕塑慢慢走，看看一个角色的替换，能让观看发生多少变化。</p></header><div class="room-intro"><span class="room-number">01</span><div><h2>从一张脸，<br>走进一个世界。</h2><p>${exhibition.length} 件作品 · 按策展顺序观看</p></div><p>所有画面保留原始比例。点击任意作品，可阅读展签、查看参考作品信息，也可以放大全屏，在细节里多停留一会儿。</p></div><section class="collection-section" aria-label="名画重演作品">${grid(exhibition)}</section></div>`);
+await emit('works/', '所有作品', `<div class="shell"><header class="page-head"><p class="eyebrow">INDEX OF WORKS</p><h1>所有作品</h1><p>${count(works.length)} 件作品，按展览顺序排列。</p></header><div class="index-grid">${works.map(card).join('')}</div></div>`);
 
-await emit('works/','全部作品',`<div class="shell"><header class="page-head"><p class="eyebrow">THE COLLECTION / 作品索引</p><h1>随意走走，慢慢看。</h1><p class="lead">可以跟随一条路线，也可以被一抹黄色带走。</p></header><div class="filter-bar"><div class="filters" role="group" aria-label="按展区筛选"><button class="filter" data-filter="all" aria-pressed="true">全部作品</button>${Object.entries(SECTIONS).map(([v,l])=>`<button class="filter" data-filter="${v}" aria-pressed="false">${l}</button>`).join('')}</div><p class="count-label" role="status" data-result-count>共 ${works.length} 件作品</p></div><section class="collection-section" aria-label="作品列表">${grid(works)}</section></div>`);
-
-const compareWorks = lab.filter(a=>a.slug!=='almost-disappearing');
-function comparePanel(index,chosen) {
- return `<div class="compare-panel"><label for="compare-${index}">VERSION ${index===0?'A':'B'} / 选择一个版本</label><select id="compare-${index}" data-compare="${index}">${compareWorks.map(a=>`<option value="${E(a.slug)}"${a.slug===chosen.slug?' selected':''}>${E(a.title)} · ${E(a.tag)}</option>`).join('')}</select>${picture(chosen)}<p>${E(chosen.description)}</p><a href="${href(`works/${chosen.slug}/`)}">查看作品详情 ↗</a></div>`;
+function galleryContent(a, index) {
+  const prev = works[(index - 1 + works.length) % works.length];
+  const next = works[(index + 1) % works.length];
+  return `<section class="gallery-room${a.panels ? ' gallery-series' : ''}" aria-labelledby="gallery-title"><div class="gallery-art">${artworkVisual(a, {eager:true, gallery:true, sizes:'(max-width: 760px) 90vw, 80vw'})}</div><div class="gallery-caption"><div><h1 id="gallery-title">${E(a.title)}</h1><p>${E(a.titleEn)}<span class="caption-divider"> / </span>${E(a.medium)}</p></div><span>${count(index + 1)} / ${count(works.length)}</span></div><nav class="gallery-controls" aria-label="切换作品"><a class="gallery-prev" data-prev href="${href(galleryRoute(prev))}" aria-label="上一件：${E(prev.title)}"><span aria-hidden="true">←</span></a><a class="gallery-next" data-next href="${href(galleryRoute(next))}" aria-label="下一件：${E(next.title)}"><span aria-hidden="true">→</span></a></nav><p class="gallery-hint">← → 切换作品 <span>· Esc 返回展览</span></p></section>`;
 }
-await emit('lab/','风格实验室',`<div class="shell"><header class="page-head"><p class="eyebrow">GALLERY 02 / THE STYLE LAB</p><h1>一只奶龙，几种可能。</h1><p class="lead">当姿态相近，变化就更容易被看见。试着切换下面的两个版本，比较光线、色块与轮廓如何改变同一个形象。</p></header>${compareWorks.length>1?`<section class="lab-stage" aria-label="风格并排对照"><div class="lab-stage-header"><h2>把它们放在一起。</h2><p>看体积 · 看线条 · 看留下的特征</p></div><div class="compare-grid">${comparePanel(0,compareWorks[0])}${comparePanel(1,compareWorks.find(a=>a.slug==='constructed')||compareWorks[1])}</div></section>`:''}<div class="section-heading"><div><p class="eyebrow">SIX WAYS OF SEEING</p><h2>实验记录</h2></div><p class="intro">这些作品研究视觉语言，部分采用相近姿态。它们没有虚构的一对一“原作”，也不代表已知的共同生成母版。</p></div><section class="collection-section" aria-label="风格实验作品">${grid(lab)}</section></div>`);
-
-for (const a of works) {
- const series = works.filter(w=>w.section===a.section);
- const index = series.findIndex(w=>w.id===a.id);
- const prev = series[(index - 1 + series.length)%series.length];
- const next = series[(index + 1)%series.length];
- await emit(`works/${a.slug}/`,a.title,`<div class="shell artwork-page"><nav class="breadcrumb" aria-label="面包屑">${link('','首页')}<span>/</span>${link(a.section==='poster'?'works/':`${a.section}/`,SECTIONS[a.section])}<span>/</span><span>${E(a.id)}</span></nav><article class="work-layout"><div><button class="work-stage" data-open-viewer aria-label="全屏查看${E(a.title)}">${picture(a,{detail:true})}<span class="expand-icon"><span aria-hidden="true">⛶</span> 全屏欣赏</span></button><div class="work-caption"><span>完整画幅 · ${a.image.width} × ${a.image.height}</span><span>${E(a.id)}</span></div></div><div class="work-info"><p class="eyebrow">${E(SECTIONS[a.section])} / ${String(index+1).padStart(2,'0')} OF ${String(series.length).padStart(2,'0')}</p><h1>${E(a.title)}</h1><p class="work-english">${E(a.titleEn)}</p><p class="work-description">${E(a.description)}</p><dl class="work-data"><div class="data-row"><dt>创作媒介</dt><dd>${E(a.medium)}</dd></div><div class="data-row"><dt>${a.section==='lab'?'视觉语汇':'灵感参考'}</dt><dd>${E(a.reference.title)}${a.reference.url?`<br><a class="text-link" href="${E(a.reference.url)}" target="_blank" rel="noopener noreferrer">查看参考作品记录 ↗</a>`:''}</dd></div><div class="data-row"><dt>创作日期</dt><dd>${E(a.creation?.date || '未记录')}</dd></div></dl><div class="button-row"><button class="button secondary" data-share>分享这件作品 ↗</button>${link('works/','返回作品索引','text-link')}</div><details class="work-note"><summary>再看一会儿 · 创作解说</summary><p>${E(a.notes)}</p></details><details class="work-note"><summary>来源与创作记录</summary><p>图像来源：${E(a.source.origin)}<br>原文件名：${E(a.source.filename)}<br>生成工具：${E(a.creation?.tool || '未提供')}<br>人工修改：${E(a.creation?.humanEdits || '未提供')}<br>${E(a.reference.note)}<br>权利记录：${E(a.source.rightsStatus)}</p>${link('credits/','阅读来源与说明 ↗','text-link')}</details></div></article>${series.length>1?`<nav class="work-next" aria-label="相邻展品"><a href="${href(`works/${prev.slug}/`)}"><small>← 上一件</small>${E(prev.title)}</a><a href="${href(`works/${next.slug}/`)}"><small>下一件 →</small>${E(next.title)}</a></nav>`:'<div class="section"></div>'}</div><dialog class="viewer" aria-labelledby="viewer-title"><div class="viewer-header"><p id="viewer-title">${E(a.id)} &nbsp; ${E(a.title)}</p><button class="viewer-close" data-close-viewer autofocus>关闭 ×</button></div><img class="viewer-image" data-full-src="${href(a.image.full)}" alt="${E(a.alt)}" width="${a.image.width}" height="${a.image.height}"><p class="viewer-foot">完整画幅 · 可使用浏览器缩放查看细节 · 按 Esc 退出</p></dialog>`,{description:a.description,image:a.image.display});
+for (const [i, a] of works.entries()) {
+  await emit(workRoute(a), a.title, `<div class="shell detail-page"><p class="breadcrumb">${link('works/', '所有作品')}<span> / ${count(i + 1)}</span></p><article class="detail-layout${a.panels ? ' detail-series' : ''}"><a class="detail-image" href="${href(galleryRoute(a))}" aria-label="进入画廊，观看${E(a.title)}">${artworkVisual(a, {eager:true})}</a><div class="work-info"><p class="eyebrow">${count(i + 1)} / ${count(works.length)}</p><h1>${E(a.title)}</h1><p class="work-english">${E(a.titleEn)}</p>${description(a)}${metadata(a)}${a.notes ? `<p class="work-notes">${E(a.notes)}</p>` : ''}${link(galleryRoute(a), '在画廊中观看 <span aria-hidden="true">→</span>', 'text-link')}</div></article></div>`, {description:a.descriptionFormat === 'matrix' ? a.title : a.description, image:a.image.display});
+  await emit(galleryRoute(a), a.title, galleryContent(a, i), {gallery:true, returnRoute:`#work-${a.slug}`, description:a.title, image:a.image.display});
 }
+await emit('gallery/', works[0].title, galleryContent(works[0], 0), {gallery:true, returnRoute:`#work-${works[0].slug}`, noindex:true, image:works[0].image.display});
 
-await emit('about/','关于展览',`<div class="shell"><header class="page-head"><p class="eyebrow">ABOUT THE EXHIBITION</p><h1>给熟悉的画，<br>一个陌生的主角。</h1></header><div class="about-grid"><figure class="about-image">${picture(art('chat-noir')||works[0])}<figcaption class="caps muted" style="margin-top:18px">入口海报 / 海报里的不速之客</figcaption></figure><div class="prose"><h2>为什么是奶龙？</h2><p>奶龙的轮廓和黄色很容易被认出。把这样一个形象放进不同的图像系统，变化就有了可以比较的起点：什么被保留下来，什么被重新组织？名画重演与风格实验室，是我们对这个问题的两次尝试。</p><p>展览采用认真而克制的陈列方式，让画面的幽默自己发生。这里没有艺术史测验，也没有唯一正确的观看路线。你可以从熟悉的一张开始，也可以直接进入实验室，把不同版本放在一起慢慢比较。</p><h2>关于这些图像</h2><p>本展使用展览发起人提供的 AI 辅助数字图像。作品名称与解说是本次展览的策展文本，不能视为原艺术家创作、真实馆藏陈列或已核实的生成过程。未提供的生成工具、日期与人工修改记录保留为“未记录”。</p><p>参考作品链接用于说明视觉关系，不表示相关机构参与本展。风格实验按可见的色彩、线条和材质展开说明，不虚构一对一原作。</p><div class="notice">奶龙美术馆为非官方 AI 二次创作展，与奶龙权利方、原作艺术家及相关收藏机构无隶属或背书关系。奶龙角色及原作相关权利属于各自权利人。</div><h2>展览会继续长大</h2><p>这里保留了新增图片和展品的维护入口。新的角色关系、新的视觉实验，也可以在以后加入同一条观看路线。</p><p>如需提出资料修订或就图像使用联系展览维护者，可通过 <a href="${E(settings.contactUrl)}" target="_blank" rel="noopener noreferrer">GitHub 项目反馈页 ↗</a> 联系。请勿在公开反馈中填写私人证件或付款信息。</p></div></div></div>`);
+await emit('about/', '关于展览', `<div class="shell"><header class="page-head about-head"><p class="eyebrow">ABOUT THE EXHIBITION</p><h1>奶龙进入艺术史</h1><p>形象、再现与图像的秩序</p></header><div class="about-layout"><aside><p class="about-english">Nailoong,<br>Reframed.</p><span class="eyebrow">CURATORIAL TEXT</span></aside><article class="prose"><p>图像并不止于它所呈现的对象。构图、姿态、媒介与命名共同构成一种秩序，使某些形象得以被辨认、被记忆，并在反复观看中获得权威。</p><p>“奶龙进入艺术史”以同一形象的持续置换为线索，将其引入不同的绘画结构与视觉传统。肖像中的目光、群像中的距离、装饰中的身体，以及文字与对象之间的关系，在这一过程中被重新配置。被保留的形式与被替换的主体并置，构成展览的基本张力。</p><p>这些作品不沿年代建立连续的艺术史叙事，而将不同图像置于同一观看平面。经典作品所形成的视觉记忆，与数字环境中不断流通的形象在此相遇。观众面对的不只是一个对象的变化，也是辨识机制本身的显现：我们凭借什么，认定一幅图像仍然是我们所熟悉的那一幅？</p><p>《组图》将单一形象展开为六种视觉表述，使重复成为作品的结构。《家用厨房粉碎机》则将命名分解为两个字的反复排列，使语言在指认对象的同时，转化为可以被观看的表面。图像与文字不再保持稳定的对应关系，而在重复、差异与偏移之中持续生成意义。</p><p>展览采用连续的单件观看方式。页面的留白、作品之间的间隔与有限的导航，构成一种观看的尺度：让形象暂时离开信息流，重新获得被凝视的时间。</p><div class="production-note"><h2>图像制作</h2><p>作品使用 ChatGPT、Gemini 生成，并引用一幅原作者图像。各件作品的制作工具、参考作品与来源记录，见${link('credits/', '“来源与说明”')}。</p></div></article></div></div>`);
 
-await emit('credits/','来源与说明',`<div class="shell"><header class="page-head"><p class="eyebrow">SOURCES & NOTES</p><h1>图像从哪里来。</h1><p class="lead">全部展出图像由展览发起人提供。下列记录将新作、灵感参考与未确认的信息分开；馆藏链接是参考入口，不代表实际使用了该网页的图片。</p></header><p class="notice" style="margin-bottom:40px">本展为非官方 AI 二次创作展。生成工具、原始输入图片及完整授权记录尚未提供，不据此声明图像可自由商用。若需补充来源、提出修订或反馈图像使用问题，请前往 <a class="text-link" href="${E(settings.contactUrl)}" target="_blank" rel="noopener noreferrer">项目反馈页 ↗</a>。</p><div class="credits-list">${works.map(a=>`<article class="credit-row"><p class="caps">${E(a.id)}</p><div><h2>${link(`works/${a.slug}/`,E(a.title))}</h2><p>来稿：${E(a.source.filename)}</p><p>AI 辅助创作的数字图像 · 创作日期${a.creation?.date?E(a.creation.date):'未记录'}</p></div><div><p>${E(a.section==='lab'?'视觉语汇':'灵感参考')}：${E(a.reference.title)}</p>${a.reference.url?`<a href="${E(a.reference.url)}" target="_blank" rel="noopener noreferrer">参考作品记录 ↗</a>`:'<p>具体参考来源待补充。</p>'}<p>${E(a.source.rightsStatus)}</p></div></article>`).join('')}</div></div>`);
+function credit(a, i) {
+  const panels = a.panels ? `<ol class="panel-credits">${a.panels.map(p => `<li><strong>${E(p.title)}</strong><span>${E(p.creation?.tool || p.source.credit)}${p.source.url ? ` · ${external(p.source.url, '图像来源')}` : ''}</span></li>`).join('')}</ol>` : `<p>制作工具：${E(toolLabel(a))}</p>`;
+  return `<article class="credit-row"><span class="eyebrow">${count(i + 1)}</span><div><h2>${link(workRoute(a), E(a.title))}</h2><p>${E(a.source.origin)}</p>${panels}</div><div class="credit-reference">${a.reference.title ? `<h3>${E(a.reference.relationship || '参考作品')}</h3><p>${E(a.reference.title)}</p>${a.reference.artist ? `<p>${E(a.reference.artist)}<br>${E(a.reference.year)}</p>` : ''}${a.reference.url ? external(a.reference.url, a.reference.institution || '来源页面') : ''}<p>${E(a.reference.note)}</p>` : '<p>独立作品</p>'}</div></article>`;
+}
+await emit('credits/', '来源与说明', `<div class="shell"><header class="page-head"><p class="eyebrow">SOURCES & NOTES</p><h1>来源与说明</h1><p class="lead">本页记录展出图像的制作工具、图像来源与参考作品。参考作品的作者与年代列于各条记录中。</p></header><div class="credits-list">${works.map(credit).join('')}</div></div>`);
 
-await emit('studio/','展品维护',`<div class="shell"><header class="page-head"><p class="eyebrow">COLLECTION STUDIO / 内容维护</p><h1>让展览继续长大。</h1><p class="lead">添加图片，写下作品故事，或调整现有展品。</p></header><div class="studio-banner"><strong>草稿保存在当前浏览器，不会自动更新线上展览。</strong><br>完成编辑后导出更新包，将包内文件放入 GitHub 仓库并提交，网站就会重新发布。这里无需输入 GitHub 密码或令牌。</div><div class="studio-grid"><aside class="studio-sidebar"><button class="button" id="new-artwork">＋ 添加新展品</button><div class="studio-list" aria-label="可编辑展品列表"></div></aside><div><div class="studio-heading"><h2 id="editor-title">新展品</h2><button class="small-button" id="import-data">导入展品资料</button><input type="file" id="import-file" accept="application/json,.json" hidden></div><form id="artwork-form"><div class="studio-fields"><label class="field">作品名称 *<input name="title" required maxlength="160" placeholder="例如：午后的一只奶龙"></label><label class="field">英文副题<input name="titleEn" maxlength="160" placeholder="A YELLOW AFTERNOON"></label><label class="field">作品编号 *<input name="id" required pattern="[A-Z0-9][A-Z0-9-]{1,49}" placeholder="NL-017"></label><label class="field">网址名称 *<input name="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="80" placeholder="a-yellow-afternoon"><small>使用小写英文字母、数字和短横线，作为独立作品地址。</small></label><label class="field">所属展区<select name="section">${Object.entries(SECTIONS).map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select></label><label class="field">展出顺序<input name="order" type="number" min="0" max="99999" value="100" required></label><label class="field">观看标签<input name="tag" placeholder="例如：色彩实验" maxlength="100"></label><label class="field">创作日期（可留空）<input name="date" type="date"></label><label class="field wide">作品图片<input name="imageFile" type="file" accept="image/png,image/jpeg,image/webp"><small>支持 JPG、PNG、WebP，单张最多 20 MB；会自动生成保留画幅的网页图片。</small></label><label class="field wide">图片描述 *<textarea name="alt" required placeholder="描述画面中的人物、姿态、颜色与背景，方便无法看图的读者。"></textarea></label><label class="field wide">作品短说明 *<textarea name="description" required placeholder="写下你希望观众首先注意到的细节。"></textarea></label><label class="field wide">创作解说<textarea name="notes" placeholder="可以进一步谈构图、视觉变化和创作思路。"></textarea></label><label class="field">灵感参考<input name="referenceTitle" placeholder="参考作品名或视觉语汇"></label><label class="field">参考链接<input name="referenceUrl" type="url" placeholder="https://..."></label><label class="field">生成工具（可留空）<input name="tool" placeholder="如实记录工具和模型"></label><label class="field">来源与使用说明<input name="rightsStatus" placeholder="素材来源及已知使用条件"></label></div><div class="studio-preview" id="image-preview"><span class="muted">图片预览</span></div><label class="check-field"><input type="checkbox" name="publish" checked>在公开展览中显示</label><div class="studio-actions"><button class="button" type="submit">保存本机草稿</button><button class="button secondary" type="button" id="export-data">导出更新包 ↗</button></div><p class="status-line" id="studio-status" role="status" aria-live="polite"></p></form><details class="studio-help"><summary>怎样把更新发布到网站？</summary><ol><li>保存每件展品的本机草稿，然后导出更新包。</li><li>解压更新包，把 content 与 public 文件夹合并到本地仓库。若使用 GitHub 网页，在对应目录上传并替换包内文件。</li><li>提交到 main 分支，等待 GitHub Actions 发布完成。只有勾选“在公开展览中显示”的作品会进入网站。</li></ol><p>浏览器草稿是本机备份，不是线上后台。请保留导出包。多人编辑时，应先导入仓库最新的 content/artworks.json，再进行修改。</p></details></div></div></div><script src="${href('vendor/jszip.min.js')}" defer></script><script type="module" src="${href('studio.mjs')}"></script>`,{noindex:true});
-
-await emit('404.html','暂时找不到这件作品',`<div class="shell not-found"><p class="big">404</p><h1>好像走进了空展厅。</h1><p>这件作品可能换了位置。回到作品索引，继续逛逛吧。</p>${link('works/','返回全部作品 →','button')}</div>`,{noindex:true});
-await mkdir(path.join(out,'api'),{recursive:true});
-await writeFile(path.join(out,'api/artworks.json'),JSON.stringify({schemaVersion:1,artworks:works},null,2));
-await writeFile(path.join(out,'api/site.json'),JSON.stringify({title:settings.title,exhibitionTitle:settings.exhibitionTitle,artworkCount:works.length,sections:SECTIONS},null,2));
-await writeFile(path.join(out,'.nojekyll'),'');
-await writeFile(path.join(out,'sitemap.xml'),`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map(url=>`<url><loc>${E(url)}</loc></url>`).join('')}</urlset>`);
-await writeFile(path.join(out,'robots.txt'),`User-agent: *\nAllow: /\nDisallow: ${href('studio/')}\nSitemap: ${canonical('sitemap.xml')}\n`);
-console.log(`Built ${pages.length + 2} pages, ${works.length} artworks. Base path: ${prefix}`);
+// Preserve old bookmarked routes for works now presented together.
+async function redirect(route, target) {
+  await emit(route, '作品已移至新位置', `<div class="shell redirect-page" data-redirect="${href(target)}"><h1>作品已移至新位置</h1>${link(target, '查看作品 →', 'text-link')}</div>`, {noindex:true});
+}
+await redirect('exhibition/', 'works/');
+if (art('series')) {
+  await redirect('lab/', 'works/series/');
+  for (const slug of ['on-paper','constructed','minimal-form','chat-noir','circles-and-lines']) {
+    if (!art(slug)) await redirect(`works/${slug}/`, 'works/series/');
+  }
+}
+await emit('404.html', '页面未找到', `<div class="shell not-found"><p class="eyebrow">404</p><h1>页面未找到</h1><p>请从作品索引继续参观。</p>${link('works/', '所有作品 →', 'text-link')}</div>`, {noindex:true});
+await mkdir(path.join(out, 'api'), {recursive:true});
+await writeFile(path.join(out, 'api/artworks.json'), JSON.stringify({schemaVersion:1, artworks:works}, null, 2));
+await writeFile(path.join(out, 'api/site.json'), JSON.stringify({title:settings.title, exhibitionTitle:settings.exhibitionTitle, artworkCount:works.length, imageCount:works.reduce((n,a) => n + artworkImages(a).length, 0)}, null, 2));
+await writeFile(path.join(out, '.nojekyll'), '');
+await writeFile(path.join(out, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map(url => `<url><loc>${E(url)}</loc></url>`).join('')}</urlset>`);
+await writeFile(path.join(out, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${canonical('sitemap.xml')}\n`);
+console.log(`Built ${pageCount} pages, ${works.length} artworks, ${assets.size} image assets. Base path: ${prefix}`);
