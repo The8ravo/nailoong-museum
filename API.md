@@ -110,7 +110,7 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 
 ## 方阵说明
 
-普通作品无需设置 `descriptionFormat`。设置 `descriptionFormat: "matrix"` 后，`description` 按原换行展示为方阵。内容仅使用“奶”“龙”，每行字符数须等于行数，最多 100 行。JSON 中的 `\n` 表示换行；不要写成字面量的 `\\n`。现有《家用厨房粉碎机》为 15 × 15。
+普通作品无需设置 `descriptionFormat`。设置 `descriptionFormat: "matrix"` 后，`description` 按原换行展示为方阵。内容仅使用“奶”“龙”，每行字符数须等于行数，最多 100 行。JSON 中的 `\n` 表示换行；不要写成字面量的 `\\n`。现有《家用厨房粉碎机》为 10 × 10。
 
 ## 以后接入真实后台
 

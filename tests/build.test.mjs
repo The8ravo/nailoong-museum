@@ -94,7 +94,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(groupGallery.includes('原作者'));
     for (const art of api.artworks) {
       assert.ok(workIndex.includes(`/works/${art.slug}/`), `artwork information omits ${art.slug}`);
-      if (art.reference.url) assert.ok(workIndex.includes(art.reference.url), `artwork information omits ${art.slug} source`);
+      if (art.reference.url) assert.ok(workIndex.includes(art.reference.url.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))), `artwork information omits ${art.slug} source`);
     }
     const separate = await html('works/light-and-shadow');
     assert.ok(separate.includes('正在思考'));
@@ -109,7 +109,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(home.includes('进入画廊'));
     assert.ok(home.includes('奶·龙'));
     assert.ok(home.includes('NAILOONG, REFRAMED'));
-    assert.match(home, /奶龙即不同[\s\S]*<em>Nailoong is different<\/em>/);
+    assert.match(home, /THE EXHIBITION<\/p><p>奶龙即不同<br><em>Nailoong is different。<\/em>/);
     for (const route of ['works', 'about', 'credits']) await access(path.join(dist, route, 'index.html'));
     assert.ok((await html('credits')).includes('data-redirect="/nailoong-museum/works/"'));
     const files = await readdir(dist, { recursive: true });

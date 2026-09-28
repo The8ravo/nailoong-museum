@@ -35,13 +35,13 @@ test('the series keeps its six ordered panels and separate origin and tool recor
   assert.equal(artworkImages(art).length, 6);
 });
 
-test('the matrix is fifteen by fifteen and all known creation tools are retained', () => {
+test('the matrix is ten by ten and all known creation tools are retained', () => {
   const matrix = data.artworks.find(art => art.slug === 'almost-disappearing');
   assert.equal(matrix.title, '家用厨房粉碎机');
   assert.equal(matrix.descriptionFormat, 'matrix');
   const rows = matrix.description.split('\n');
-  assert.equal(rows.length, 15);
-  assert.ok(rows.every(row => /^[奶龙]{15}$/.test(row)));
+  assert.equal(rows.length, 10);
+  assert.ok(rows.every(row => /^[奶龙]{10}$/.test(row)));
   const gemini = new Set(['olympia', 'series', 'a-sunday-afternoon', 'the-dance', 'almost-disappearing']);
   for (const art of data.artworks.filter(art => originalIds.includes(art.id))) {
     assert.equal(art.creation.tool, gemini.has(art.slug) ? 'Gemini' : 'ChatGPT');
