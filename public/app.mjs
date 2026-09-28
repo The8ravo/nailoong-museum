@@ -6,7 +6,6 @@ if (gallery) {
     const target = event.key === 'ArrowLeft' ? document.querySelector('[data-prev]')
       : event.key === 'ArrowRight' ? document.querySelector('[data-next]') : null;
     if (target) { event.preventDefault(); target.click(); }
-    if (event.key === 'Escape' && gallery.dataset.return) { event.preventDefault(); location.assign(gallery.dataset.return); }
   });
 }
 const moved = document.querySelector('[data-redirect]')?.dataset.redirect;

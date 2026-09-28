@@ -2,32 +2,32 @@
   "schemaVersion": 1,
   "artworks": [
     {
-      "id": "NL-014",
-      "slug": "american-gothic",
-      "title": "美国哥特式",
-      "titleEn": "American Gothic",
-      "tag": "肖像",
-      "description": "两个人物并立于木屋前。草叉、衣褶与尖拱窗形成连续的垂直线，正面的站姿将画面收束为稳定的结构。奶龙的形象进入其中，改变了面孔的比例，却保留了人物、建筑与土地之间的关系。",
-      "alt": "两位奶龙形象站在尖顶木屋前，右侧戴圆框眼镜并握着草叉，左侧穿棕色连衣裙，头部均保留人物发型。",
-      "notes": "草叉与窗框的重复线条贯穿前后景，服饰的细部与正面的目光共同构成肖像的秩序。",
+      "id": "NL-018",
+      "slug": "this-is-not-nailoong",
+      "title": "这不是奶龙",
+      "titleEn": "This Is Not Nailoong",
+      "tag": "图像与文字",
+      "description": "图像给出一个名字，文字随即否认它。我们所辨认的，是奶龙，还是关于奶龙的图像？",
+      "alt": "浅黄色画面中央是一只侧卧的奶龙，下方写有“这不是奶龙”。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
-        "note": "图像取材自格兰特·伍德《美国哥特式》。",
-        "title": "《美国哥特式》 / American Gothic",
-        "url": "https://www.artic.edu/artworks/6565/american-gothic",
-        "artist": "格兰特·伍德 / Grant Wood",
-        "year": "1930",
-        "institution": "芝加哥艺术博物馆 / Art Institute of Chicago"
+        "note": "图像取材自勒内·马格利特《图像的背叛》中图像与否定句并置的结构。",
+        "title": "《图像的背叛》 / The Treachery of Images",
+        "url": "https://www.lacma.org/guides/modernod/13",
+        "artist": "勒内·马格利特 / René Magritte",
+        "year": "1929",
+        "institution": "洛杉矶郡艺术博物馆 / LACMA"
       },
       "section": "exhibition",
       "order": 10,
       "medium": "AI 辅助创作的数字图像",
       "image": {
-        "width": 1145,
-        "height": 1374,
-        "thumb": "assets/artworks/american-gothic-thumb.webp",
-        "display": "assets/artworks/american-gothic-display.webp",
-        "full": "assets/artworks/american-gothic-full.webp"
+        "width": 1448,
+        "height": 1086,
+        "thumb": "assets/artworks/this-is-not-nailoong-thumb.webp",
+        "display": "assets/artworks/this-is-not-nailoong-display.webp",
+        "full": "assets/artworks/this-is-not-nailoong-full.webp"
       },
       "creation": {
         "date": null,
@@ -37,7 +37,7 @@
         "humanEdits": null
       },
       "source": {
-        "filename": "美国哥特式.jpg",
+        "filename": "这不是奶龙.jpg",
         "origin": "展览发起人提供的 AI 生成图像",
         "credit": "展览发起人",
         "url": null,
@@ -46,32 +46,32 @@
       "publish": true
     },
     {
-      "id": "NL-004",
-      "slug": "the-kiss",
-      "title": "吻",
-      "titleEn": "The Kiss",
-      "tag": "装饰与身体",
-      "description": "金色底面将身体与背景连接成连续的装饰空间。方形、圆形和花卉纹样分别覆盖相拥的人物，面孔与双手从纹样中显现。形象的替换改变了身体的边界，拥抱的方向与画面的重心仍然留在原处。",
-      "alt": "金色方形画面中，两只奶龙相拥，衣袍布满方形与圆形纹样，下方铺展着彩色花卉。",
-      "notes": "方形画幅使人物集中于中央，衣袍与花地之间的边缘交织着身体、图案和空间。",
+      "id": "NL-017",
+      "slug": "son-of-man",
+      "title": "人子",
+      "titleEn": "The Son of Man",
+      "tag": "遮蔽",
+      "description": "苹果遮住面孔，又获得了一张新的面孔。遮蔽与显露在同一处发生，身份因此悬而未决。",
+      "alt": "戴圆顶礼帽、穿深色大衣和红领带的人物立于海边石墙前，一枚带奶龙面孔的绿色苹果遮住脸部。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
-        "note": "图像取材自古斯塔夫·克里姆特《吻》。",
-        "title": "《吻》 / The Kiss (Lovers)",
-        "url": "https://sammlung.belvedere.at/objects/6678/der-kuss-liebespaar",
-        "artist": "古斯塔夫·克里姆特 / Gustav Klimt",
-        "year": "约 1907–1909",
-        "institution": "美景宫 / Belvedere"
+        "note": "图像取材自勒内·马格利特《人子》。",
+        "title": "《人子》 / Le Fils de l’homme",
+        "url": "https://www.christies.com/en/lot/lot-1404203",
+        "artist": "勒内·马格利特 / René Magritte",
+        "year": "1964",
+        "institution": "佳士得拍卖记录 / Christie’s"
       },
       "section": "exhibition",
       "order": 20,
       "medium": "AI 辅助创作的数字图像",
       "image": {
-        "width": 2048,
-        "height": 2048,
-        "thumb": "assets/artworks/the-kiss-thumb.webp",
-        "display": "assets/artworks/the-kiss-display.webp",
-        "full": "assets/artworks/the-kiss-full.webp"
+        "width": 1122,
+        "height": 1402,
+        "thumb": "assets/artworks/son-of-man-thumb.webp",
+        "display": "assets/artworks/son-of-man-display.webp",
+        "full": "assets/artworks/son-of-man-full.webp"
       },
       "creation": {
         "date": null,
@@ -81,7 +81,7 @@
         "humanEdits": null
       },
       "source": {
-        "filename": "吻.jpg",
+        "filename": "玛格丽特奶龙.jpg",
         "origin": "展览发起人提供的 AI 生成图像",
         "credit": "展览发起人",
         "url": null,
@@ -95,9 +95,9 @@
       "title": "吹笛少年",
       "titleEn": "The Fifer",
       "tag": "姿态",
-      "description": "黑色制服、红色长裤与灰色背景建立起清晰的色面关系。人物的站姿几乎没有纵深，手与笛子的接触成为动作的中心。奶龙的面孔置于这套简洁结构之中，使观看重新回到轮廓、比例与姿态。",
+      "description": "制服与演奏的姿态赋予身体一个身份，面孔的替换使这个身份变得不再确定。",
       "alt": "奶龙穿黑色制服、红色长裤和帽子，站在灰色背景前，双手将笛子举在嘴边。",
-      "notes": "背景的留白弱化了场景，服装的轮廓和乐器的横线承担了主要的视觉关系。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
         "note": "图像取材自爱德华·马奈《吹笛少年》。",
@@ -134,14 +134,58 @@
       "publish": true
     },
     {
+      "id": "NL-014",
+      "slug": "american-gothic",
+      "title": "美国哥特式",
+      "titleEn": "American Gothic",
+      "tag": "肖像",
+      "description": "两个陌生的面孔进入一幅熟悉的家庭肖像。身份仍由衣着、劳动的器物与身后的家宅共同指认。",
+      "alt": "两位奶龙形象站在尖顶木屋前，右侧戴圆框眼镜并握着草叉，左侧穿棕色连衣裙，头部均保留人物发型。",
+      "notes": "",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自格兰特·伍德《美国哥特式》。",
+        "title": "《美国哥特式》 / American Gothic",
+        "url": "https://www.artic.edu/artworks/6565/american-gothic",
+        "artist": "格兰特·伍德 / Grant Wood",
+        "year": "1930",
+        "institution": "芝加哥艺术博物馆 / Art Institute of Chicago"
+      },
+      "section": "exhibition",
+      "order": 40,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 1145,
+        "height": 1374,
+        "thumb": "assets/artworks/american-gothic-thumb.webp",
+        "display": "assets/artworks/american-gothic-display.webp",
+        "full": "assets/artworks/american-gothic-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "美国哥特式.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
       "id": "NL-006",
       "slug": "olympia",
       "title": "奥林匹亚",
       "titleEn": "Olympia",
       "tag": "凝视",
-      "description": "白色床单横贯画面，与身后的暗部形成鲜明分界。躺卧者的目光朝向画外，花束与站立者构成另一层观看关系。角色发生变化，身体的横向展开、人物之间的距离以及直视观众的姿态仍被保留。",
+      "description": "目光越过画面，落在观看者身上。被观看的形象，也成为凝视的主体。",
       "alt": "奶龙斜躺在白色床铺上望向前方，右侧另一位角色捧着花束，背后是深绿色与棕色的暗部。",
-      "notes": "床铺的亮部连接画面前景，花束和站立人物将空间引向后方。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
         "note": "图像取材自爱德华·马奈《奥林匹亚》。",
@@ -152,7 +196,7 @@
         "institution": "奥赛博物馆 / Musée d’Orsay"
       },
       "section": "exhibition",
-      "order": 40,
+      "order": 50,
       "medium": "AI 辅助创作的数字图像",
       "image": {
         "width": 2528,
@@ -178,42 +222,42 @@
       "publish": true
     },
     {
-      "id": "NL-005",
-      "slug": "a-sunday-afternoon",
-      "title": "大碗岛的星期天下午",
-      "titleEn": "A Sunday on La Grande Jatte",
-      "tag": "群像",
-      "description": "河岸上的人物分布于阳光、树荫与草地之间。点状色彩将相互独立的形象组织为一个整体，远近关系由尺度与间距逐层展开。重复出现的黄色面孔进入这片静止的公共空间，成为贯穿画面的另一种秩序。",
-      "alt": "点彩风格的河岸草地上，奶龙形象穿着不同服装站立或休息，右侧前景有撑伞的人物。",
-      "notes": "横向画幅容纳了分散的人群，前景与远景之间的空隙使每一个人物同时属于局部和整体。",
+      "id": "NL-004",
+      "slug": "the-kiss",
+      "title": "吻",
+      "titleEn": "The Kiss",
+      "tag": "装饰与身体",
+      "description": "相拥的身体几乎融入同一件金色外衣，个体的边界暂时消退。亲密在这里表现为彼此接近，也表现为彼此覆盖。",
+      "alt": "金色方形画面中，两只奶龙相拥，衣袍布满方形与圆形纹样，下方铺展着彩色花卉。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
-        "note": "图像取材自乔治·修拉《大碗岛的星期天下午》。",
-        "title": "《大碗岛的星期天下午》 / A Sunday on La Grande Jatte — 1884",
-        "url": "https://www.artic.edu/artworks/27992/a-sunday-on-la-grande-jatte-1884",
-        "artist": "乔治·修拉 / Georges Seurat",
-        "year": "1884–1886",
-        "institution": "芝加哥艺术博物馆 / Art Institute of Chicago"
+        "note": "图像取材自古斯塔夫·克里姆特《吻》。",
+        "title": "《吻》 / The Kiss (Lovers)",
+        "url": "https://sammlung.belvedere.at/objects/6678/der-kuss-liebespaar",
+        "artist": "古斯塔夫·克里姆特 / Gustav Klimt",
+        "year": "约 1907–1909",
+        "institution": "美景宫 / Belvedere"
       },
       "section": "exhibition",
-      "order": 50,
+      "order": 60,
       "medium": "AI 辅助创作的数字图像",
       "image": {
-        "width": 2528,
-        "height": 1682,
-        "thumb": "assets/artworks/a-sunday-afternoon-thumb.webp",
-        "display": "assets/artworks/a-sunday-afternoon-display.webp",
-        "full": "assets/artworks/a-sunday-afternoon-full.webp"
+        "width": 2048,
+        "height": 2048,
+        "thumb": "assets/artworks/the-kiss-thumb.webp",
+        "display": "assets/artworks/the-kiss-display.webp",
+        "full": "assets/artworks/the-kiss-full.webp"
       },
       "creation": {
         "date": null,
-        "tool": "Gemini",
+        "tool": "ChatGPT",
         "modelVersion": null,
         "prompt": null,
         "humanEdits": null
       },
       "source": {
-        "filename": "大碗岛的星期天下午.jpg",
+        "filename": "吻.jpg",
         "origin": "展览发起人提供的 AI 生成图像",
         "credit": "展览发起人",
         "url": null,
@@ -227,9 +271,9 @@
       "title": "舞蹈",
       "titleEn": "Dance",
       "tag": "身体与节奏",
-      "description": "五个身体以手臂相连，在蓝色与绿色的色面之间形成环形。身体的倾斜、伸展与间隔构成节奏，连续的轮廓使视线沿着画面运动。黄色形象替换了原有的人物，舞蹈依然由身体之间的联系成立。",
+      "description": "手与手相连，每个身体的动作都牵动着另一个身体。舞蹈使独立的个体成为一个暂时的共同体。",
       "alt": "蓝色背景与绿色地面上，五只黄色奶龙手拉手围成圆圈，身体随着舞蹈弯曲伸展。",
-      "notes": "轮廓的连续与局部的间断共同构成圆环，动作在人物之间传递。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
         "note": "图像取材自亨利·马蒂斯《舞蹈》；链接为艾尔米塔什博物馆馆藏记录。",
@@ -240,7 +284,7 @@
         "institution": "艾尔米塔什博物馆 / The State Hermitage Museum"
       },
       "section": "exhibition",
-      "order": 60,
+      "order": 70,
       "medium": "AI 辅助创作的数字图像",
       "image": {
         "width": 2506,
@@ -266,130 +310,42 @@
       "publish": true
     },
     {
-      "id": "NL-009",
-      "slug": "salvator",
-      "title": "救世主",
-      "titleEn": "Salvator Mundi",
-      "tag": "手势",
-      "description": "正面的目光、垂落的长发与深蓝色衣袍构成稳定的中心。举起的右手与托住透明球体的左手形成两种不同的动作，光线停留在脸部、指尖与球体表面。奶龙的面孔进入这一肖像结构，延续了手势与凝视的关系。",
-      "alt": "长发奶龙身着蓝色衣袍，正面面向观众，一手举起手指，另一手托着透明球体。",
-      "notes": "透明球体与衣袍褶皱呈现不同的表面，正面构图将二者纳入同一视觉中心。",
+      "id": "NL-005",
+      "slug": "a-sunday-afternoon",
+      "title": "大碗岛的星期天下午",
+      "titleEn": "A Sunday on La Grande Jatte",
+      "tag": "群像",
+      "description": "人群共享同一个下午，却各自保持着距离。重复的面孔没有消除彼此之间的陌生。",
+      "alt": "点彩风格的河岸草地上，奶龙形象穿着不同服装站立或休息，右侧前景有撑伞的人物。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
-        "note": "图像取材自《救世主》的正面肖像、祝福手势与透明球体构图。",
-        "title": "《救世主》 / Salvator Mundi",
-        "url": "https://www.christies.com/lot/lot-6110563",
-        "artist": "归于列奥纳多·达·芬奇 / attributed to Leonardo da Vinci",
-        "year": "约 1500",
-        "institution": "佳士得拍卖记录 / Christie’s"
-      },
-      "section": "exhibition",
-      "order": 70,
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 1024,
-        "height": 1536,
-        "thumb": "assets/artworks/salvator-thumb.webp",
-        "display": "assets/artworks/salvator-display.webp",
-        "full": "assets/artworks/salvator-full.webp"
-      },
-      "creation": {
-        "date": null,
-        "tool": "ChatGPT",
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "救世主.jpg",
-        "origin": "展览发起人提供的 AI 生成图像",
-        "credit": "展览发起人",
-        "url": null,
-        "rightsStatus": ""
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-017",
-      "slug": "son-of-man",
-      "title": "人子",
-      "titleEn": "The Son of Man",
-      "tag": "遮蔽",
-      "description": "身着大衣的人物站在海面与石墙之前，圆顶礼帽下的面孔被一枚苹果遮住。奶龙的眼睛与嘴出现在苹果表面，使遮蔽物获得了另一张面孔。可见与不可见之间的关系在这一替换中重新展开。",
-      "alt": "戴圆顶礼帽、穿深色大衣和红领带的人物立于海边石墙前，一枚带奶龙面孔的绿色苹果遮住脸部。",
-      "notes": "人物的正面站姿保持不变，识别的中心从被遮住的面孔移向苹果表面。",
-      "reference": {
-        "relationship": "图像改写",
-        "note": "图像取材自勒内·马格利特《人子》。",
-        "title": "《人子》 / Le Fils de l’homme",
-        "url": "https://www.christies.com/en/lot/lot-1404203",
-        "artist": "勒内·马格利特 / René Magritte",
-        "year": "1964",
-        "institution": "佳士得拍卖记录 / Christie’s"
+        "note": "图像取材自乔治·修拉《大碗岛的星期天下午》。",
+        "title": "《大碗岛的星期天下午》 / A Sunday on La Grande Jatte — 1884",
+        "url": "https://www.artic.edu/artworks/27992/a-sunday-on-la-grande-jatte-1884",
+        "artist": "乔治·修拉 / Georges Seurat",
+        "year": "1884–1886",
+        "institution": "芝加哥艺术博物馆 / Art Institute of Chicago"
       },
       "section": "exhibition",
       "order": 80,
       "medium": "AI 辅助创作的数字图像",
       "image": {
-        "width": 1122,
-        "height": 1402,
-        "thumb": "assets/artworks/son-of-man-thumb.webp",
-        "display": "assets/artworks/son-of-man-display.webp",
-        "full": "assets/artworks/son-of-man-full.webp"
+        "width": 2528,
+        "height": 1682,
+        "thumb": "assets/artworks/a-sunday-afternoon-thumb.webp",
+        "display": "assets/artworks/a-sunday-afternoon-display.webp",
+        "full": "assets/artworks/a-sunday-afternoon-full.webp"
       },
       "creation": {
         "date": null,
-        "tool": "ChatGPT",
+        "tool": "Gemini",
         "modelVersion": null,
         "prompt": null,
         "humanEdits": null
       },
       "source": {
-        "filename": "玛格丽特奶龙.jpg",
-        "origin": "展览发起人提供的 AI 生成图像",
-        "credit": "展览发起人",
-        "url": null,
-        "rightsStatus": ""
-      },
-      "publish": true
-    },
-    {
-      "id": "NL-018",
-      "slug": "this-is-not-nailoong",
-      "title": "这不是奶龙",
-      "titleEn": "This Is Not Nailoong",
-      "tag": "图像与文字",
-      "description": "一只横卧的奶龙占据浅色画面的中央，下方的文字写着“这不是奶龙”。图像提供了可辨认的形象，文字却撤回了命名。两者并置，使形象、名称与其所指之间的距离显现出来。",
-      "alt": "浅黄色画面中央是一只侧卧的奶龙，下方写有“这不是奶龙”。",
-      "notes": "作品借用图像与否定句并置的结构，将观看与命名之间的关系置于同一画面。",
-      "reference": {
-        "relationship": "图像改写",
-        "note": "图像取材自勒内·马格利特《图像的背叛》中图像与否定句并置的结构。",
-        "title": "《图像的背叛》 / The Treachery of Images",
-        "url": "https://www.lacma.org/guides/modernod/13",
-        "artist": "勒内·马格利特 / René Magritte",
-        "year": "1929",
-        "institution": "洛杉矶郡艺术博物馆 / LACMA"
-      },
-      "section": "exhibition",
-      "order": 90,
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 1448,
-        "height": 1086,
-        "thumb": "assets/artworks/this-is-not-nailoong-thumb.webp",
-        "display": "assets/artworks/this-is-not-nailoong-display.webp",
-        "full": "assets/artworks/this-is-not-nailoong-full.webp"
-      },
-      "creation": {
-        "date": null,
-        "tool": "ChatGPT",
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "这不是奶龙.jpg",
+        "filename": "大碗岛的星期天下午.jpg",
         "origin": "展览发起人提供的 AI 生成图像",
         "credit": "展览发起人",
         "url": null,
@@ -400,12 +356,12 @@
     {
       "id": "NL-019",
       "slug": "paint-pot-angel",
-      "title": "油漆桶天使",
-      "titleEn": "Paint-Pot Angel",
+      "title": "桶中之脑",
+      "titleEn": "Brain in a Bucket",
       "tag": "物体与空间",
-      "description": "石质奶龙立于展厅的台座上，倒扣的油漆桶遮住头部。粉色颜料沿身体、台座与边缘向下流动，将一个连续的痕迹留在静止的表面。雕塑、日常物件与建筑空间在画面中相互叠置。",
+      "description": "当感知被封闭在一个容器之中，如何确认容器之外的世界？",
       "alt": "石质奶龙雕像站在展厅台座上，头顶倒扣着油漆桶，粉色颜料从桶沿流过身体与台座，后方可见石柱和悬挂的龙形雕塑。",
-      "notes": "油漆的垂直痕迹穿过身体与台座的分界，使陈列结构也成为画面的一部分。",
+      "notes": "",
       "reference": {
         "relationship": "图像改写",
         "note": "图像取材自班克斯《油漆桶天使》，将雕塑形象替换为奶龙。",
@@ -416,7 +372,7 @@
         "institution": "布里斯托博物馆与美术馆 / Bristol Museum & Art Gallery"
       },
       "section": "exhibition",
-      "order": 100,
+      "order": 90,
       "medium": "AI 辅助创作的数字图像",
       "image": {
         "width": 1086,
@@ -442,6 +398,47 @@
       "publish": true
     },
     {
+      "id": "NL-002",
+      "slug": "light-and-shadow",
+      "title": "正在思考",
+      "titleEn": "Thinking",
+      "tag": "明暗",
+      "description": "手停在嘴边，动作没有继续。思考被压缩为一个姿态，而它的内容留在画面之外。",
+      "alt": "深色背景中，侧光照亮黄色奶龙的脸和肩膀，黑色手套靠近嘴边，下方有红色球体。",
+      "notes": "",
+      "reference": {
+        "relationship": "绘画语言参照",
+        "note": "以明暗对照为视觉参照，未指定对应的单幅原作。",
+        "title": "卡拉瓦乔的绘画语言（具体原作未指定）",
+        "url": null
+      },
+      "section": "exhibition",
+      "order": 100,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 768,
+        "height": 1024,
+        "thumb": "assets/artworks/light-and-shadow-thumb.webp",
+        "display": "assets/artworks/light-and-shadow-display.webp",
+        "full": "assets/artworks/light-and-shadow-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "卡拉瓦乔奶龙.png",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
       "id": "NL-020",
       "slug": "series",
       "title": "组图",
@@ -450,7 +447,7 @@
       "tag": "六联作",
       "description": "这个世界太尖锐了 不允许奶龙哭 却赋予了奶龙很多痛苦 怎么痛也痛不完 奶龙痛恨这一切 后来才明白什么都可以是假的 只有痛苦是真的",
       "alt": "六幅奶龙图像依次采用花卉纹样、浮世绘、构成主义、简约构成主义、复古海报和抽象几何的视觉形式。",
-      "notes": "同一姿态贯穿六幅图像，线条、色面、纹样与空间的变化构成连续的观看关系。",
+      "notes": "",
       "reference": {
         "relationship": "灵感来源",
         "note": "《构成主义奶龙》引自原作者，其余五幅由展览发起人使用 Gemini 生成。",
@@ -635,47 +632,6 @@
       "publish": true
     },
     {
-      "id": "NL-002",
-      "slug": "light-and-shadow",
-      "title": "卡拉瓦乔奶龙",
-      "titleEn": "Nailoong after Caravaggio",
-      "tag": "明暗",
-      "description": "侧面的光线落在脸部、肩膀与抬起的手上，身体从深色背景中显现。红色球体与斜向线条分布于画面边缘，局部的亮度将视线集中于人物。明暗的分界赋予形象以体积，也界定了它与周围空间的距离。",
-      "alt": "深色背景中，侧光照亮黄色奶龙的脸和肩膀，黑色手套靠近嘴边，下方有红色球体。",
-      "notes": "光线在局部表面停留，大面积暗部将人物从背景中分离。",
-      "reference": {
-        "relationship": "绘画语言参照",
-        "note": "以明暗对照为视觉参照，未指定对应的单幅原作。",
-        "title": "卡拉瓦乔的绘画语言（具体原作未指定）",
-        "url": null
-      },
-      "section": "exhibition",
-      "order": 120,
-      "medium": "AI 辅助创作的数字图像",
-      "image": {
-        "width": 768,
-        "height": 1024,
-        "thumb": "assets/artworks/light-and-shadow-thumb.webp",
-        "display": "assets/artworks/light-and-shadow-display.webp",
-        "full": "assets/artworks/light-and-shadow-full.webp"
-      },
-      "creation": {
-        "date": null,
-        "tool": "ChatGPT",
-        "modelVersion": null,
-        "prompt": null,
-        "humanEdits": null
-      },
-      "source": {
-        "filename": "卡拉瓦乔奶龙.png",
-        "origin": "展览发起人提供的 AI 生成图像",
-        "credit": "展览发起人",
-        "url": null,
-        "rightsStatus": ""
-      },
-      "publish": true
-    },
-    {
       "id": "NL-008",
       "slug": "almost-disappearing",
       "title": "家用厨房粉碎机",
@@ -691,7 +647,7 @@
         "url": null
       },
       "section": "exhibition",
-      "order": 130,
+      "order": 120,
       "description": "龙龙龙奶奶奶奶龙龙龙奶龙龙龙奶\n龙龙龙龙龙奶奶奶龙奶奶奶奶龙奶\n奶龙龙龙奶奶龙奶奶龙龙奶龙奶奶\n龙奶龙龙奶奶龙龙龙龙龙龙奶龙龙\n奶龙龙龙奶奶奶奶龙龙奶龙龙奶龙\n奶龙龙龙龙龙奶奶奶龙奶奶龙龙奶\n龙龙龙奶奶奶奶奶龙龙奶龙奶奶龙\n龙奶奶奶龙龙龙龙奶龙龙奶龙龙龙\n奶龙奶龙奶奶奶奶龙龙奶龙奶龙奶\n龙龙奶龙龙奶龙奶奶龙龙奶龙龙龙\n龙龙奶龙奶奶龙龙奶奶奶龙奶龙奶\n奶龙奶奶奶龙龙奶奶龙龙奶龙奶奶\n龙龙龙奶龙龙龙龙龙奶龙奶龙龙奶\n龙奶奶龙奶奶龙龙龙龙龙龙奶奶奶\n龙龙奶奶奶龙奶龙龙奶奶龙奶龙龙",
       "medium": "AI 辅助创作的数字图像",
       "image": {
@@ -710,6 +666,50 @@
       },
       "source": {
         "filename": "抽象表现主义奶龙.jpg",
+        "origin": "展览发起人提供的 AI 生成图像",
+        "credit": "展览发起人",
+        "url": null,
+        "rightsStatus": ""
+      },
+      "publish": true
+    },
+    {
+      "id": "NL-009",
+      "slug": "salvator",
+      "title": "救世主",
+      "titleEn": "Salvator Mundi",
+      "tag": "手势",
+      "description": "熟悉的手势仍在给予祝福。被反复替换、拆解的形象，在展览的最后以救世主的身份与观众相对。",
+      "alt": "长发奶龙身着蓝色衣袍，正面面向观众，一手举起手指，另一手托着透明球体。",
+      "notes": "",
+      "reference": {
+        "relationship": "图像改写",
+        "note": "图像取材自《救世主》的正面肖像、祝福手势与透明球体构图。",
+        "title": "《救世主》 / Salvator Mundi",
+        "url": "https://www.christies.com/lot/lot-6110563",
+        "artist": "归于列奥纳多·达·芬奇 / attributed to Leonardo da Vinci",
+        "year": "约 1500",
+        "institution": "佳士得拍卖记录 / Christie’s"
+      },
+      "section": "exhibition",
+      "order": 130,
+      "medium": "AI 辅助创作的数字图像",
+      "image": {
+        "width": 1024,
+        "height": 1536,
+        "thumb": "assets/artworks/salvator-thumb.webp",
+        "display": "assets/artworks/salvator-display.webp",
+        "full": "assets/artworks/salvator-full.webp"
+      },
+      "creation": {
+        "date": null,
+        "tool": "ChatGPT",
+        "modelVersion": null,
+        "prompt": null,
+        "humanEdits": null
+      },
+      "source": {
+        "filename": "救世主.jpg",
         "origin": "展览发起人提供的 AI 生成图像",
         "credit": "展览发起人",
         "url": null,

@@ -56,28 +56,50 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(detail.includes('&lt;script&gt;untrusted title&lt;/script&gt;'));
     assert.ok(detail.includes('&lt;img src=x onerror=alert(1)&gt;'));
     assert.ok(!detail.includes('<script>untrusted title'));
-    for (const art of api.artworks) {
+    for (const [index, art] of api.artworks.entries()) {
       await access(path.join(dist, 'works', art.slug, 'index.html'));
-      await access(path.join(dist, 'gallery', art.slug, 'index.html'));
+      const room = await html(`gallery/${art.slug}`);
+      const previous = api.artworks[index - 1];
+      const next = api.artworks[index + 1];
+      const previousLinks = room.match(/<a\b[^>]*\bdata-prev\b[^>]*>/g) || [];
+      const nextLinks = room.match(/<a\b[^>]*\bdata-next\b[^>]*>/g) || [];
+      assert.equal(previousLinks.length, previous ? 1 : 0, `${art.slug}: previous control does not respect exhibition boundary`);
+      assert.equal(nextLinks.length, next ? 1 : 0, `${art.slug}: next control does not respect exhibition boundary`);
+      if (previous) assert.ok(previousLinks[0].includes(`/nailoong-museum/gallery/${previous.slug}/`));
+      if (next) assert.ok(nextLinks[0].includes(`/nailoong-museum/gallery/${next.slug}/`));
+      if (!previous || !next) assert.ok(room.includes('aria-disabled="true"'), `${art.slug}: end of exhibition is not indicated`);
+      assert.ok(room.includes('work-info'), `${art.slug}: gallery omits artwork information`);
+      assert.ok(room.includes(art.medium), `${art.slug}: gallery omits medium`);
+      if (art.descriptionFormat === 'matrix') {
+        for (const row of art.description.split('\n')) assert.ok(room.includes(row));
+      } else {
+        assert.ok(room.includes(art.description), `${art.slug}: gallery omits description`);
+      }
     }
     const galleryEntry = await html('gallery');
     assert.ok(galleryEntry.includes(escaped.image.display) || galleryEntry.includes(`/gallery/${escaped.slug}/`));
     const groupDetail = await html('works/series');
     const groupGallery = await html('gallery/series');
-    assert.equal((groupGallery.match(/<a\b/g) || []).length, 2);
-    assert.ok(groupGallery.includes('data-prev'));
-    assert.ok(groupGallery.includes('data-next'));
-    assert.ok(!groupGallery.includes('<header'));
-    assert.ok(!groupGallery.includes('<footer'));
-    assert.ok(groupDetail.includes('&lt;b&gt;untrusted panel&lt;/b&gt;'));
+    const workIndex = await html('works');
+    assert.ok(workIndex.includes('&lt;b&gt;untrusted panel&lt;/b&gt;'));
+    assert.ok(!groupGallery.includes('<figcaption'), 'group gallery restores individual image labels');
+    assert.ok(!groupDetail.includes('<figcaption'), 'group detail restores individual image labels');
     for (const panel of original.panels) {
       assert.ok(groupDetail.includes(panel.image.display), `detail omits ${panel.title}`);
       assert.ok(groupGallery.includes(panel.image.display), `gallery omits ${panel.title}`);
     }
     assert.ok(groupDetail.includes('Gemini'));
     assert.ok(groupDetail.includes('原作者'));
+    assert.ok(groupGallery.includes('Gemini'));
+    assert.ok(groupGallery.includes('原作者'));
+    for (const art of api.artworks) {
+      assert.ok(workIndex.includes(`/works/${art.slug}/`), `artwork information omits ${art.slug}`);
+      if (art.reference.url) assert.ok(workIndex.includes(art.reference.url), `artwork information omits ${art.slug} source`);
+    }
     const separate = await html('works/light-and-shadow');
-    assert.ok(separate.includes('卡拉瓦乔奶龙'));
+    assert.ok(separate.includes('正在思考'));
+    assert.ok((await html('works/paint-pot-angel')).includes('桶中之脑'));
+    assert.equal(api.artworks.at(-1).slug, 'salvator');
     const matrix = api.artworks.find(art => art.descriptionFormat === 'matrix');
     const matrixDetail = await html(`works/${matrix.slug}`);
     for (const row of matrix.description.split('\n')) assert.ok(matrixDetail.includes(row));
@@ -85,10 +107,11 @@ test('project-path build preserves the exhibition, escapes content, and excludes
 
     const home = await html('');
     assert.ok(home.includes('进入画廊'));
-    assert.ok(home.includes('关于展览'));
-    assert.ok(home.includes('所有作品'));
-    assert.ok(home.includes('来源与说明'));
+    assert.ok(home.includes('奶·龙'));
+    assert.ok(home.includes('NAILOONG, REFRAMED'));
+    assert.match(home, /奶龙即不同[\s\S]*<em>Nailoong is different<\/em>/);
     for (const route of ['works', 'about', 'credits']) await access(path.join(dist, route, 'index.html'));
+    assert.ok((await html('credits')).includes('data-redirect="/nailoong-museum/works/"'));
     const files = await readdir(dist, { recursive: true });
     let checked = 0;
     for (const file of files.filter(filename => filename.endsWith('.html'))) {
@@ -98,6 +121,15 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       assert.ok(!content.includes('<b>untrusted panel</b>'), `${file}: unescaped panel`);
       assert.ok(!content.includes('<img src=x onerror=alert(1)>'), `${file}: unescaped tool`);
       assert.ok(!content.includes('/studio/'), `${file}: maintenance link remains`);
+      const header = content.match(/<header\b[^>]*>[\s\S]*?<\/header>/)?.[0];
+      assert.ok(header, `${file}: public header missing`);
+      assert.ok(header.includes('/nailoong-museum/works/'), `${file}: artwork information navigation missing`);
+      assert.ok(header.includes('作品说明'), `${file}: artwork information label missing`);
+      assert.ok(header.includes('/nailoong-museum/about/'), `${file}: about navigation missing`);
+      assert.ok(header.includes('关于展览'), `${file}: about navigation label missing`);
+      assert.ok(!content.includes('<footer'), `${file}: removed footer remains`);
+      assert.ok(!content.includes('data-return='), `${file}: removed Escape return action remains`);
+      assert.ok(!content.includes('Esc 返回'), `${file}: removed Escape hint remains`);
       const urls = [...content.matchAll(/(?:href|src|data-full-src)="([^"#]+)"/g)].map(match => match[1]);
       for (const match of content.matchAll(/srcset="([^"]+)"/g)) urls.push(...match[1].split(',').map(candidate => candidate.trim().split(/\s+/)[0]));
       for (const url of urls) {

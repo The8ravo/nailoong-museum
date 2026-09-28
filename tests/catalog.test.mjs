@@ -14,7 +14,13 @@ test('the revised exhibition is preserved and all published image assets exist',
   for (const art of published) for (const image of artworkImages(art)) {
     for (const kind of ['thumb', 'display', 'full']) await access(new URL('../public/' + image[kind], import.meta.url));
   }
-  assert.equal(published.find(art => art.slug === 'light-and-shadow').title, '卡拉瓦乔奶龙');
+  const thinking = published.find(art => art.slug === 'light-and-shadow');
+  assert.equal(thinking.title, '正在思考');
+  assert.equal(thinking.titleEn, 'Thinking');
+  const bucket = published.find(art => art.slug === 'paint-pot-angel');
+  assert.equal(bucket.title, '桶中之脑');
+  assert.equal(bucket.titleEn, 'Brain in a Bucket');
+  assert.equal(published.filter(art => originalIds.includes(art.id)).at(-1).slug, 'salvator');
 });
 
 test('the series keeps its six ordered panels and separate origin and tool records', () => {
