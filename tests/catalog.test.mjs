@@ -27,7 +27,7 @@ test('the series keeps its six ordered panels and separate origin and tool recor
   const art = group(data);
   assert.equal(art.title, '组图');
   assert.equal(art.section, 'series');
-  assert.deepEqual(art.panels.map(panel => panel.title), ['浮世绘奶龙', '村上隆奶龙', '勒夏奶龙', '极简构成主义奶龙', '构成主义奶龙', '康定斯基奶龙']);
+  assert.deepEqual(art.panels.map(panel => panel.title), ['浮世绘奶龙', '构成主义奶龙', '勒夏奶龙', '极简构成主义奶龙', '康定斯基奶龙', '村上隆奶龙']);
   assert.equal(art.description, '这个世界太尖锐了，不允许奶龙哭，却赋予了奶龙很多痛苦。怎么痛也痛不完，奶龙痛恨这一切。后来才明白，什么都可以是假的，只有痛苦是真的。');
   const originalPanel = art.panels.find(panel => panel.title === '构成主义奶龙');
   assert.equal(originalPanel.creation.tool, null);

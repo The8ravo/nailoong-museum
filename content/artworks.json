@@ -446,7 +446,7 @@
       "section": "series",
       "tag": "六联作",
       "description": "这个世界太尖锐了，不允许奶龙哭，却赋予了奶龙很多痛苦。怎么痛也痛不完，奶龙痛恨这一切。后来才明白，什么都可以是假的，只有痛苦是真的。",
-      "alt": "六幅奶龙图像依次采用浮世绘、花卉纹样、复古海报、极简构成、构成主义和抽象几何的视觉形式。",
+      "alt": "六幅奶龙图像依次采用浮世绘、构成主义、复古海报、极简构成、抽象几何和花卉纹样的视觉形式。",
       "notes": "",
       "reference": {
         "relationship": "灵感来源",
@@ -490,27 +490,27 @@
           }
         },
         {
-          "title": "村上隆奶龙",
-          "alt": "奶龙的身体与周围空间被彩色笑脸花卉、祥云及黑红几何色块覆盖，轮廓以黑线勾勒。",
+          "title": "构成主义奶龙",
+          "alt": "红黑米白几何色块之间，扁平黄色奶龙抬着黑色手掌，下方有红色圆形，斜线贯穿背景。",
           "image": {
-            "width": 768,
-            "height": 1024,
-            "thumb": "assets/artworks/series-murakami-thumb.webp",
-            "display": "assets/artworks/series-murakami-display.webp",
-            "full": "assets/artworks/series-murakami-full.webp"
+            "width": 1080,
+            "height": 1440,
+            "thumb": "assets/artworks/constructed-thumb.webp",
+            "display": "assets/artworks/constructed-display.webp",
+            "full": "assets/artworks/constructed-full.webp"
           },
           "creation": {
             "date": null,
-            "tool": "Gemini",
+            "tool": null,
             "modelVersion": null,
             "prompt": null,
             "humanEdits": null
           },
           "source": {
-            "filename": "村上隆奶龙.png",
-            "origin": "展览发起人提供的 AI 生成图像",
-            "credit": "展览发起人",
-            "url": null,
+            "filename": "构成主义奶龙.png",
+            "origin": "引自原作者",
+            "credit": "原作者",
+            "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
             "rightsStatus": ""
           }
         },
@@ -565,31 +565,6 @@
           }
         },
         {
-          "title": "构成主义奶龙",
-          "alt": "红黑米白几何色块之间，扁平黄色奶龙抬着黑色手掌，下方有红色圆形，斜线贯穿背景。",
-          "image": {
-            "width": 1080,
-            "height": 1440,
-            "thumb": "assets/artworks/constructed-thumb.webp",
-            "display": "assets/artworks/constructed-display.webp",
-            "full": "assets/artworks/constructed-full.webp"
-          },
-          "creation": {
-            "date": null,
-            "tool": null,
-            "modelVersion": null,
-            "prompt": null,
-            "humanEdits": null
-          },
-          "source": {
-            "filename": "构成主义奶龙.png",
-            "origin": "引自原作者",
-            "credit": "原作者",
-            "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
-            "rightsStatus": ""
-          }
-        },
-        {
           "title": "康定斯基奶龙",
           "alt": "白色背景上，奶龙由彩色圆环、曲线和几何形状构成，四周散布黑色线条及红蓝色块。",
           "image": {
@@ -613,6 +588,31 @@
             "url": null,
             "rightsStatus": ""
           }
+        },
+        {
+          "title": "村上隆奶龙",
+          "alt": "奶龙的身体与周围空间被彩色笑脸花卉、祥云及黑红几何色块覆盖，轮廓以黑线勾勒。",
+          "image": {
+            "width": 768,
+            "height": 1024,
+            "thumb": "assets/artworks/series-murakami-thumb.webp",
+            "display": "assets/artworks/series-murakami-display.webp",
+            "full": "assets/artworks/series-murakami-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": "Gemini",
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "村上隆奶龙.png",
+            "origin": "展览发起人提供的 AI 生成图像",
+            "credit": "展览发起人",
+            "url": null,
+            "rightsStatus": ""
+          }
         }
       ],
       "creation": {
@@ -623,7 +623,7 @@
         "humanEdits": null
       },
       "source": {
-        "filename": "浮世绘奶龙.png；村上隆奶龙.png；勒夏奶龙.png；简约构成主义奶龙.png；构成主义奶龙.png；康定斯基奶龙.png",
+        "filename": "浮世绘奶龙.png；构成主义奶龙.png；勒夏奶龙.png；简约构成主义奶龙.png；康定斯基奶龙.png；村上隆奶龙.png",
         "origin": "《构成主义奶龙》引自原作者，其余五幅由展览发起人使用 Gemini 生成。",
         "credit": "《构成主义奶龙》：原作者；其余五幅：展览发起人",
         "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
