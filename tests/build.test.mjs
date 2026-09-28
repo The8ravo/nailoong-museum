@@ -6,6 +6,20 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+const escapeHtml = value => value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function assertDescriptions(html, artworks, label) {
+  const plain = artworks.filter(art => art.descriptionFormat !== 'matrix' && art.description.trim());
+  const expectedChinese = plain.map(art => escapeHtml(art.description));
+  const expectedEnglish = plain.filter(art => art.descriptionEn?.trim()).map(art => escapeHtml(art.descriptionEn));
+  const chinese = [...html.matchAll(/<p class="work-description" lang="zh-CN">([\s\S]*?)<\/p>/g)].map(match => match[1]);
+  const english = [...html.matchAll(/<p class="work-description work-description-en" lang="en">([\s\S]*?)<\/p>/g)].map(match => match[1]);
+  assert.deepEqual(chinese, expectedChinese, `${label}: Chinese descriptions or language attributes differ`);
+  assert.deepEqual(english, expectedEnglish, `${label}: English descriptions, escaping, or optional omission differ`);
+  for (const art of plain.filter(art => art.descriptionEn?.trim())) {
+    assert.ok(html.includes(`<p class="work-description" lang="zh-CN">${escapeHtml(art.description)}</p><p class="work-description work-description-en" lang="en">${escapeHtml(art.descriptionEn)}</p>`), `${label}: English description does not follow its Chinese original`);
+  }
+}
+
 test('project-path build preserves the exhibition, escapes content, and excludes drafts and unused assets', async () => {
   const source = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   const temporary = await mkdtemp(path.join(tmpdir(), 'nailoong-build-test-'));
@@ -34,6 +48,12 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     escaped.title = '<script>untrusted title</script>';
     escaped.creation.tool = '<img src=x onerror=alert(1)>';
     original.panels[1].title = '<b>untrusted panel</b>';
+    const ordinary = expectedPublic.filter(art => art.descriptionFormat !== 'matrix' && art.description.trim());
+    ordinary[0].descriptionEn = 'A <script>alert("translation")</script> & an image.';
+    delete ordinary[1].descriptionEn;
+    ordinary[2].descriptionEn = '   ';
+    expectedPublic.find(art => !art.description.trim()).descriptionEn = 'ORPHAN_TRANSLATION_MUST_NOT_RENDER';
+    expectedPublic.find(art => art.descriptionFormat === 'matrix').descriptionEn = 'MATRIX_TRANSLATION_MUST_NOT_RENDER';
     await writeFile(contentPath, JSON.stringify(data));
     execFileSync(process.execPath, ['scripts/build.mjs'], { cwd: temporary, env: { ...process.env, BASE_PATH: '/nailoong-museum' }, stdio: 'pipe' });
 
@@ -57,8 +77,10 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(detail.includes('&lt;img src=x onerror=alert(1)&gt;'));
     assert.ok(!detail.includes('<script>untrusted title'));
     for (const [index, art] of api.artworks.entries()) {
-      await access(path.join(dist, 'works', art.slug, 'index.html'));
+      const artDetail = await html(`works/${art.slug}`);
       const room = await html(`gallery/${art.slug}`);
+      assertDescriptions(artDetail, [art], `detail ${art.slug}`);
+      assertDescriptions(room, [art], `gallery ${art.slug}`);
       const previous = api.artworks[index - 1];
       const next = api.artworks[index + 1];
       const previousLinks = room.match(/<a\b[^>]*\bdata-prev\b[^>]*>/g) || [];
@@ -83,6 +105,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     const groupDetail = await html('works/series');
     const groupGallery = await html('gallery/series');
     const workIndex = await html('works');
+    assertDescriptions(workIndex, api.artworks, 'artwork information index');
     assert.ok(workIndex.includes('&lt;b&gt;untrusted panel&lt;/b&gt;'));
     assert.ok(!groupGallery.includes('<figcaption'), 'group gallery restores individual image labels');
     assert.ok(!groupDetail.includes('<figcaption'), 'group detail restores individual image labels');
@@ -96,7 +119,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(groupGallery.includes('原作者'));
     for (const art of api.artworks) {
       assert.ok(workIndex.includes(`/works/${art.slug}/`), `artwork information omits ${art.slug}`);
-      if (art.reference.url) assert.ok(workIndex.includes(art.reference.url.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))), `artwork information omits ${art.slug} source`);
+      if (art.reference.url) assert.ok(workIndex.includes(escapeHtml(art.reference.url)), `artwork information omits ${art.slug} source`);
     }
     const separate = await html('works/light-and-shadow');
     assert.ok(separate.includes('正在思考'));
@@ -108,6 +131,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(matrixDetail.includes('matrix'));
 
     const home = await html('');
+    assertDescriptions(home, api.artworks, 'home');
     assert.ok(home.includes('进入画廊'));
     assert.ok(home.includes('奶·龙'));
     assert.ok(home.includes('NAILOONG, REFRAMED'));
@@ -122,6 +146,9 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       assert.ok(!content.includes('<script>untrusted title'), `${file}: unescaped title`);
       assert.ok(!content.includes('<b>untrusted panel</b>'), `${file}: unescaped panel`);
       assert.ok(!content.includes('<img src=x onerror=alert(1)>'), `${file}: unescaped tool`);
+      assert.ok(!content.includes('<script>alert("translation")</script>'), `${file}: unescaped English description`);
+      assert.ok(!content.includes('ORPHAN_TRANSLATION_MUST_NOT_RENDER'), `${file}: English renders without a Chinese description`);
+      assert.ok(!content.includes('MATRIX_TRANSLATION_MUST_NOT_RENDER'), `${file}: matrix is translated`);
       assert.ok(!content.includes('/studio/'), `${file}: maintenance link remains`);
       const header = content.match(/<header\b[^>]*>[\s\S]*?<\/header>/)?.[0];
       assert.ok(header, `${file}: public header missing`);

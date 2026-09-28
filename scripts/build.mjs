@@ -50,9 +50,8 @@ function artworkVisual(a, options = {}) {
 }
 function description(a) {
   if (!a.description.trim()) return '';
-  return a.descriptionFormat === 'matrix'
-    ? `<pre class="text-matrix" style="--matrix-size:${a.description.split('\n').length}" aria-label="由奶与龙两个字构成的方阵">${E(a.description)}</pre>`
-    : `<p class="work-description">${E(a.description)}</p>`;
+  if (a.descriptionFormat === 'matrix') return `<pre class="text-matrix" style="--matrix-size:${a.description.split('\n').length}" aria-label="由奶与龙两个字构成的方阵">${E(a.description)}</pre>`;
+  return `<p class="work-description" lang="zh-CN">${E(a.description)}</p>${a.descriptionEn?.trim() ? `<p class="work-description work-description-en" lang="en">${E(a.descriptionEn)}</p>` : ''}`;
 }
 function reference(a) {
   if (!a.reference.title) return '';

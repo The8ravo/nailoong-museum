@@ -59,6 +59,22 @@ test('draft works and draft series are excluded as whole records', () => {
   assert.ok(!publishedArtworks(changed).some(art => art.slug === 'series'));
 });
 
+test('English descriptions are optional text and reject malformed values', () => {
+  const legacy = fixture();
+  for (const art of legacy.artworks) delete art.descriptionEn;
+  assert.doesNotThrow(() => validateCatalog(legacy));
+  for (const value of ['', 'An English description.', 'Text with <em>markup</em> & punctuation.']) {
+    const changed = fixture();
+    changed.artworks[0].descriptionEn = value;
+    assert.doesNotThrow(() => validateCatalog(changed));
+  }
+  for (const value of [null, 17, false, {}, [], 'x'.repeat(10001)]) {
+    const changed = fixture();
+    changed.artworks[0].descriptionEn = value;
+    assert.throws(() => validateCatalog(changed), /descriptionEn/);
+  }
+});
+
 test('duplicate identifiers, unsafe slugs, and path traversal are rejected', () => {
   const duplicate = fixture();
   duplicate.artworks.push(structuredClone(duplicate.artworks[0]));

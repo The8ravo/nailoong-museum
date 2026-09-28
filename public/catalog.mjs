@@ -33,6 +33,7 @@ export function validateCatalog(data) {
     for (const key of ['title','titleEn','description','alt','notes','medium','tag']) {
       if (!textValue(art[key], ['title','alt'].includes(key))) throw new Error(`${art.id} 的 ${key} 无效。`);
     }
+    if (art.descriptionEn !== undefined && !textValue(art.descriptionEn)) throw new Error(`${art.id} 的 descriptionEn 无效。`);
     if (!Object.hasOwn(SECTIONS, art.section) || !Number.isFinite(art.order) || typeof art.publish !== 'boolean') throw new Error(`${art.id} 的展区、顺序或发布状态无效。`);
     validateImage(art.image, art.id);
     if (!record(art.reference) || !textValue(art.reference.title) || !safeUrl(art.reference.url) || !textValue(art.reference.note)) throw new Error(`${art.id} 的参考作品信息无效。`);

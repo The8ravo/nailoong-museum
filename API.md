@@ -36,6 +36,7 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
   "order": 100,
   "tag": "绘画",
   "description": "作品说明；不显示说明时使用空字符串。",
+  "descriptionEn": "An English translation of the artwork description.",
   "alt": "准确的图片描述。",
   "notes": "补充说明，也可留空。",
   "medium": "AI 辅助创作的数字图像",
@@ -78,6 +79,8 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 图片路径限定在 `assets/artworks/` 或 `assets/uploads/`，文件类型为 WebP、PNG 或 JPEG。图片宽高为 1–20000 的整数。参考和来源链接只接受 HTTPS 或空值，不接受脚本协议、带账号密码的链接或目录穿越。所有文本在写入 HTML 时转义。
 
 `creation` 中的未知值使用 `null`。已知日期使用有效的 `YYYY-MM-DD` 格式；`tool`、`modelVersion`、`prompt`、`humanEdits` 为文本。原作作者和年代保存在 `reference`，与生成图像的制作工具及来源分开。
+
+`descriptionEn` 是可选的英文说明，缺少该字段的旧记录仍可读取。设置时必须是最长 10000 字符的字符串，不接受 `null`、数字或对象。普通作品先显示 `description` 中文，再显示非空的 `descriptionEn` 英文，并分别标记 `lang="zh-CN"` 和 `lang="en"`；英文和中文同样进行 HTML 转义。英文为空或仅含空白时不生成额外段落。没有中文说明的作品以及字符方阵不显示英文段落，这两种记录应省略 `descriptionEn`。
 
 ## 组图
 
