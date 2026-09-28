@@ -3,5 +3,67 @@
   "exhibitionTitle": "奶·龙",
   "siteUrl": "https://the8ravo.github.io/nailoong-museum",
   "repository": "https://github.com/The8ravo/nailoong-museum",
-  "contactUrl": "https://github.com/The8ravo/nailoong-museum/issues"
+  "contactUrl": "https://github.com/The8ravo/nailoong-museum/issues",
+  "opening": {
+    "title": "开幕词",
+    "titleEn": "Opening",
+    "paragraphs": [
+      {
+        "zh": "一张图像何以被认作奶龙？从一个名字开始，奶龙进入肖像、亲密关系与公共生活。",
+        "en": "What makes an image recognizable as Nailoong? Beginning with a name, Nailoong enters portraits, intimate relationships, and public life."
+      },
+      {
+        "zh": "名字被否定，身份被扮演，形象在重复中变换、瓦解，最后重新与我们相对。",
+        "en": "A name is denied, roles are played, and the image changes through repetition and comes apart, before facing us once more."
+      }
+    ]
+  },
+  "closing": {
+    "title": "闭幕",
+    "titleEn": "Closing",
+    "paragraphs": [
+      {
+        "zh": "在最后一幅图像中，奶龙以救世主的身份与我们相对。",
+        "en": "In the final image, Nailoong faces us as the Savior."
+      },
+      {
+        "zh": "观看在此结束。我们认出的，还是最初的奶龙吗？",
+        "en": "The exhibition ends here. Is the Nailoong we recognize still the one we first encountered?"
+      }
+    ]
+  },
+  "chapters": [
+    {
+      "id": "naming",
+      "title": "命名",
+      "titleEn": "Naming",
+      "startSlug": "this-is-not-nailoong"
+    },
+    {
+      "id": "performing",
+      "title": "扮演",
+      "titleEn": "Playing a Role",
+      "startSlug": "the-fifer"
+    },
+    {
+      "id": "dissolution-return",
+      "title": "瓦解与返回",
+      "titleEn": "Dissolution and Return",
+      "startSlug": "paint-pot-angel"
+    }
+  ],
+  "moments": {
+    "series": {
+      "zh": "重复",
+      "en": "Repetition"
+    },
+    "almost-disappearing": {
+      "zh": "瓦解",
+      "en": "Dissolution"
+    },
+    "salvator": {
+      "zh": "返回",
+      "en": "Return"
+    }
+  }
 }

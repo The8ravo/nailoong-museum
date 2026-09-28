@@ -19,6 +19,14 @@ function assertDescriptions(html, artworks, label) {
     assert.ok(html.includes(`<p class="work-description" lang="zh-CN">${escapeHtml(art.description)}</p><p class="work-description work-description-en" lang="en">${escapeHtml(art.descriptionEn)}</p>`), `${label}: English description does not follow its Chinese original`);
   }
 }
+function assertEditorial(html, editorial, label) {
+  assert.ok(html.includes(escapeHtml(editorial.title)), `${label}: Chinese title missing`);
+  assert.ok(html.includes(escapeHtml(editorial.titleEn)), `${label}: English title missing`);
+  for (const [key, lang] of [['zh', 'zh-CN'], ['en', 'en']]) {
+    const paragraphs = [...html.matchAll(new RegExp(`<p\\b[^>]*\\blang="${lang}"[^>]*>([\\s\\S]*?)<\\/p>`, 'g'))].map(match => match[1]);
+    for (const paragraph of editorial.paragraphs) assert.ok(paragraphs.includes(escapeHtml(paragraph[key])), `${label}: ${lang} paragraph missing or unescaped`);
+  }
+}
 
 test('project-path build preserves the exhibition, escapes content, and excludes drafts and unused assets', async () => {
   const source = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -27,6 +35,11 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     for (const name of ['scripts', 'public', 'content']) await cp(path.join(source, name), path.join(temporary, name), { recursive: true });
     const contentPath = path.join(temporary, 'content/artworks.json');
     const data = JSON.parse(await readFile(contentPath));
+    const settingsPath = path.join(temporary, 'content/settings.json');
+    const settings = JSON.parse(await readFile(settingsPath));
+    settings.opening.paragraphs[0].zh += ' <script>opening editor text</script>';
+    settings.closing.paragraphs[0].en += ' <script>closing editor text</script> & return.';
+    await writeFile(settingsPath, JSON.stringify(settings));
     const expectedPublic = data.artworks.filter(art => art.publish);
     const expectedImageCount = expectedPublic.reduce((total, art) => total + (art.panels?.length || 1), 0);
     await writeFile(path.join(temporary, 'public/assets/artworks/unused-test-fixture.webp'), 'unused asset fixture');
@@ -71,6 +84,11 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
     assert.ok(!sitemap.includes(draft.slug));
     assert.ok(!sitemap.includes('/studio/'));
+    assert.ok(sitemap.includes(`${settings.siteUrl.replace(/\/$/, '')}/closing/`), 'closing page is absent from sitemap');
+    assert.ok(!api.artworks.some(art => art.slug === 'closing'), 'closing text is counted as an artwork');
+    const chapterStarts = settings.chapters.map(chapter => ({...chapter, index:api.artworks.findIndex(art => art.slug === chapter.startSlug)}));
+    assert.ok(chapterStarts.every((chapter, index) => chapter.index >= 0 && (!index || chapter.index > chapterStarts[index - 1].index)), 'chapters must begin at ordered published works');
+    assert.equal(chapterStarts[0].index, 0, 'first artwork has no chapter');
 
     const detail = await html(`works/${escaped.slug}`);
     assert.ok(detail.includes('&lt;script&gt;untrusted title&lt;/script&gt;'));
@@ -86,10 +104,26 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       const previousLinks = room.match(/<a\b[^>]*\bdata-prev\b[^>]*>/g) || [];
       const nextLinks = room.match(/<a\b[^>]*\bdata-next\b[^>]*>/g) || [];
       assert.equal(previousLinks.length, previous ? 1 : 0, `${art.slug}: previous control does not respect exhibition boundary`);
-      assert.equal(nextLinks.length, next ? 1 : 0, `${art.slug}: next control does not respect exhibition boundary`);
+      assert.equal(nextLinks.length, 1, `${art.slug}: next artwork or closing control missing`);
       if (previous) assert.ok(previousLinks[0].includes(`/nailoong-museum/gallery/${previous.slug}/`));
       if (next) assert.ok(nextLinks[0].includes(`/nailoong-museum/gallery/${next.slug}/`));
-      if (!previous || !next) assert.ok(room.includes('aria-disabled="true"'), `${art.slug}: end of exhibition is not indicated`);
+      else {
+        assert.ok(nextLinks[0].includes('/nailoong-museum/closing/'), `${art.slug}: final artwork does not lead to closing`);
+        assert.match(room, /<a\b[^>]*\bdata-next\b[^>]*>[\s\S]*?闭幕[\s\S]*?<\/a>/);
+      }
+      if (!previous) assert.ok(room.includes('aria-disabled="true"'), `${art.slug}: start of exhibition is not indicated`);
+      const expectedChapter = chapterStarts.filter(chapter => chapter.index <= index).at(-1);
+      const markers = room.match(/<[^>]+\bclass="[^"]*\bchapter-marker\b[^"]*"[^>]*>/g) || [];
+      assert.equal(markers.length, 1, `${art.slug}: chapter marker missing or duplicated`);
+      assert.ok(markers[0].includes(`data-chapter="${expectedChapter.id}"`), `${art.slug}: wrong chapter`);
+      assert.equal(/\bchapter-start\b/.test(markers[0]), index === expectedChapter.index, `${art.slug}: chapter opening emphasis appears on the wrong work`);
+      assert.ok(room.includes(escapeHtml(expectedChapter.title)), `${art.slug}: chapter title missing`);
+      assert.ok(room.includes(escapeHtml(expectedChapter.titleEn)), `${art.slug}: English chapter title missing`);
+      const moment = settings.moments?.[art.slug];
+      if (moment) {
+        assert.ok(room.includes(escapeHtml(moment.zh)), `${art.slug}: stage label missing`);
+        assert.ok(room.includes(escapeHtml(moment.en)), `${art.slug}: English stage label missing`);
+      }
       assert.ok(room.includes('work-info'), `${art.slug}: gallery omits artwork information`);
       assert.ok(room.includes(art.medium), `${art.slug}: gallery omits medium`);
       if (art.descriptionFormat === 'matrix') {
@@ -114,9 +148,10 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       assert.ok(groupGallery.includes(panel.image.display), `gallery omits ${panel.title}`);
     }
     assert.ok(groupDetail.includes('Gemini'));
-    assert.ok(groupDetail.includes('原作者'));
+    assert.ok(groupDetail.includes('Simon'));
     assert.ok(groupGallery.includes('Gemini'));
-    assert.ok(groupGallery.includes('原作者'));
+    assert.ok(groupGallery.includes('Simon'));
+    assert.ok(workIndex.includes('Simon'));
     for (const art of api.artworks) {
       assert.ok(workIndex.includes(`/works/${art.slug}/`), `artwork information omits ${art.slug}`);
       if (art.reference.url) assert.ok(workIndex.includes(escapeHtml(art.reference.url)), `artwork information omits ${art.slug} source`);
@@ -131,13 +166,24 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(matrixDetail.includes('matrix'));
 
     const home = await html('');
-    assertDescriptions(home, api.artworks, 'home');
+    assertDescriptions(home, [], 'home');
+    assert.ok(!/\bclass="[^"]*\b(?:work-row|works-section)\b/.test(home), 'home still contains an artwork overview');
+    assert.ok(!home.includes('WORKS IN THE EXHIBITION'), 'home still advertises an artwork overview');
+    assertEditorial(home, settings.opening, 'opening');
     assert.ok(home.includes('进入画廊'));
     assert.ok(home.includes('奶·龙'));
     assert.ok(home.includes('NAILOONG, REFRAMED'));
     assert.match(home, /THE EXHIBITION<\/p><p>奶龙即不同<br><em>Nailoong is different\.<\/em>/);
-    for (const route of ['works', 'about', 'credits']) await access(path.join(dist, route, 'index.html'));
+    for (const route of ['works', 'about', 'credits', 'closing']) await access(path.join(dist, route, 'index.html'));
     assert.ok((await html('credits')).includes('data-redirect="/nailoong-museum/works/"'));
+    const closing = await html('closing');
+    assertEditorial(closing, settings.closing, 'closing');
+    assert.ok(!closing.includes('data-gallery'), 'closing page activates gallery keyboard navigation');
+    assert.ok(!closing.includes('data-next'), 'closing page automatically continues the exhibition');
+    const closingMain = closing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] || '';
+    assert.match(closingMain, /<a\b[^>]*href="\/nailoong-museum\/"[^>]*>[\s\S]*?(?:返回|回到)首页[\s\S]*?<\/a>/);
+    const restart = [...closingMain.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)].find(match => match[2].includes('重新观看'));
+    assert.ok(restart && ['/nailoong-museum/gallery/', `/nailoong-museum/gallery/${api.artworks[0].slug}/`].includes(restart[1]), 'closing page has no explicit restart link to the first artwork');
     const files = await readdir(dist, { recursive: true });
     let checked = 0;
     for (const file of files.filter(filename => filename.endsWith('.html'))) {
@@ -147,6 +193,9 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       assert.ok(!content.includes('<b>untrusted panel</b>'), `${file}: unescaped panel`);
       assert.ok(!content.includes('<img src=x onerror=alert(1)>'), `${file}: unescaped tool`);
       assert.ok(!content.includes('<script>alert("translation")</script>'), `${file}: unescaped English description`);
+      assert.ok(!content.includes('<script>opening editor text</script>'), `${file}: unescaped opening text`);
+      assert.ok(!content.includes('<script>closing editor text</script>'), `${file}: unescaped closing text`);
+      assert.ok(!content.includes('xiaohongshu.com/explore/6a8ee0a0000000000a00829d'), `${file}: retired inspiration post link remains`);
       assert.ok(!content.includes('ORPHAN_TRANSLATION_MUST_NOT_RENDER'), `${file}: English renders without a Chinese description`);
       assert.ok(!content.includes('MATRIX_TRANSLATION_MUST_NOT_RENDER'), `${file}: matrix is translated`);
       assert.ok(!content.includes('/studio/'), `${file}: maintenance link remains`);

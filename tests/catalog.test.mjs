@@ -31,7 +31,14 @@ test('the series keeps its six ordered panels and separate origin and tool recor
   assert.equal(art.description, '这个世界太尖锐了，不允许奶龙哭，却赋予了奶龙很多痛苦。怎么痛也痛不完，奶龙痛恨这一切。后来才明白，什么都可以是假的，只有痛苦是真的。');
   const originalPanel = art.panels.find(panel => panel.title === '构成主义奶龙');
   assert.equal(originalPanel.creation.tool, null);
-  assert.match(originalPanel.source.origin, /原作者/);
+  assert.match(originalPanel.source.credit, /Simon/);
+  assert.match(art.source.credit, /Simon/);
+  const profileUrl = originalPanel.source.url;
+  assert.match(new URL(profileUrl).hostname, /(^|\.)xiaohongshu\.com$/);
+  assert.ok(new URL(profileUrl).pathname.startsWith('/user/profile/'));
+  assert.equal(art.reference.url, profileUrl);
+  assert.equal(art.source.url, profileUrl);
+  assert.ok(!JSON.stringify(data).includes('xiaohongshu.com/explore/6a8ee0a0000000000a00829d'));
   assert.ok(art.panels.filter(panel => panel !== originalPanel).every(panel => panel.creation.tool === 'Gemini'));
   assert.equal(artworkImages(art).length, 6);
 });

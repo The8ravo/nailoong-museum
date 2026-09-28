@@ -41,6 +41,16 @@ h3 { font-size: 32px; line-height: 1.35; }
 .curatorial-intro p { font-family: var(--serif); font-size: 31px; line-height: 1.85; letter-spacing: .08em; }
 .curatorial-intro .eyebrow { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; margin-bottom: 18px; }
 .curatorial-intro em { font-family: Georgia, serif; font-size: 25px; letter-spacing: 0; }
+.opening-note { display: grid; grid-template-columns: 1fr 2fr; gap: 10%; border-top: 1px solid var(--line); padding: 58px 0 90px; }
+.opening-note h2 { font-size: 25px; margin-bottom: 12px; }
+.curatorial-copy { max-width: 680px; }
+.bilingual-paragraph + .bilingual-paragraph { margin-top: 25px; }
+.bilingual-paragraph > p { font-family: var(--serif); font-size: 17px; line-height: 2; }
+.bilingual-paragraph > .curatorial-english { font-family: Georgia, "Times New Roman", serif; font-size: 15px; line-height: 1.75; color: var(--muted); margin-top: 12px; }
+.closing-page { padding: 110px 0 85px; min-height: calc(100svh - 109px); }
+.closing-page h1 { font-size: clamp(44px, 6vw, 76px); margin: 23px 0 45px; }
+.closing-page .curatorial-copy { max-width: 580px; }
+.closing-actions { display: flex; flex-wrap: wrap; gap: 32px; margin-top: 25px; }
 .works-section { padding-bottom: 45px; }
 .section-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; border-bottom: 1px solid var(--ink); padding-bottom: 22px; }
 .section-heading h2 { font-size: 25px; }
@@ -106,17 +116,24 @@ h3 { font-size: 32px; line-height: 1.35; }
 
 /* The gallery keeps the same site navigation and places the label beside the work. */
 .gallery-room { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr); column-gap: 7%; row-gap: 30px; padding-top: 42px; padding-bottom: 28px; }
+.chapter-marker { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; gap: 12px 28px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 11px; line-height: 1.7; }
+.chapter-label { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+.chapter-number { font-family: Georgia, serif; }
+.chapter-label > [lang="en"], .chapter-moment > [lang="en"] { font-family: Georgia, serif; }
+.chapter-moment > [lang="en"] { margin-left: 9px; }
+.chapter-start .chapter-label { color: var(--ink); }
 .gallery-art { align-self: center; min-width: 0; }
-.gallery-art .single-image img { width: 100%; height: auto; max-height: calc(100svh - 235px); object-fit: contain; }
+.gallery-art .single-image img { width: 100%; height: auto; max-height: calc(100svh - 300px); object-fit: contain; }
 .gallery-info { align-self: center; padding-block: 8px; }
 .gallery-info h1 { font-size: clamp(28px, 2.7vw, 38px); }
 .gallery-info .work-english { font-size: 17px; margin-bottom: 24px; }
 .gallery-info .work-description { font-size: 16px; line-height: 1.95; }
 .gallery-info .work-data { margin-top: 24px; padding-top: 17px; }
-.gallery-art .panel-grid { gap: 18px 14px; width: min(100%, max(330px, calc((100svh - 235px) * 1.125))); margin-inline: auto; }
+.gallery-art .panel-grid { gap: 18px 14px; width: min(100%, max(330px, calc((100svh - 300px) * 1.125))); margin-inline: auto; }
 .gallery-controls { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; border-top: 1px solid var(--line); padding-top: 18px; gap: 25px; }
 .gallery-controls a, .gallery-controls > .disabled { display: inline-flex; align-items: center; gap: 18px; min-height: 44px; font-size: 12px; }
 .gallery-controls a > span, .gallery-controls > .disabled > span { font-size: 24px; }
+.gallery-controls a > .next-chapter-label { font-size: 12px; }
 .gallery-prev { justify-self: start; }
 .gallery-next { justify-self: end; }
 .gallery-controls .disabled { color: #aaa89f; }
@@ -156,6 +173,12 @@ h3 { font-size: 32px; line-height: 1.35; }
   .curatorial-intro { padding: 36px 0 44px; }
   .curatorial-intro p { font-size: 26px; }
   .curatorial-intro em { font-size: 22px; }
+  .opening-note { grid-template-columns: 1fr; gap: 26px; padding: 36px 0 55px; }
+  .opening-note h2 { font-size: 23px; }
+  .bilingual-paragraph > p { font-size: 16px; }
+  .closing-page { min-height: calc(100svh - 85px); padding: 70px 0 55px; }
+  .closing-page h1 { margin-bottom: 35px; }
+  .chapter-label { gap: 10px; }
   .section-heading span { font-size: 8px; letter-spacing: .06em; }
   .section-heading h2 { font-size: 23px; }
   .work-row { grid-template-columns: 1fr; gap: 35px; padding: 48px 0; }

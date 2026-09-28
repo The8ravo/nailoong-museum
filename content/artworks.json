@@ -458,9 +458,9 @@
       "notes": "",
       "reference": {
         "relationship": "灵感来源",
-        "note": "《构成主义奶龙》引自原作者，其余五幅由展览发起人使用 Gemini 生成。",
+        "note": "《构成主义奶龙》引自 Simon，其余五幅由展览发起人使用 Gemini 生成。",
         "title": "《组图》灵感来源",
-        "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed"
+        "url": "https://www.xiaohongshu.com/user/profile/64c7d038000000000b005df8"
       },
       "order": 110,
       "medium": "数字图像，六联作",
@@ -516,9 +516,9 @@
           },
           "source": {
             "filename": "构成主义奶龙.png",
-            "origin": "引自原作者",
-            "credit": "原作者",
-            "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
+            "origin": "引自原作者 Simon",
+            "credit": "Simon",
+            "url": "https://www.xiaohongshu.com/user/profile/64c7d038000000000b005df8",
             "rightsStatus": ""
           }
         },
@@ -632,9 +632,9 @@
       },
       "source": {
         "filename": "浮世绘奶龙.png；构成主义奶龙.png；勒夏奶龙.png；简约构成主义奶龙.png；康定斯基奶龙.png；村上隆奶龙.png",
-        "origin": "《构成主义奶龙》引自原作者，其余五幅由展览发起人使用 Gemini 生成。",
-        "credit": "《构成主义奶龙》：原作者；其余五幅：展览发起人",
-        "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
+        "origin": "《构成主义奶龙》引自 Simon，其余五幅由展览发起人使用 Gemini 生成。",
+        "credit": "《构成主义奶龙》：Simon；其余五幅：展览发起人",
+        "url": "https://www.xiaohongshu.com/user/profile/64c7d038000000000b005df8",
         "rightsStatus": ""
       },
       "publish": true,

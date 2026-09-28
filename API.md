@@ -12,17 +12,50 @@
 
 ## 页面地址
 
-- `/`：“奶·龙 / NAILOONG, REFRAMED”展览首页，含画廊入口。
+- `/`：“奶·龙 / NAILOONG, REFRAMED”展览首页，含画廊入口、展览宣言与双语开幕词，不列作品清单。
 - `/works/`：作品说明，整合全部作品、制作信息与参考来源。
 - `/works/:slug/`：单件作品详情。
 - `/gallery/`：从第一件作品开始观看。
-- `/gallery/:slug/`：完整展示指定作品，同时呈现作品说明与制作信息；组图各幅在同页呈现。
+- `/gallery/:slug/`：完整展示指定作品，同时呈现所属章节、作品说明与制作信息；组图各幅在同页呈现。
+- `/closing/`：双语闭幕词，可返回首页或重新观看，不计作展品。
 - `/about/`：关于展览。
 - `/credits/`：旧地址，重定向到 `/works/`。
 
 GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 
-所有页面保留公共页眉中的“作品说明”和“关于展览”导航，不设页脚。画廊以带 `data-prev`、`data-next` 的链接切换前后作品，也支持键盘左右键；不设置 Esc 返回动作。首件没有上一件链接，末件没有下一件链接，以禁用状态标记观看边界，首尾不循环。
+所有页面保留公共页眉中的“作品说明”和“关于展览”导航，不设页脚。画廊以带 `data-prev`、`data-next` 的链接切换前后作品，也支持键盘左右键；不设置 Esc 返回动作。首件没有上一件链接，末件《救世主》的 `data-next` 指向 `/closing/`。闭幕页不设置 `data-gallery`，不启用画廊键盘导航，也不自动循环。
+
+## 开闭幕词与章节配置
+
+`content/settings.json` 保留站点标题与网址等设置，并增加以下内容字段：
+
+```json
+{
+  "opening": {
+    "title": "开幕词",
+    "titleEn": "Opening",
+    "paragraphs": [{ "zh": "中文开幕词。", "en": "English opening text." }]
+  },
+  "closing": {
+    "title": "闭幕词",
+    "titleEn": "Closing",
+    "paragraphs": [{ "zh": "中文闭幕词。", "en": "English closing text." }]
+  },
+  "chapters": [
+    { "id": "naming", "title": "命名", "titleEn": "Naming", "startSlug": "this-is-not-nailoong" },
+    { "id": "performing", "title": "扮演", "titleEn": "Playing a Role", "startSlug": "the-fifer" },
+    { "id": "dissolution-return", "title": "瓦解与返回", "titleEn": "Dissolution and Return", "startSlug": "paint-pot-angel" }
+  ]
+}
+```
+
+开闭幕词的 `paragraphs` 按数组顺序显示，每段先中文 `zh`、后英文 `en`，并对文本进行 HTML 转义。它们不进入展品 JSON，也不影响 `artworkCount` 或 `imageCount`；闭幕页会进入站点地图。
+
+章节按 `chapters` 数组顺序定义。`id` 应唯一且稳定；`startSlug` 必须对应已展出的作品，章首应按展览顺序递增，第一章从首件作品开始。每件作品归属它之前最近开始的章节，直到下一章开始。新增或调整作品时，维护 `order` 并复核这些起点；不要将章首作品设为草稿而保留悬空的 `startSlug`。
+
+画廊每页的 `.chapter-marker` 通过 `data-chapter` 提供章节 ID，只有章首作品的同一标记带 `.chapter-start`。章节不增加展品数量，也不额外插入画廊作品。
+
+可选的 `moments` 对象以作品 `slug` 为键，值为 `{ "zh": "重复", "en": "Repetition" }`，在该作品的章节标记旁显示阶段词。当前 `series`、`almost-disappearing`、`salvator` 分别标记“重复”“瓦解”“返回”；阶段词不改变章节归属。
 
 ## 单件展品结构
 
@@ -107,7 +140,7 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 }
 ```
 
-顶层 `image` 的路径和宽高必须与第一幅的 `image` 完全一致，作为作品封面。`panels` 的数组顺序即显示顺序。每一幅均保留各自的制作信息和来源；引用的图像不填写推测的生成工具。现有《组图》含六幅，其中《构成主义奶龙》的 `creation.tool` 为 `null`，来源指向原作者。
+顶层 `image` 的路径和宽高必须与第一幅的 `image` 完全一致，作为作品封面。`panels` 的数组顺序即显示顺序。每一幅均保留各自的制作信息和来源；引用的图像不填写推测的生成工具。现有《组图》含六幅，其中《构成主义奶龙》的 `creation.tool` 为 `null`，署名 Simon，来源指向其小红书主页；顶层作品来源与灵感链接使用同一主页地址。
 
 组图的图片下不显示各幅小标题。`panels[].title` 仍用于“作品说明”中的来源记录；`alt` 保持准确的图像内容描述。
 
