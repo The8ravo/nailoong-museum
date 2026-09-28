@@ -31,7 +31,7 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
 
 查看器包含 `[data-viewer-image]`、`[data-viewer-title]`、`[data-viewer-stage]`、`[data-viewer-status]`，以及 `button[data-viewer-close]` 与 `button[data-viewer-zoom]`。这些标记供 `public/app.mjs` 绑定图片、标题、查看状态和关闭、缩放控件；图片及标题仍来自现有作品或分图数据，无须增加内容字段。
 
-点击“返回作品”或按 Esc 关闭大图，回到当前作品的原有位置，不跳转页面。查看大图期间暂停画廊的左右键切换；关闭后恢复，并将键盘焦点交还给打开大图的链接。
+点击查看框外、“返回作品”或按 Esc 关闭大图，回到当前作品的原有位置，不跳转页面。框内点击、从框内拖动到框外均不会关闭。查看大图期间暂停画廊的左右键切换；关闭后恢复，并将键盘焦点交还给打开大图的链接。
 
 ## 开闭幕词与章节配置
 

@@ -10,6 +10,14 @@ if (viewer && typeof viewer.showModal === 'function') {
   let scrollPosition = { x: 0, y: 0 };
   let pendingImage = null;
   let requestId = 0;
+  let backdropPointer = null;
+  let backdropClick = false;
+
+  function isOutsideViewer(event) {
+    const bounds = viewer.getBoundingClientRect();
+    return event.clientX < bounds.left || event.clientX > bounds.right
+      || event.clientY < bounds.top || event.clientY > bounds.bottom;
+  }
 
   function resetZoom() {
     stage.classList.remove('is-zoomed');
@@ -73,6 +81,28 @@ if (viewer && typeof viewer.showModal === 'function') {
     loadingImage.src = link.href;
   });
 
+  viewer.addEventListener('pointerdown', event => {
+    backdropPointer = event.isPrimary && event.button === 0 && event.target === viewer && isOutsideViewer(event)
+      ? event.pointerId : null;
+    backdropClick = false;
+  });
+  viewer.addEventListener('pointerup', event => {
+    backdropClick = event.pointerId === backdropPointer && event.target === viewer && isOutsideViewer(event);
+    backdropPointer = null;
+  });
+  viewer.addEventListener('pointercancel', () => {
+    backdropPointer = null;
+    backdropClick = false;
+  });
+  viewer.addEventListener('click', event => {
+    const shouldClose = backdropClick && event.button === 0 && event.target === viewer && isOutsideViewer(event);
+    backdropClick = false;
+    if (shouldClose) {
+      event.preventDefault();
+      viewer.close();
+    }
+  });
+
   close.addEventListener('click', () => viewer.close());
   zoom.addEventListener('click', () => {
     const zoomed = stage.classList.toggle('is-zoomed');
@@ -82,6 +112,8 @@ if (viewer && typeof viewer.showModal === 'function') {
   });
   viewer.addEventListener('close', () => {
     if (viewer.open) return;
+    backdropPointer = null;
+    backdropClick = false;
     cancelImage();
     resetZoom();
     status.textContent = '';

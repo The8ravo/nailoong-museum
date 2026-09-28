@@ -144,7 +144,7 @@ h3 { font-size: 32px; line-height: 1.35; }
 
 /* A temporary close view leaves the gallery and its reading position in place. */
 .viewer-open { overflow: hidden; }
-.artwork-viewer { width: calc(100% - 40px); max-width: 1600px; height: calc(100svh - 40px); max-height: calc(100svh - 40px); margin: auto; padding: 18px 20px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.artwork-viewer { width: calc(100% - 96px); max-width: 1100px; height: calc(100svh - 64px); max-height: calc(100svh - 64px); margin: auto; padding: 18px 20px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
 .artwork-viewer[open] { display: flex; flex-direction: column; gap: 18px; }
 .artwork-viewer::backdrop { background: rgb(38 37 31 / 45%); }
 .viewer-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; }
@@ -178,7 +178,7 @@ h3 { font-size: 32px; line-height: 1.35; }
   .gallery-art .panel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; width: 100%; }
 }
 @media (max-width: 760px) {
-  .artwork-viewer { width: calc(100% - 24px); height: calc(100svh - 24px); max-height: calc(100svh - 24px); padding: 12px; }
+  .artwork-viewer { width: calc(100% - 48px); height: calc(100svh - 48px); max-height: calc(100svh - 48px); padding: 12px; }
   .artwork-viewer[open] { gap: 12px; }
   .viewer-toolbar { flex-wrap: wrap; gap: 4px 12px; }
   .viewer-toolbar > p { font-size: 12px; }
