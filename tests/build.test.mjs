@@ -85,6 +85,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(!sitemap.includes(draft.slug));
     assert.ok(!sitemap.includes('/studio/'));
     assert.ok(sitemap.includes(`${settings.siteUrl.replace(/\/$/, '')}/closing/`), 'closing page is absent from sitemap');
+    assert.ok(sitemap.includes(`${settings.siteUrl.replace(/\/$/, '')}/gallery/</loc>`), 'opening page is absent from sitemap');
     assert.ok(!api.artworks.some(art => art.slug === 'closing'), 'closing text is counted as an artwork');
     const chapterStarts = settings.chapters.map(chapter => ({...chapter, index:api.artworks.findIndex(art => art.slug === chapter.startSlug)}));
     assert.ok(chapterStarts.every((chapter, index) => chapter.index >= 0 && (!index || chapter.index > chapterStarts[index - 1].index)), 'chapters must begin at ordered published works');
@@ -103,15 +104,18 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       const next = api.artworks[index + 1];
       const previousLinks = room.match(/<a\b[^>]*\bdata-prev\b[^>]*>/g) || [];
       const nextLinks = room.match(/<a\b[^>]*\bdata-next\b[^>]*>/g) || [];
-      assert.equal(previousLinks.length, previous ? 1 : 0, `${art.slug}: previous control does not respect exhibition boundary`);
+      assert.equal(previousLinks.length, 1, `${art.slug}: previous artwork or opening control missing`);
       assert.equal(nextLinks.length, 1, `${art.slug}: next artwork or closing control missing`);
       if (previous) assert.ok(previousLinks[0].includes(`/nailoong-museum/gallery/${previous.slug}/`));
+      else {
+        assert.ok(previousLinks[0].includes('href="/nailoong-museum/gallery/"'), `${art.slug}: first artwork does not return to opening`);
+        assert.match(room, /<a\b[^>]*\bdata-prev\b[^>]*>[\s\S]*?开幕词[\s\S]*?<\/a>/);
+      }
       if (next) assert.ok(nextLinks[0].includes(`/nailoong-museum/gallery/${next.slug}/`));
       else {
         assert.ok(nextLinks[0].includes('/nailoong-museum/closing/'), `${art.slug}: final artwork does not lead to closing`);
         assert.match(room, /<a\b[^>]*\bdata-next\b[^>]*>[\s\S]*?闭幕[\s\S]*?<\/a>/);
       }
-      if (!previous) assert.ok(room.includes('aria-disabled="true"'), `${art.slug}: start of exhibition is not indicated`);
       const expectedChapter = chapterStarts.filter(chapter => chapter.index <= index).at(-1);
       const markers = room.match(/<[^>]+\bclass="[^"]*\bchapter-marker\b[^"]*"[^>]*>/g) || [];
       assert.equal(markers.length, 1, `${art.slug}: chapter marker missing or duplicated`);
@@ -135,7 +139,19 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       }
     }
     const galleryEntry = await html('gallery');
-    assert.ok(galleryEntry.includes(escaped.image.display) || galleryEntry.includes(`/gallery/${escaped.slug}/`));
+    assertEditorial(galleryEntry, settings.opening, 'opening');
+    assertDescriptions(galleryEntry, [], 'opening');
+    assert.ok(galleryEntry.includes('opening-page'), 'gallery entry is not an opening page');
+    assert.ok(galleryEntry.includes('data-gallery'), 'opening page does not activate keyboard navigation');
+    assert.ok(!galleryEntry.includes('<meta name="robots" content="noindex'), 'opening page remains excluded as a duplicate artwork');
+    const openingMain = galleryEntry.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] || '';
+    const openingPrevious = openingMain.match(/<a\b[^>]*\bdata-prev\b[^>]*>/g) || [];
+    const openingNext = openingMain.match(/<a\b[^>]*\bdata-next\b[^>]*>/g) || [];
+    assert.equal(openingPrevious.length, 1, 'opening page needs one previous control');
+    assert.equal(openingNext.length, 1, 'opening page needs one next control');
+    assert.ok(openingPrevious[0].includes('href="/nailoong-museum/"'), 'opening previous control does not lead home');
+    assert.ok(openingNext[0].includes(`/nailoong-museum/gallery/${api.artworks[0].slug}/`), 'opening next control skips the first artwork');
+    assert.match(openingMain, /<a\b[^>]*\bdata-next\b[^>]*>[\s\S]*?开始观看[\s\S]*?<\/a>/);
     const groupDetail = await html('works/series');
     const groupGallery = await html('gallery/series');
     const workIndex = await html('works');
@@ -169,7 +185,14 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assertDescriptions(home, [], 'home');
     assert.ok(!/\bclass="[^"]*\b(?:work-row|works-section)\b/.test(home), 'home still contains an artwork overview');
     assert.ok(!home.includes('WORKS IN THE EXHIBITION'), 'home still advertises an artwork overview');
-    assertEditorial(home, settings.opening, 'opening');
+    assert.ok(!home.includes('opening-note') && !home.includes('opening-page'), 'home still contains the opening text');
+    for (const paragraph of settings.opening.paragraphs) {
+      assert.ok(!home.includes(escapeHtml(paragraph.zh)), 'home still contains an opening paragraph');
+      assert.ok(!home.includes(escapeHtml(paragraph.en)), 'home still contains an English opening paragraph');
+    }
+    const homeGalleryLinks = [...home.matchAll(/href="([^"]*\/gallery\/[^"]*)"/g)].map(match => match[1]);
+    assert.ok(homeGalleryLinks.length >= 2, 'home gallery entry or hero image link is missing');
+    assert.ok(homeGalleryLinks.every(url => url === '/nailoong-museum/gallery/'), 'home link bypasses the opening page');
     assert.ok(home.includes('进入画廊'));
     assert.ok(home.includes('奶·龙'));
     assert.ok(home.includes('NAILOONG, REFRAMED'));
@@ -183,7 +206,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     const closingMain = closing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] || '';
     assert.match(closingMain, /<a\b[^>]*href="\/nailoong-museum\/"[^>]*>[\s\S]*?(?:返回|回到)首页[\s\S]*?<\/a>/);
     const restart = [...closingMain.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)].find(match => match[2].includes('重新观看'));
-    assert.ok(restart && ['/nailoong-museum/gallery/', `/nailoong-museum/gallery/${api.artworks[0].slug}/`].includes(restart[1]), 'closing page has no explicit restart link to the first artwork');
+    assert.ok(restart && restart[1] === '/nailoong-museum/gallery/', 'closing restart link bypasses the opening page');
     const files = await readdir(dist, { recursive: true });
     let checked = 0;
     for (const file of files.filter(filename => filename.endsWith('.html'))) {
