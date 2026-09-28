@@ -35,7 +35,7 @@ GitHub 项目部署时，上述路径统一加上 `/nailoong-museum` 前缀。
   "section": "exhibition",
   "order": 100,
   "tag": "绘画",
-  "description": "作品说明。",
+  "description": "作品说明；不显示说明时使用空字符串。",
   "alt": "准确的图片描述。",
   "notes": "补充说明，也可留空。",
   "medium": "AI 辅助创作的数字图像",

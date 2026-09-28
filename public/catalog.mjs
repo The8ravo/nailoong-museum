@@ -31,7 +31,7 @@ export function validateCatalog(data) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(art.slug || '') || art.slug.length > 80 || slugs.has(art.slug)) throw new Error(`网址名称无效或重复：${art.slug}`);
     ids.add(art.id); slugs.add(art.slug);
     for (const key of ['title','titleEn','description','alt','notes','medium','tag']) {
-      if (!textValue(art[key], ['title','description','alt'].includes(key))) throw new Error(`${art.id} 的 ${key} 无效。`);
+      if (!textValue(art[key], ['title','alt'].includes(key))) throw new Error(`${art.id} 的 ${key} 无效。`);
     }
     if (!Object.hasOwn(SECTIONS, art.section) || !Number.isFinite(art.order) || typeof art.publish !== 'boolean') throw new Error(`${art.id} 的展区、顺序或发布状态无效。`);
     validateImage(art.image, art.id);

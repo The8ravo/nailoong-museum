@@ -49,6 +49,7 @@ function artworkVisual(a, options = {}) {
   return `<div class="panel-grid" role="group" aria-label="${E(a.title)}，${a.panels.length} 幅图像">${a.panels.map(p => `<figure>${picture(p, {...options, sizes:options.gallery ? '(max-width: 760px) 42vw, 20vw' : '(max-width: 760px) 40vw, 18vw'})}</figure>`).join('')}</div>`;
 }
 function description(a) {
+  if (!a.description.trim()) return '';
   return a.descriptionFormat === 'matrix'
     ? `<pre class="text-matrix" style="--matrix-size:${a.description.split('\n').length}" aria-label="由奶与龙两个字构成的方阵">${E(a.description)}</pre>`
     : `<p class="work-description">${E(a.description)}</p>`;
@@ -86,7 +87,7 @@ function galleryContent(a, index) {
   return `<section class="shell gallery-room${a.panels ? ' gallery-series' : ''}" aria-labelledby="gallery-title"><div class="gallery-art">${artworkVisual(a, {eager:true, gallery:true, sizes:'(max-width: 760px) 90vw, 55vw'})}</div><div class="work-info gallery-info"><p class="eyebrow">${count(index + 1)} / ${count(works.length)}</p><h1 id="gallery-title">${E(a.title)}</h1><p class="work-english">${E(a.titleEn)}</p>${description(a)}${metadata(a)}</div><nav class="gallery-controls" aria-label="切换作品">${previousControl}<span class="gallery-position">${count(index + 1)} / ${count(works.length)}</span>${nextControl}</nav></section>`;
 }
 for (const [i, a] of works.entries()) {
-  await emit(workRoute(a), a.title, `<div class="shell detail-page"><p class="breadcrumb">${link('works/', '作品说明')}<span> / ${count(i + 1)}</span></p><article class="detail-layout${a.panels ? ' detail-series' : ''}"><a class="detail-image" href="${href(galleryRoute(a))}" aria-label="进入画廊，观看${E(a.title)}">${artworkVisual(a, {eager:true})}</a><div class="work-info"><p class="eyebrow">${count(i + 1)} / ${count(works.length)}</p><h1>${E(a.title)}</h1><p class="work-english">${E(a.titleEn)}</p>${description(a)}${metadata(a)}${link(galleryRoute(a), '在画廊中观看 <span aria-hidden="true">→</span>', 'text-link')}</div></article></div>`, {description:a.descriptionFormat === 'matrix' ? a.title : a.description, image:a.image.display});
+  await emit(workRoute(a), a.title, `<div class="shell detail-page"><p class="breadcrumb">${link('works/', '作品说明')}<span> / ${count(i + 1)}</span></p><article class="detail-layout${a.panels ? ' detail-series' : ''}"><a class="detail-image" href="${href(galleryRoute(a))}" aria-label="进入画廊，观看${E(a.title)}">${artworkVisual(a, {eager:true})}</a><div class="work-info"><p class="eyebrow">${count(i + 1)} / ${count(works.length)}</p><h1>${E(a.title)}</h1><p class="work-english">${E(a.titleEn)}</p>${description(a)}${metadata(a)}${link(galleryRoute(a), '在画廊中观看 <span aria-hidden="true">→</span>', 'text-link')}</div></article></div>`, {description:a.descriptionFormat === 'matrix' || !a.description.trim() ? a.title : a.description, image:a.image.display});
   await emit(galleryRoute(a), a.title, galleryContent(a, i), {gallery:true, description:a.title, image:a.image.display});
 }
 await emit('gallery/', works[0].title, galleryContent(works[0], 0), {gallery:true, noindex:true, image:works[0].image.display});

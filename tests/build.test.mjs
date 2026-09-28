@@ -72,8 +72,10 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       assert.ok(room.includes(art.medium), `${art.slug}: gallery omits medium`);
       if (art.descriptionFormat === 'matrix') {
         for (const row of art.description.split('\n')) assert.ok(room.includes(row));
-      } else {
+      } else if (art.description.trim()) {
         assert.ok(room.includes(art.description), `${art.slug}: gallery omits description`);
+      } else {
+        assert.ok(!room.includes('class="work-description"'), `${art.slug}: removed description still has a paragraph`);
       }
     }
     const galleryEntry = await html('gallery');
@@ -128,6 +130,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
       assert.ok(header.includes('/nailoong-museum/about/'), `${file}: about navigation missing`);
       assert.ok(header.includes('关于展览'), `${file}: about navigation label missing`);
       assert.ok(!content.includes('<footer'), `${file}: removed footer remains`);
+      assert.ok(!content.includes('<p class="work-description"></p>'), `${file}: empty description paragraph remains`);
       assert.ok(!content.includes('data-return='), `${file}: removed Escape return action remains`);
       assert.ok(!content.includes('Esc 返回'), `${file}: removed Escape hint remains`);
       const urls = [...content.matchAll(/(?:href|src|data-full-src)="([^"#]+)"/g)].map(match => match[1]);
