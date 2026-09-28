@@ -7,7 +7,7 @@
 **线上展览：<https://the8ravo.github.io/nailoong-museum/>**
 
 奶龙即不同<br>
-*Nailoong is different。*
+*Nailoong is different.*
 
 ## 已实现
 

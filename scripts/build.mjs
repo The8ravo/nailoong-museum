@@ -46,7 +46,7 @@ function picture(a, {eager = false, gallery = false, sizes = '(max-width: 760px)
 }
 function artworkVisual(a, options = {}) {
   if (!a.panels) return `<div class="single-image">${picture(a, options)}</div>`;
-  return `<div class="panel-grid" role="group" aria-label="${E(a.title)}，${a.panels.length} 幅图像">${a.panels.map(p => `<figure>${picture(p, {...options, sizes:options.gallery ? '(max-width: 760px) 42vw, 20vw' : '(max-width: 760px) 40vw, 18vw'})}</figure>`).join('')}</div>`;
+  return `<div class="panel-grid" role="group" aria-label="${E(a.title)}，${a.panels.length} 幅图像">${a.panels.map(p => `<figure>${picture(p, {...options, sizes:options.gallery ? '(max-width: 760px) 28vw, 20vw' : '(max-width: 760px) 28vw, 18vw'})}</figure>`).join('')}</div>`;
 }
 function description(a) {
   if (!a.description.trim()) return '';
@@ -64,7 +64,7 @@ function metadata(a) {
 function workRow(a, i) {
   return `<article class="work-row${a.panels ? ' work-row-series' : ''}" id="work-${a.slug}"><a class="work-image" href="${href(galleryRoute(a))}" aria-label="进入画廊，观看${E(a.title)}">${artworkVisual(a)}</a><div class="work-info"><p class="eyebrow">${count(i + 1)} / ${count(works.length)}</p><h3>${link(workRoute(a), E(a.title))}</h3><p class="work-english">${E(a.titleEn)}</p>${description(a)}${metadata(a)}${link(galleryRoute(a), '在画廊中观看 <span aria-hidden="true">→</span>', 'text-link')}</div></article>`;
 }
-function shell(route, title, content, {description:summary = '奶·龙 — NAILOONG, REFRAMED。奶龙即不同。', image, noindex = false, gallery = false} = {}) {
+function shell(route, title, content, {description:summary = '奶·龙 — NAILOONG, REFRAMED. 奶龙即不同。', image, noindex = false, gallery = false} = {}) {
   const ogImage = canonical(image || works[0].image.display);
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f4ef"><meta name="color-scheme" content="light"><title>${E(title)} · 奶龙美术馆</title><meta name="description" content="${E(summary)}"><meta property="og:type" content="website"><meta property="og:title" content="${E(title)} · 奶龙美术馆"><meta property="og:description" content="${E(summary)}"><meta property="og:image" content="${E(ogImage)}"><meta property="og:url" content="${E(canonical(route))}"><meta name="twitter:card" content="summary_large_image">${noindex ? '<meta name="robots" content="noindex,nofollow">' : ''}<link rel="canonical" href="${E(canonical(route))}"><link rel="icon" href="${href('favicon.svg')}" type="image/svg+xml"><link rel="stylesheet" href="${href('styles.css')}"><script type="module" src="${href('app.mjs')}"></script></head><body class="${gallery ? 'gallery-body' : 'exhibition-body'}"${gallery ? ' data-gallery' : ''}><a class="skip-link" href="#main">跳到主要内容</a><header class="site-header shell"><a class="brand" href="${href('')}" aria-label="奶龙美术馆首页">奶龙美术馆<span>NAILOONG MUSEUM OF ART</span></a><nav aria-label="主导航">${link('', '首页')}${link('works/', '作品说明')}${link('about/', '关于展览')}</nav></header><main id="main">${content}</main></body></html>`;
 }
@@ -77,7 +77,7 @@ async function emit(route, title, content, options = {}) {
 }
 
 const hero = works[0];
-await emit('', settings.exhibitionTitle, `<div class="shell"><section class="hero"><div class="hero-copy"><h1>奶·龙</h1><p class="hero-subtitle">NAILOONG, REFRAMED</p>${link('gallery/', '进入画廊 <span aria-hidden="true">→</span>', 'enter-gallery')}<p class="hero-count">${count(works.length)} 件作品 / ${count(works.reduce((n,a) => n + artworkImages(a).length, 0))} 幅图像</p></div><figure class="hero-visual"><a href="${href(galleryRoute(hero))}" aria-label="进入画廊，观看${E(hero.title)}">${picture(hero, {eager:true, sizes:'(max-width: 760px) 88vw, 48vw'})}</a><figcaption><span>${E(hero.title)} · ${E(hero.titleEn)}</span><span>${E(hero.creation?.tool)}</span></figcaption></figure></section><section class="curatorial-intro"><p class="eyebrow">THE EXHIBITION</p><p>奶龙即不同<br><em>Nailoong is different。</em></p></section><section class="works-section" aria-labelledby="works-title"><header class="section-heading"><h2 id="works-title">展出作品</h2><span>WORKS IN THE EXHIBITION</span></header>${works.map(workRow).join('')}</section></div>`);
+await emit('', settings.exhibitionTitle, `<div class="shell"><section class="hero"><div class="hero-copy"><h1>奶·龙</h1><p class="hero-subtitle">NAILOONG, REFRAMED</p>${link('gallery/', '进入画廊 <span aria-hidden="true">→</span>', 'enter-gallery')}<p class="hero-count">${count(works.length)} 件作品 / ${count(works.reduce((n,a) => n + artworkImages(a).length, 0))} 幅图像</p></div><figure class="hero-visual"><a href="${href(galleryRoute(hero))}" aria-label="进入画廊，观看${E(hero.title)}">${picture(hero, {eager:true, sizes:'(max-width: 760px) 88vw, 48vw'})}</a><figcaption><span>${E(hero.title)} · ${E(hero.titleEn)}</span><span>${E(hero.creation?.tool)}</span></figcaption></figure></section><section class="curatorial-intro"><p class="eyebrow">THE EXHIBITION</p><p>奶龙即不同<br><em>Nailoong is different.</em></p></section><section class="works-section" aria-labelledby="works-title"><header class="section-heading"><h2 id="works-title">展出作品</h2><span>WORKS IN THE EXHIBITION</span></header>${works.map(workRow).join('')}</section></div>`);
 
 function galleryContent(a, index) {
   const prev = works[index - 1];

@@ -139,7 +139,7 @@
       "title": "美国哥特式",
       "titleEn": "American Gothic",
       "tag": "肖像",
-      "description": "熟悉的家庭肖像，熟悉的衣着、器物与家宅。",
+      "description": "熟悉的家庭肖像。熟悉的衣着、器物与家宅。",
       "alt": "两位奶龙形象站在尖顶木屋前，右侧戴圆框眼镜并握着草叉，左侧穿棕色连衣裙，头部均保留人物发型。",
       "notes": "",
       "reference": {
@@ -183,7 +183,7 @@
       "title": "奥林匹亚",
       "titleEn": "Olympia",
       "tag": "凝视",
-      "description": "你在看TA吗？TA也在看着你。",
+      "description": "奶龙也在看着你。",
       "alt": "奶龙斜躺在白色床铺上望向前方，右侧另一位角色捧着花束，背后是深绿色与棕色的暗部。",
       "notes": "",
       "reference": {
@@ -315,7 +315,7 @@
       "title": "大碗岛的星期天下午",
       "titleEn": "A Sunday on La Grande Jatte",
       "tag": "群像",
-      "description": "美好的下午、同样的面孔、陌生的人群",
+      "description": "美好的下午、同样的面孔、陌生的人群。",
       "alt": "点彩风格的河岸草地上，奶龙形象穿着不同服装站立或休息，右侧前景有撑伞的人物。",
       "notes": "",
       "reference": {
@@ -359,7 +359,7 @@
       "title": "桶中之脑",
       "titleEn": "Brain in a Bucket",
       "tag": "物体与空间",
-      "description": "奶龙奶龙奶",
+      "description": "奶龙奶龙奶。",
       "alt": "石质奶龙雕像站在展厅台座上，头顶倒扣着油漆桶，粉色颜料从桶沿流过身体与台座，后方可见石柱和悬挂的龙形雕塑。",
       "notes": "",
       "reference": {
@@ -403,7 +403,7 @@
       "title": "正在思考",
       "titleEn": "Thinking",
       "tag": "明暗",
-      "description": "奶龙也会思考吗？",
+      "description": "正在思考的奶龙——奶龙也会思考吗？",
       "alt": "深色背景中，侧光照亮黄色奶龙的脸和肩膀，黑色手套靠近嘴边，下方有红色球体。",
       "notes": "",
       "reference": {
@@ -445,8 +445,8 @@
       "titleEn": "Series",
       "section": "series",
       "tag": "六联作",
-      "description": "这个世界太尖锐了 不允许奶龙哭 却赋予了奶龙很多痛苦 怎么痛也痛不完 奶龙痛恨这一切 后来才明白什么都可以是假的 只有痛苦是真的",
-      "alt": "六幅奶龙图像依次采用花卉纹样、浮世绘、构成主义、简约构成主义、复古海报和抽象几何的视觉形式。",
+      "description": "这个世界太尖锐了，不允许奶龙哭，却赋予了奶龙很多痛苦。怎么痛也痛不完，奶龙痛恨这一切。后来才明白，什么都可以是假的，只有痛苦是真的。",
+      "alt": "六幅奶龙图像依次采用浮世绘、花卉纹样、复古海报、极简构成、构成主义和抽象几何的视觉形式。",
       "notes": "",
       "reference": {
         "relationship": "灵感来源",
@@ -459,36 +459,11 @@
       "image": {
         "width": 768,
         "height": 1024,
-        "thumb": "assets/artworks/series-murakami-thumb.webp",
-        "display": "assets/artworks/series-murakami-display.webp",
-        "full": "assets/artworks/series-murakami-full.webp"
+        "thumb": "assets/artworks/on-paper-thumb.webp",
+        "display": "assets/artworks/on-paper-display.webp",
+        "full": "assets/artworks/on-paper-full.webp"
       },
       "panels": [
-        {
-          "title": "村上隆奶龙",
-          "alt": "奶龙的身体与周围空间被彩色笑脸花卉、祥云及黑红几何色块覆盖，轮廓以黑线勾勒。",
-          "image": {
-            "width": 768,
-            "height": 1024,
-            "thumb": "assets/artworks/series-murakami-thumb.webp",
-            "display": "assets/artworks/series-murakami-display.webp",
-            "full": "assets/artworks/series-murakami-full.webp"
-          },
-          "creation": {
-            "date": null,
-            "tool": "Gemini",
-            "modelVersion": null,
-            "prompt": null,
-            "humanEdits": null
-          },
-          "source": {
-            "filename": "村上隆奶龙.png",
-            "origin": "展览发起人提供的 AI 生成图像",
-            "credit": "展览发起人",
-            "url": null,
-            "rightsStatus": ""
-          }
-        },
         {
           "title": "浮世绘奶龙",
           "alt": "赭黄色纸面上，奶龙侧身抬手，背景包含山水、飞鸟、扇形和版画式的细密线条。",
@@ -515,39 +490,14 @@
           }
         },
         {
-          "title": "构成主义奶龙",
-          "alt": "红黑米白几何色块之间，扁平黄色奶龙抬着黑色手掌，下方有红色圆形，斜线贯穿背景。",
-          "image": {
-            "width": 1080,
-            "height": 1440,
-            "thumb": "assets/artworks/constructed-thumb.webp",
-            "display": "assets/artworks/constructed-display.webp",
-            "full": "assets/artworks/constructed-full.webp"
-          },
-          "creation": {
-            "date": null,
-            "tool": null,
-            "modelVersion": null,
-            "prompt": null,
-            "humanEdits": null
-          },
-          "source": {
-            "filename": "构成主义奶龙.png",
-            "origin": "引自原作者",
-            "credit": "原作者",
-            "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
-            "rightsStatus": ""
-          }
-        },
-        {
-          "title": "简约构成主义奶龙",
-          "alt": "米白背景中，黄色奶龙由简化的圆弧和几何形组成，黑白斜线从身旁穿过，边缘带有彩色渐变。",
+          "title": "村上隆奶龙",
+          "alt": "奶龙的身体与周围空间被彩色笑脸花卉、祥云及黑红几何色块覆盖，轮廓以黑线勾勒。",
           "image": {
             "width": 768,
             "height": 1024,
-            "thumb": "assets/artworks/minimal-form-thumb.webp",
-            "display": "assets/artworks/minimal-form-display.webp",
-            "full": "assets/artworks/minimal-form-full.webp"
+            "thumb": "assets/artworks/series-murakami-thumb.webp",
+            "display": "assets/artworks/series-murakami-display.webp",
+            "full": "assets/artworks/series-murakami-full.webp"
           },
           "creation": {
             "date": null,
@@ -557,7 +507,7 @@
             "humanEdits": null
           },
           "source": {
-            "filename": "简约构成主义奶龙.png",
+            "filename": "村上隆奶龙.png",
             "origin": "展览发起人提供的 AI 生成图像",
             "credit": "展览发起人",
             "url": null,
@@ -586,6 +536,56 @@
             "origin": "展览发起人提供的 AI 生成图像",
             "credit": "展览发起人",
             "url": null,
+            "rightsStatus": ""
+          }
+        },
+        {
+          "title": "极简构成主义奶龙",
+          "alt": "米白背景中，黄色奶龙由简化的圆弧和几何形组成，黑白斜线从身旁穿过，边缘带有彩色渐变。",
+          "image": {
+            "width": 768,
+            "height": 1024,
+            "thumb": "assets/artworks/minimal-form-thumb.webp",
+            "display": "assets/artworks/minimal-form-display.webp",
+            "full": "assets/artworks/minimal-form-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": "Gemini",
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "简约构成主义奶龙.png",
+            "origin": "展览发起人提供的 AI 生成图像",
+            "credit": "展览发起人",
+            "url": null,
+            "rightsStatus": ""
+          }
+        },
+        {
+          "title": "构成主义奶龙",
+          "alt": "红黑米白几何色块之间，扁平黄色奶龙抬着黑色手掌，下方有红色圆形，斜线贯穿背景。",
+          "image": {
+            "width": 1080,
+            "height": 1440,
+            "thumb": "assets/artworks/constructed-thumb.webp",
+            "display": "assets/artworks/constructed-display.webp",
+            "full": "assets/artworks/constructed-full.webp"
+          },
+          "creation": {
+            "date": null,
+            "tool": null,
+            "modelVersion": null,
+            "prompt": null,
+            "humanEdits": null
+          },
+          "source": {
+            "filename": "构成主义奶龙.png",
+            "origin": "引自原作者",
+            "credit": "原作者",
+            "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
             "rightsStatus": ""
           }
         },
@@ -623,7 +623,7 @@
         "humanEdits": null
       },
       "source": {
-        "filename": "村上隆奶龙.png；浮世绘奶龙.png；构成主义奶龙.png；简约构成主义奶龙.png；勒夏奶龙.png；康定斯基奶龙.png",
+        "filename": "浮世绘奶龙.png；村上隆奶龙.png；勒夏奶龙.png；简约构成主义奶龙.png；构成主义奶龙.png；康定斯基奶龙.png",
         "origin": "《构成主义奶龙》引自原作者，其余五幅由展览发起人使用 Gemini 生成。",
         "credit": "《构成主义奶龙》：原作者；其余五幅：展览发起人",
         "url": "https://www.xiaohongshu.com/explore/6a8ee0a0000000000a00829d?xsec_token=ABSj5MQDobsMY8bv4ygXjtYfqIss-BM37jkyz5esbSyEk=&xsec_source=pc_feed",
@@ -679,7 +679,7 @@
       "title": "救世主",
       "titleEn": "Salvator Mundi",
       "tag": "手势",
-      "description": "熟悉的手势仍在给予祝福。在展览的最后以救世主的身份与观众相对。",
+      "description": "熟悉的手势仍在给予祝福。奶龙以救世主的身份与观众相对。",
       "alt": "长发奶龙身着蓝色衣袍，正面面向观众，一手举起手指，另一手托着透明球体。",
       "notes": "",
       "reference": {

@@ -89,7 +89,7 @@ h3 { font-size: 32px; line-height: 1.35; }
 .credit-row:last-child { border: 0; }
 .credit-image { min-width: 0; }
 .credit-image .single-image img { max-height: 350px; width: 100%; object-fit: contain; }
-.credit-image .panel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.credit-image .panel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .credit-row h2 { font-size: 27px; }
 .credit-row .work-english { font-size: 15px; margin-bottom: 21px; }
 .credit-row .work-description { font-size: 15px; }
@@ -137,7 +137,7 @@ h3 { font-size: 32px; line-height: 1.35; }
   .gallery-room { grid-template-columns: minmax(0, 1.2fr) minmax(260px, 1fr); gap: 30px 5%; }
   .gallery-info h1 { font-size: 29px; }
   .gallery-info .work-description { font-size: 15px; }
-  .gallery-art .panel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: 100%; }
+  .gallery-art .panel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; width: 100%; }
 }
 @media (max-width: 760px) {
   .shell { width: calc(100% - 40px); }
@@ -164,7 +164,7 @@ h3 { font-size: 32px; line-height: 1.35; }
   .work-english { font-size: 17px; margin-bottom: 22px; }
   .work-description { font-size: 16px; line-height: 2; }
   .work-row-series .work-info { margin: 0; }
-  .panel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; }
+  .panel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 12px; }
   .page-head { padding: 48px 0 30px; margin-bottom: 10px; }
   .page-head h1 { font-size: 37px; }
   .page-head > p:last-child { font-size: 15px; }
@@ -182,7 +182,7 @@ h3 { font-size: 32px; line-height: 1.35; }
   .credit-row .work-description { font-size: 16px; }
   .gallery-room { grid-template-columns: 1fr; padding-top: 30px; gap: 30px; padding-bottom: 30px; }
   .gallery-art .single-image img { max-height: 62svh; }
-  .gallery-art .panel-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 440px; margin: auto; }
+  .gallery-art .panel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 440px; margin: auto; }
   .gallery-info { padding: 0; }
   .gallery-info h1 { font-size: 30px; }
   .gallery-info .work-description { font-size: 16px; }

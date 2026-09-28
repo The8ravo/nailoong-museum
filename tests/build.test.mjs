@@ -111,7 +111,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     assert.ok(home.includes('进入画廊'));
     assert.ok(home.includes('奶·龙'));
     assert.ok(home.includes('NAILOONG, REFRAMED'));
-    assert.match(home, /THE EXHIBITION<\/p><p>奶龙即不同<br><em>Nailoong is different。<\/em>/);
+    assert.match(home, /THE EXHIBITION<\/p><p>奶龙即不同<br><em>Nailoong is different\.<\/em>/);
     for (const route of ['works', 'about', 'credits']) await access(path.join(dist, route, 'index.html'));
     assert.ok((await html('credits')).includes('data-redirect="/nailoong-museum/works/"'));
     const files = await readdir(dist, { recursive: true });
