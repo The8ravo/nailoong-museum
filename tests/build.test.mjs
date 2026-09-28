@@ -30,7 +30,7 @@ test('project-path build preserves the exhibition, escapes content, and excludes
     }
     draft.image = structuredClone(draft.panels[0].image);
     data.artworks.push(draft);
-    const escaped = data.artworks.find(art => art.publish);
+    const escaped = [...expectedPublic].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id))[0];
     escaped.title = '<script>untrusted title</script>';
     escaped.creation.tool = '<img src=x onerror=alert(1)>';
     original.panels[1].title = '<b>untrusted panel</b>';
